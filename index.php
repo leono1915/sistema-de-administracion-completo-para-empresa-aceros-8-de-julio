@@ -50,10 +50,10 @@ include 'conecta.php';
 									<a href="#menu" class="menuToggle"><span>Menu</span></a>
 									<div id="menu">
 										<ul>
-											<li><a href="factura.html">Administración</a></li>
+											<li><a href="administracion/historial.html">Administración</a></li>
 											<li><a href="orden_compra/orden.php">Orden de compra</a></li>
 											<li><a href="cotizador.html">Cotizador</a></li>
-											<li><a href="cotizador.html">cerrar sesión</a></li>
+											
 										</ul>
 									</div>
 								</li>

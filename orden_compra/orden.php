@@ -51,7 +51,7 @@ include '../conecta.php';
 									<a href="#menu" class="menuToggle"><span>Menu</span></a>
 									<div id="menu">
 										<ul>
-											<li><a href="">Administración</a></li>
+											<li><a href="../administracion/historial.html">Administración</a></li>
 											
 											<li><a href="../index.php">Cotizador</a></li>
 											
