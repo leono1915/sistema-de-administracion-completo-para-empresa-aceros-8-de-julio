@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>clientes</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/./css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<script>
+		function validarIndex(){
+
+			var a=document.getElementById('selectionName').selectedIndex;
+			var b=document.getElementById('selectionName').options;
+			
+			alert('el index es'+b[a].index+'y su valor es '+b[a].text);
+		}
+		</script>
+	</head>
+	<body>
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="">Clientes</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+                                            <li><a href="../inde.html">Inicio</a></li>
+                                            <li><a href="productos.html">Productos</a></li>
+											<li><a href="cotizador.html">cerrar sesión</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+				<!-- Main -->
+					<article id="main">
+						<header style="padding-top: 50px; padding-bottom: 50px;" >
+							<h2>Aceros 8 de julio</h2>
+							<p>Clientes</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+								<section>
+									<h4 style="text-align: center;">Datos Iniciales</h4>
+
+									<form method="post" action="conecta.php">
+										<div class="row uniform">
+
+                                                <div class="6u 12u$(xsmall)">
+											
+										
+                                                        <input type="text" name="nombre" id="nombreCliente" value="" placeholder="Nombre" />
+                                             
+                                                    
+                                                </div>
+    
+                                                
+    
+                                                <div class="6u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="direccionCliente" value="" placeholder="direccion" />
+    
+                                                </div>
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="telefonoCliente" value="" placeholder="telefono" />
+    
+                                                </div>
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="rfcCliente" value="" placeholder="rfc" />
+    
+                                                </div>
+    
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="correoCliente" value="" placeholder="correo" />
+    
+                                            
+    
+                                                </div>
+                                               					
+										</div>
+										<br>
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="button" value="Agregar" class="principal" id="add_row"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										</div>
+										<br>
+										<br>
+
+										<div class="table-wrapper">
+												<h2 style="text-align: center">Listado De Clientes</h2>
+												<div class="row uniform">
+												<div class="2u 12u$(xsmall)">
+														<label for="rango_page" > Listar
+														<input type="number" id ="rango_page" value="20" step="20" style="color: black;" min="20" max="120" ></label>
+														
+												
+												
+											</div>
+											<div class="6u 12u$(xsmall)" >
+													
+												
+												
+														
+														
+											
+											
+										</div>
+											<div class="0u 12u$(xsmall)" >
+													
+													<label for="buscarProducto" > Buscar </label>
+												
+														
+														
+											
+											
+										</div>
+											<div class="2u 12u$(xsmall)" >
+													
+													
+												
+															<input type="text" name="" id="buscarProducto"  >
+														
+											
+											
+										</div>
+										</div>
+										<br><br>
+											<table id="tabla_factura">
+												<thead>
+													<tr>
+									                   
+														<th>ID</th>
+														<th>NOMBRE</th>														
+														<th>DIRECCIÓN</th>
+														<th>TELÉFONO</th>
+														<th>RFC</th>
+														<th>CORREO</th>
+														<td>ACCIONES</td>
+													</tr>
+												</thead>
+												<tbody id="content_table">
+													<tr>
+														
+														
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        
+                                                       
+                                                        														
+													</tr>
+												</tbody>
+												<!--<tfoot>
+													<tr>
+														<td colspan="2"></td>
+														
+														<td id="total_precio">0.00</td>
+														<td id="total_subtotales">0.00</td>
+														<td id="total_impuesto">0.00</td>
+														<td id="total_total">0.00</td>
+														<td></td>
+													</tr>
+												</tfoot>-->
+											</table>
+											<div class="12u$" id="contenedorPaginacion"> 
+													
+											
+											</div>
+										
+										</div>
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="submit" value="Imprimir" class="principal" id="add"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										</div>
+									</form>
+								</section>
+								<br> 
+								<br>
+								<br>
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							
+						</ul>
+						<ul class="copyright">
+							
+					</footer>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="js/clientes.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Historial</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/./css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<script>
+		function validarIndex(){
+
+			var a=document.getElementById('selectionName').selectedIndex;
+			var b=document.getElementById('selectionName').options;
+			
+			alert('el index es'+b[a].index+'y su valor es '+b[a].text);
+		}
+		</script>
+	</head>
+	<body>
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="">Historial</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="../inde.html">Inicio</a></li>
+                                            <li><a href="clientes.html">Clientes</a></li>
+                                            <li><a href="productos.html">Productos</a></li>
+											<li><a href="cotizador.html">cerrar sesión</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+				<!-- Main -->
+					<article id="main">
+						<header style="padding-top: 50px; padding-bottom: 50px;" >
+							<h2>Aceros 8 de julio</h2>
+							<p>Productos</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+								<section>
+									<h4 style="text-align: center;">administracion</h4>
+
+									<form method="post" action="conecta.php">
+										<div class="row uniform">
+
+											<div class="6u 12u$(xsmall)">
+											
+										
+                                                    <input type="text" name="nombre" id="nombreProducto" value="" placeholder="Nombre" />
+										 
+												
+											</div>
+
+											
+
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="MedidaProducto" value="" placeholder="Medida" />
+
+											</div>
+                                            <div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="EspesorProducto" value="" placeholder="Espesor" />
+
+											</div>
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso" />
+
+											</div>
+
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio" />
+
+										
+
+											</div>
+                                            <div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="cantidad" id="tramosProducto" value="" placeholder="Tramos" onkeyup="format(this)" onchange="format(this)"/>
+                                                    
+                                                </div>
+											<div class="3u 12u$(xsmall)">
+												<input type="text" name="cantidad" id="metrosProducto" value="" placeholder="Metros" onkeyup="format(this)" onchange="format(this)"/>
+												
+											</div>								
+										</div>
+										<br>
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="button" value="Agregar" class="principal" id="add_row"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										</div>
+										<br>
+										<br>
+
+										<div class="table-wrapper">
+                                                <h2 style="text-align: center">Listado De Productos</h2>
+											<table id="tabla_factura">
+												<thead>
+													<tr>
+									                   
+														<th>ID</th>
+														<th>NOMBRE</th>														
+														<th>MEDIDA</th>
+														<th>ESPESOR</th>
+														<th>PESO</th>
+                                                        <th>PRECIO</th>
+                                                        <th>CANTIDAD</th>
+                                                        <th>KILOS TOTALES</th>
+                                                        <td>Acciones</td>
+                                                       
+                                                      
+													</tr>
+												</thead>
+												<tbody id="content_table">
+													<tr>
+														
+														
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+                                                        
+                                                       
+                                                        														
+													</tr>
+												</tbody>
+												<!--<tfoot>
+													<tr>
+														<td colspan="2"></td>
+														
+														<td id="total_precio">0.00</td>
+														<td id="total_subtotales">0.00</td>
+														<td id="total_impuesto">0.00</td>
+														<td id="total_total">0.00</td>
+														<td></td>
+													</tr>
+												</tfoot>-->
+											</table>
+										</div>
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="submit" value="Imprimir" class="principal" id="add"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										</div>
+									</form>
+								</section>
+								<br> 
+								<br>
+								<br>
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							
+						</ul>
+						<ul class="copyright">
+							
+					</footer>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="lib/js/funcionesListado.js"></script>
+
+	</body>
+</html>
