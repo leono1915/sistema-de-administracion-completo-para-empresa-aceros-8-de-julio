@@ -5,149 +5,178 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
-	<head>
-		<title>Historial</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="assets/./css/main.css" />
-		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<script>
-		function validarIndex(){
 
-			var a=document.getElementById('selectionName').selectedIndex;
-			var b=document.getElementById('selectionName').options;
-			
-			alert('el index es'+b[a].index+'y su valor es '+b[a].text);
+<head>
+	<title>Historial</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+	<link rel="stylesheet" href="assets/./css/main.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	<script>
+
+		function validarIndex() {
+
+			var a = document.getElementById('selectionName').selectedIndex;
+			var b = document.getElementById('selectionName').options;
+
+			alert('el index es' + b[a].index + 'y su valor es ' + b[a].text);
 		}
-		</script>
-	</head>
-	<body>
-		<!-- Page Wrapper -->
-			<div id="page-wrapper">
+		function ocultar() {
+			document.getElementById('tablaCotizaciones').style.display = 'none';
+		}
+	</script>
+</head>
 
-				<!-- Header -->
-					<header id="header">
-						<h1><a href="">Historial</a></h1>
-						<nav id="nav">
+<body>
+	<!-- Page Wrapper -->
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="">Historial</a></h1>
+			<nav id="nav">
+				<ul>
+					<li class="special">
+						<a href="#menu" class="menuToggle"><span>Menu</span></a>
+						<div id="menu">
 							<ul>
-								<li class="special">
-									<a href="#menu" class="menuToggle"><span>Menu</span></a>
-									<div id="menu">
-										<ul>
-											<li><a href="../index.php">Inicio</a></li>
-                                            <li><a href="clientes.html">Clientes</a></li>
-                                            <li><a href="productos.html">Productos</a></li>
-											<li><a href="../index.php">cerrar sesión</a></li>
-										</ul>
-									</div>
-								</li>
+								<li><a href="../index.php">Inicio</a></li>
+								<li><a href="clientes.html">Clientes</a></li>
+								<li><a href="productos.html">Productos</a></li>
+								<li><a href="../index.php">cerrar sesión</a></li>
 							</ul>
-						</nav>
-					</header>
-				<!-- Main -->
-					<article id="main">
-						<header style="padding-top: 50px; padding-bottom: 50px;" >
-							<h2>Aceros 8 de julio</h2>
-							<p>Productos</p>
-						</header>
-						<section class="wrapper style5">
-							<div class="inner">
-								<section>
-									<h4 style="text-align: center;">administracion</h4>
+						</div>
+					</li>
+				</ul>
+			</nav>
+		</header>
+		<!-- Main -->
+		<article id="main">
+			<header style="padding-top: 50px; padding-bottom: 50px;">
+				<h2>Aceros 8 de julio</h2>
+				<p>Productos</p>
+			</header>
+			<section class="wrapper style5">
+				<div class="inner">
+					<section>
+						<h4 style="text-align: center;">administracion</h4>
 
-									<form method="post" action="conecta.php">
-										<div class="row uniform">
+						<form method="post" action="conecta.php">
+							<div class="row uniform">
 
-											<div class="6u 12u$(xsmall)">
-											
+								<div class="3u 12u$(xsmall)">
 										
-                                                    <input type="text" name="nombre" id="nombreProducto" value="" placeholder="Nombre" />
-										 
-												
-											</div>
+									<input type="button" name="nombre" class="principal" id="" value="Cotizaciones"  />
 
-											
+								</div>
 
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="MedidaProducto" value="" placeholder="Medida" />
+								<div class="3u 12u$(xsmall)">
+									<input type="button" name="nombre" class="principal" id="" value="Órdenes de compra"  />
 
-											</div>
-                                            <div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="EspesorProducto" value="" placeholder="Espesor" />
+								</div>
+								<div class="3u 12u$(xsmall)" style="margin-left: 60px">
+									<input type="button" name="nombre" class="principal" id="" value="tickets"  />
 
-											</div>
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso" />
+								</div>
+								<div class="3u 12u$(xsmall)" style="margin-left: -60px">
+									<input type="button" name="nombre" class="principal" id="" value="Estadisticas"  />
 
-											</div>
+								</div>
 
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio" />
+								<!--<div class="4u 12u$(xsmall)">
+									<input type="button" name="nombre" class="principal" id="" value=""  />
 
-										
 
-											</div>
-                                            <div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="cantidad" id="tramosProducto" value="" placeholder="Tramos" onkeyup="format(this)" onchange="format(this)"/>
-                                                    
-                                                </div>
-											<div class="3u 12u$(xsmall)">
-												<input type="text" name="cantidad" id="metrosProducto" value="" placeholder="Metros" onkeyup="format(this)" onchange="format(this)"/>
-												
-											</div>								
-										</div>
-										<br>
-										<div class="12u$">
-											<ul class="actions" style="text-align: center">
-												<li><input type="button" value="Agregar" class="principal" id="add_row"/></li>
-											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
-											-->	
-											</ul>
-										</div>
-										<br>
-										<br>
 
-										<div class="table-wrapper">
-                                                <h2 style="text-align: center">Listado De Productos</h2>
-											<table id="tabla_factura">
-												<thead>
-													<tr>
-									                   
-														<th>ID</th>
-														<th>NOMBRE</th>														
-														<th>MEDIDA</th>
-														<th>ESPESOR</th>
-														<th>PESO</th>
-                                                        <th>PRECIO</th>
-                                                        <th>CANTIDAD</th>
-                                                        <th>KILOS TOTALES</th>
-                                                        <td>Acciones</td>
-                                                       
-                                                      
-													</tr>
-												</thead>
-												<tbody id="content_table">
-													<tr>
-														
-														
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-                                                        
-                                                       
-                                                        														
-													</tr>
-												</tbody>
-												<!--<tfoot>
+								</div>
+								<div class="4u 12u$(xsmall)">
+									<input type="button" name="nombre" class="principal" id="" value=""  />
+
+								</div>-->
+
+							</div>
+							<br>
+
+							<br>
+							<br>
+
+							<div class="table-wrapper" id="tablaCotizaciones">
+								<h2 style="text-align: center">Historial Cotizaciones</h2>
+								<div class="row uniform">
+									<div class="2u 12u$(xsmall)">
+										<label for="rango_page"> Listar
+											<input type="number" id="rango_page" value="20" step="20"
+												style="color: black;" min="20" max="120"></label>
+
+
+
+									</div>
+									<div class="6u 12u$(xsmall)">
+
+
+
+
+
+
+
+									</div>
+									<div class="0u 12u$(xsmall)">
+
+										<label for="buscarProducto"> Buscar </label>
+
+
+
+
+
+									</div>
+									<div class="2u 12u$(xsmall)">
+
+										<input type="text" name="" id="buscarProducto" placeholder="Folio">
+
+
+
+									</div>
+								</div>
+								<br><br>
+								<table id="tabla_factura">
+									<thead>
+										<tr>
+
+											<th>ID</th>
+											<th>NOMBRE</th>
+											<th>MEDIDA</th>
+											<th>ESPESOR</th>
+											<th>PESO</th>
+											<th>PRECIO</th>
+											<th>CANTIDAD</th>
+											<th>KILOS TOTALES</th>
+											<td>Acciones</td>
+
+
+										</tr>
+									</thead>
+									<tbody id="content_table">
+										<tr>
+
+
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+
+
+
+										</tr>
+									</tbody>
+									<!--<tfoot>
 													<tr>
 														<td colspan="2"></td>
 														
@@ -158,43 +187,266 @@
 														<td></td>
 													</tr>
 												</tfoot>-->
-											</table>
-										</div>
-										<div class="12u$">
-											<ul class="actions" style="text-align: center">
-												<li><input type="submit" value="Imprimir" class="principal" id="add"/></li>
-											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
-											-->	
-											</ul>
-										</div>
-									</form>
-								</section>
-								<br> 
-								<br>
-								<br>
+								</table>
+								<div class="12u$" id="contenedorPaginacion">
+									<!--<div class="row uniform" id="contenedor-padrePagina">
+															<div class="3u 12u$(xsmall)" style="float: right; flex-wrap: nowrap;" id="padrePagina">
+																<input type="button" name="nombre" id="numeroPagina" value="1" /> 
+				
+														</div>
+														
+							
+				
+													</div>	-->
+
+								</div>
+								<div class="12u$">
+									<ul class="actions" style="text-align: center">
+										<li><input type="button" value="Ocultar" class="principal" id="add"
+												onclick="ocultar();"></li>
+										<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->
+									</ul>
+								</div>
 							</div>
-						</section>
-					</article>
+							<!--                    
 
-				<!-- Footer -->
-					<footer id="footer">
-						<ul class="icons">
-							
-						</ul>
-						<ul class="copyright">
-							
-					</footer>
-			</div>
+                          /* aqui comienta la tabla de ordenes de compra */                                      <--------------- tablaOrdenCompra
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="assets/js/main.js"></script>
-			<script src="lib/js/funcionesListado.js"></script>
+							-->
+							<div class="table-wrapper" id="tablaOrdenCompra">
+									<h2 style="text-align: center">Historial Órdenes de compra</h2>
+									<div class="row uniform">
+										<div class="2u 12u$(xsmall)">
+											<label for="rango_page"> Listar
+												<input type="number" id="rango_page" value="20" step="20"
+													style="color: black;" min="20" max="120"></label>
+	
+	
+	
+										</div>
+										<div class="6u 12u$(xsmall)">
+	
+	
+	
+	
+	
+	
+	
+										</div>
+										<div class="0u 12u$(xsmall)">
+	
+											<label for="buscarOrden"> Buscar </label>
+	
+	
+	
+	
+	
+										</div>
+										<div class="2u 12u$(xsmall)">
+	
+											<input type="text" name="" id="buscarOrden" placeholder="Folio">
+	
+	
+	
+										</div>
+									</div>
+									<br><br>
+									<table id="tabla_orden">
+										<thead>
+											<tr>
+	
+												<th>ID</th>
+												<th>NOMBRE</th>
+												<th>MEDIDA</th>
+												<th>ESPESOR</th>
+												<th>PESO</th>
+												<th>PRECIO</th>
+												<th>CANTIDAD</th>
+												<th>KILOS TOTALES</th>
+												<td>Acciones</td>
+	
+	
+											</tr>
+										</thead>
+										<tbody id="content_tableOrden">
+											<tr>
+	
+	
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+	
+	
+	
+											</tr>
+										</tbody>
+										<!--<tfoot>
+														<tr>
+															<td colspan="2"></td>
+															
+															<td id="total_precio">0.00</td>
+															<td id="total_subtotales">0.00</td>
+															<td id="total_impuesto">0.00</td>
+															<td id="total_total">0.00</td>
+															<td></td>
+														</tr>
+													</tfoot>-->
+									</table>
+									<div class="12u$" id="contenedorPaginacionCompra">
+									
+	
+									</div>
+									<div class="12u$">
+										<ul class="actions" style="text-align: center">
+											<li><input type="button" value="Ocultar" class="principal" id="add"
+													onclick="ocultar();"></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+												-->
+										</ul>
+									</div>
+								</div>
+								<!--          
+									aqui comienza la tabla de tickets                                         <----------- tablaTickets
 
-	</body>
+
+								-->
+								
+							<div class="table-wrapper" id="tablaTickets">
+									<h2 style="text-align: center">Historial Tickets</h2>
+									<div class="row uniform">
+										<div class="2u 12u$(xsmall)">
+											<label for="rango_page"> Listar
+												<input type="number" id="rango_page" value="20" step="20"
+													style="color: black;" min="20" max="120"></label>
+	
+	
+	
+										</div>
+										<div class="6u 12u$(xsmall)">
+	
+	
+	
+	
+	
+	
+	
+										</div>
+										<div class="0u 12u$(xsmall)">
+	
+											<label for="buscarTicket"> Buscar </label>
+	
+	
+	
+	
+	
+										</div>
+										<div class="2u 12u$(xsmall)">
+	
+											<input type="text" name="" id="buscarTicket" placeholder="Folio">
+	
+	
+	
+										</div>
+									</div>
+									<br><br>
+									<table id="tabla_Ticket">
+										<thead>
+											<tr>
+	
+												<th>ID</th>
+												<th>NOMBRE</th>
+												<th>MEDIDA</th>
+												<th>ESPESOR</th>
+												<th>PESO</th>
+												<th>PRECIO</th>
+												<th>CANTIDAD</th>
+												<th>KILOS TOTALES</th>
+												<td>Acciones</td>
+	
+	
+											</tr>
+										</thead>
+										<tbody id="content_tableTicket">
+											<tr>
+	
+	
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+	
+	
+	
+											</tr>
+										</tbody>
+										<!--<tfoot>
+														<tr>
+															<td colspan="2"></td>
+															
+															<td id="total_precio">0.00</td>
+															<td id="total_subtotales">0.00</td>
+															<td id="total_impuesto">0.00</td>
+															<td id="total_total">0.00</td>
+															<td></td>
+														</tr>
+													</tfoot>-->
+									</table>
+									<div class="12u$" id="contenedorPaginacionTickets">
+									
+	
+									</div>
+									<div class="12u$">
+										<ul class="actions" style="text-align: center">
+											<li><input type="button" value="Ocultar" class="principal" id="add"
+													onclick="ocultar();"></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+												-->
+										</ul>
+									</div>
+								</div>
+						</form>
+					</section>
+					<br>
+					<br>
+					<br>
+				</div>
+			</section>
+		</article>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<ul class="icons">
+
+			</ul>
+			<ul class="copyright">
+
+		</footer>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/main.js"></script>
+	<script src="js/funcionesListado.js"></script>
+
+</body>
+
 </html>
