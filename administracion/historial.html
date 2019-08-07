@@ -14,8 +14,8 @@
 	<link rel="stylesheet" href="assets/./css/main.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	<script>
-
+	<script> 
+		
 		function validarIndex() {
 
 			var a = document.getElementById('selectionName').selectedIndex;
@@ -23,8 +23,14 @@
 
 			alert('el index es' + b[a].index + 'y su valor es ' + b[a].text);
 		}
-		function ocultar() {
+		function ocultarCotizacion() {
 			document.getElementById('tablaCotizaciones').style.display = 'none';
+		}
+		function ocultarOrden() {
+			document.getElementById('tablaOrdenCompra').style.display = 'none';
+		}
+		function ocultarTikect() {
+			document.getElementById('tablaTickets').style.display = 'none';
 		}
 	</script>
 </head>
@@ -57,6 +63,9 @@
 			<header style="padding-top: 50px; padding-bottom: 50px;">
 				<h2>Aceros 8 de julio</h2>
 				<p>Productos</p>
+				
+				
+					
 			</header>
 			<section class="wrapper style5">
 				<div class="inner">
@@ -68,20 +77,20 @@
 
 								<div class="3u 12u$(xsmall)">
 										
-									<input type="button" name="nombre" class="principal" id="" value="Cotizaciones"  />
+									<input type="button" name="nombre" class="principal" id="mostrarCotizacion" value="Cotizaciones"  />
 
 								</div>
 
 								<div class="3u 12u$(xsmall)">
-									<input type="button" name="nombre" class="principal" id="" value="Órdenes de compra"  />
+									<input type="button" name="nombre" class="principal" id="mostrarOrdenes" value="Órdenes de compra"  />
 
 								</div>
 								<div class="3u 12u$(xsmall)" style="margin-left: 60px">
-									<input type="button" name="nombre" class="principal" id="" value="tickets"  />
+									<input type="button" name="nombre" class="principal" id="mostrarTickets" value="tickets"  />
 
 								</div>
 								<div class="3u 12u$(xsmall)" style="margin-left: -60px">
-									<input type="button" name="nombre" class="principal" id="" value="Estadisticas"  />
+									<input type="button" name="nombre" class="principal" id="mostrarEstadisticas" value="Estadisticas"  />
 
 								</div>
 
@@ -144,37 +153,20 @@
 									<thead>
 										<tr>
 
-											<th>ID</th>
-											<th>NOMBRE</th>
-											<th>MEDIDA</th>
-											<th>ESPESOR</th>
-											<th>PESO</th>
-											<th>PRECIO</th>
-											<th>CANTIDAD</th>
-											<th>KILOS TOTALES</th>
+											
+											<th>NOMBRE CLIENTE</th>
+											<th>FECHA</th>
+											<th>FOLIO</th>
+											<th>ESTATUS</th>
+											<th>TOTAL</th>
+											
 											<td>Acciones</td>
 
 
 										</tr>
 									</thead>
 									<tbody id="content_table">
-										<tr>
-
-
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-
-
-
-										</tr>
+									
 									</tbody>
 									<!--<tfoot>
 													<tr>
@@ -203,7 +195,7 @@
 								<div class="12u$">
 									<ul class="actions" style="text-align: center">
 										<li><input type="button" value="Ocultar" class="principal" id="add"
-												onclick="ocultar();"></li>
+												onclick="ocultarCotizacion();"></li>
 										<!--<li><input type="button" class="chek" value="Imprimir" ></li>
 											-->
 									</ul>
@@ -307,7 +299,7 @@
 									<div class="12u$">
 										<ul class="actions" style="text-align: center">
 											<li><input type="button" value="Ocultar" class="principal" id="add"
-													onclick="ocultar();"></li>
+													onclick="ocultarOrden();"></li>
 											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
 												-->
 										</ul>
@@ -412,7 +404,7 @@
 									<div class="12u$">
 										<ul class="actions" style="text-align: center">
 											<li><input type="button" value="Ocultar" class="principal" id="add"
-													onclick="ocultar();"></li>
+													onclick="ocultarTikect();"></li>
 											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
 												-->
 										</ul>

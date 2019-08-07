@@ -136,7 +136,7 @@ require_once 'libreria_pdf/vendor/autoload.php' ;
   $mpdf = new Mpdf\Mpdf([]);
 
 $css =file_get_contents('impresion/estilosImpresin.css');
-$mpdf->SetProtection(array('extract'));
+//$mpdf->SetProtection(array('extract'));
 $mpdf->SetHTMLHeader('FOLIO 00'.$numero);
 $mpdf->writeHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 $mpdf->setTitle('COTIZACIÓN');
