@@ -15,14 +15,21 @@
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<script> 
-		
-		function validarIndex() {
-
-			var a = document.getElementById('selectionName').selectedIndex;
-			var b = document.getElementById('selectionName').options;
-
-			alert('el index es' + b[a].index + 'y su valor es ' + b[a].text);
+	    function ira(objectpressed){
+			
+			var object=objectpressed.parentNode.parentNode;
+			 var nombre=object.getElementsByTagName('td')[5].innerHTML;
+			
+			 window.open('mostrar.php' + "?nombre=" +nombre,"_blank");
 		}
+	
+		function actualizarProducto(objectpressed){
+        
+        var object=objectpressed.parentNode.parentNode;
+		var nombre=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+        alert(nombre);
+
+}
 		function ocultarCotizacion() {
 			document.getElementById('tablaCotizaciones').style.display = 'none';
 		}
@@ -160,7 +167,7 @@
 											<th>ESTATUS</th>
 											<th>TOTAL</th>
 											
-											<td>Acciones</td>
+											<td colspan="2">Acciones</td>
 
 
 										</tr>
@@ -367,23 +374,7 @@
 											</tr>
 										</thead>
 										<tbody id="content_tableTicket">
-											<tr>
-	
-	
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-	
-	
-	
-											</tr>
+										
 										</tbody>
 										<!--<tfoot>
 														<tr>
@@ -437,7 +428,7 @@
 	<script src="assets/js/util.js"></script>
 	<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="assets/js/main.js"></script>
-	<script src="js/funcionesListado.js"></script>
+	<script src="js/funcioneshistorial.js"></script>
 
 </body>
 

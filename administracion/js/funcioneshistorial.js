@@ -8,24 +8,19 @@ $(document).on('ready',funcionMain);
         $('#mostrarCotizacion').on('click',Cotizacion);
         $('#mostrarOrdenes').on('click',ordenes);
         $('#mostrarTickets').on('click',tickets);
-        $('#irpdf').on('click',ira);
+     // $('#actualizarProductos').on('click',actualizarProductos);
+       //$("loans_table").on('click', '.fa fa-check',actualizarProductos);
+       // $("body").on('click', ".fa fa-check",actualizarProductos);
 
 
 
 }
-function ira(){
-			
-     alert('entro');    
-    /*var nombre=this.parentNode.getElementsByTagName('td')[6].innerHTML;
-    alert(nombre);
-    window.open('mostrar.php' + "?nombre=" +nombre,"_blank");*/
-}
+
 function Cotizacion(){
-    mostrarCotizacion();
-    var opcion='clientes';
-    var accion='crear';
+    
+    var opcion='cotizaciones';
+    var accion='listar';
     var template="";
-  //  <td><span ">     </span><span class="icon fa-eraser"></span></td>;
     $.ajax({
         url:'crud.php',
         type:'POST',
@@ -42,15 +37,18 @@ function Cotizacion(){
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
 				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
-				<td><p name="total_p[]" class="non-margin">    ${element.nombreArchivo}</p></td>
-				<td style="display:none">${element.nombreArchivo}</td>
-				<td> ver <i class="fa fa-file-pdf-o"  id="irpdf"  aria-hidden="true"> </i>
-                autorizar <i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
+				<td><p name="total_p[]" class="non-margin">    ${element.total}</p></td>
+				<td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
 				
 				</tr>
                 `
             });
             $('#content_table').html(template);
+            mostrarCotizacion();
         }
     })
      

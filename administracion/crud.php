@@ -38,13 +38,14 @@ $mysqli->close();
 
  $opcion=$_POST['opcion'];
  $accion=$_POST['accion'];   
- 
-          
+ $rango=$_POST['rango'];
+     
            
           switch($opcion){
           case 'clientes':
           switch($accion){
-            case 'crear':  mostrar();  break;
+            case 'listar':   break;
+            case 'crear':    break;
             case 'consultar':    break;
             case 'modificar':    break;
             case 'eliminar':    break;
@@ -52,8 +53,53 @@ $mysqli->close();
            }
           
           break;
+            case 'proveedores':
+            switch($accion){
+              case 'listar':   break;
+              case 'crear':    break;
+              case 'consultar':    break;
+              case 'modificar':    break;
+              case 'eliminar':    break;
+              break; default: die('no existe opcion');  break;
+             }
+            
+            break;
           case 'productos':
           switch($accion){
+            case 'listar': listarProductos();  break;
+            case 'crear':    break;
+            case 'consultar':    break;
+            case 'modificar':    break;
+            case 'eliminar':    break;
+            break; default: die('no existe opcion');  break;
+           }
+          
+          break;
+          case 'cotizaciones':
+          switch($accion){
+            case 'listar': listarCotizaciones();  break;
+            case 'crear':    break;
+            case 'consultar':    break;
+            case 'modificar':    break;
+            case 'eliminar':    break;
+            break; default: die('no existe opcion');  break;
+           }
+          
+          break;
+          case 'ordenes':
+          switch($accion){
+            case 'listar':   break;
+            case 'crear':    break;
+            case 'consultar':    break;
+            case 'modificar':    break;
+            case 'eliminar':    break;
+            break; default: die('no existe opcion');  break;
+           }
+          
+          break;
+          case 'tickets':
+          switch($accion){
+            case 'listar':   break;
             case 'crear':    break;
             case 'consultar':    break;
             case 'modificar':    break;
@@ -71,8 +117,8 @@ $mysqli->close();
 
 
         
-        function  mostrar(){
-          include_once '../conecta.php';
+   function  listarCotizaciones(){
+          include '../conecta.php';
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
      join clientes where clientes.id=historialVentas.id_cliente group by folio;");
@@ -94,6 +140,92 @@ $mysqli->close();
           $respuesta=json_encode($jason);
           echo $respuesta;
          }  
+         function  listarClientes(){
+          include '../conecta.php';
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
+     join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $jason[]= array(
+              'nombre'=>$l['nombre'],
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         function  listarProductos(){
+          include '../conecta.php';
+       $rango=$_POST['rango'];
+
+       $limitInf=0;
+       if($rango>20){
+         $limitInf=$rango-20;
+       } 
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select * from productos limit $limitInf,$rango;");
+  
+          if(!$sql){
+            die( 'error'.$rango);
+           
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $metros=explode(".",$l['cantidad']);
+            $jason[]= array(
+              'id'=>$l['id'],
+              'nombre'=>$l['nombre'],
+              'medida'=>$l['medida'],
+              'espesor'=>$l['espesor'],
+              'peso'=>$l['peso'],
+              'precio'=>$l['precio'],
+              'cantidad'=>$metros[0],
+              'metros'=>$metros[1]
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         function  listarProveedores(){
+          include '../conecta.php';
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
+     join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $jason[]= array(
+              'nombre'=>$l['nombre'],
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+
+
+
+
+
+
+
 ?>
 
 

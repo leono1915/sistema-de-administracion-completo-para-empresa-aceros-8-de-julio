@@ -1,13 +1,57 @@
 
-$(document).on('ready',fun(1));
+$(document).on('ready',listarProductos);
 
 
-
+function listarProductos(){
+  var factorCantidad=(1/6);
+  var opcion='productos';
+  var accion='listar';
+  var template="";
+  var rango=document.getElementById('rango_page').value;
+  console.log(rango);
+  var i=0;
+  $.ajax({
+      url:'crud.php',
+      type:'POST',
+      data:{opcion,accion,rango},
+      success:function (respuesta){
+         i++;
+        // alert(respuesta);
+          var jason=JSON.parse(respuesta);
+          jason.forEach(element => {
+            var metro=parseFloat("."+element.metros);
+              template+=`
+              <tr>
+      
+             
+      <td><p name="nombreCliente_p[]" class="non-margin">${element.id}</p></td>
+      <td><p name="fecha_p[]" class="non-margin">   ${element.nombre}</p></td>
+      <td><p name="folio_p[]" class="non-margin"> ${element.medida}</p></td>
+      <td><p name="estatus_p[]" class="non-margin"> ${element.espesor}</p></td>
+      <td><p name="total_p[]" class="non-margin">    ${element.peso}</p></td>
+      <td>${element.precio}</td>
+      <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
+      <td><p name="total_p[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
+              <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+              <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+               </td>
+               
+      
+      </tr>
+              `
+          });
+          fun(i);
+          $('#content_table').html(template);
+          
+      }
+  })
+   
+}
 
 
 function fun(i){
 
-   $('#add_row').on('click',addRow);
+  
    var l= document.getElementById('contenedorPaginacion');
   
       
@@ -57,7 +101,7 @@ function isValidEmail(mail) {
   }
 
 
-  function listarProductos(){
+  function crearProductos(){
     const factorCantidad=(1/6.1);
 
     var nombre=document.getElementById('nombreProducto').value;
