@@ -1,10 +1,10 @@
-
 $(document).on('ready',funcionMain);
 
     function funcionMain(){
         ocultarCotizacion();
         ocultarOrden();
         ocultarTikect();
+        
         $('#mostrarCotizacion').on('click',Cotizacion);
         $('#mostrarOrdenes').on('click',ordenes);
         $('#mostrarTickets').on('click',tickets);
@@ -37,8 +37,9 @@ function Cotizacion(){
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
 				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
-				<td><p name="total_p[]" class="non-margin">    ${element.total}</p></td>
-				<td class ="arch"style="display:none">${element.nombreArchivo}</td>
+				<td><p name="total_p[]" class="non-margin"> $   ${element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                  </td>
@@ -53,18 +54,51 @@ function Cotizacion(){
     })
      
 }
-function ordenes(){
-    mostrarOrden();
-     
-}
+  function ordenes(){
+        mostrarOrden();
+        var opcion='ordenes';
+        var accion='listar';
+        var template="";
+        $.ajax({
+            url:'crud.php',
+            type:'POST',
+            data:{opcion,accion},
+            success:function (respuesta){
+               
+                var jason=JSON.parse(respuesta);
+                jason.forEach(element => {
+                    template+=`
+                    <tr>
+                    
+                
+                    <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+                    <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+                    <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+                    <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+                    <td><p name="total_p[]" class="non-margin"> $   ${element.total}</p></td>
+                    <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                    <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                    <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                     </td>
+                     
+                    
+                    </tr>
+                    `
+                });
+                $('#content_tableOrden').html(template);
+                mostrarOrden();
+            }
+        })
+         
+    }
 function tickets(){
     mostrarTikect();
      
 }
 
-function fun(i){
+function fun(){
    // document.getElementById('tablaCotizaciones').style.display='none';
- 
+  var i=1;
    var l= document.getElementById('contenedorPaginacion');
   
       

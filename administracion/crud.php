@@ -88,7 +88,7 @@ $mysqli->close();
           break;
           case 'ordenes':
           switch($accion){
-            case 'listar':   break;
+            case 'listar': listarordenes();  break;
             case 'crear':    break;
             case 'consultar':    break;
             case 'modificar':    break;
@@ -133,7 +133,8 @@ $mysqli->close();
               'folio'=>$l['folio'],
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
-              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf',
+              'facturado'=>$l['facturado']
             );
              
           }
@@ -166,10 +167,10 @@ $mysqli->close();
          function  listarProductos(){
           include '../conecta.php';
        $rango=$_POST['rango'];
-
-       $limitInf=0;
-       if($rango>20){
-         $limitInf=$rango-20;
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select * from productos limit $limitInf,$rango;");
@@ -201,6 +202,29 @@ $mysqli->close();
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
      join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $jason[]= array(
+              'nombre'=>$l['nombre'],
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         function  listarordenes(){
+          include '../conecta.php';
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre, historialCompras.* from historialCompras 
+     join clientes where clientes.id=historialCompras.id_cliente group by folio;");
           if(!$sql){
             die( 'error');
           } 

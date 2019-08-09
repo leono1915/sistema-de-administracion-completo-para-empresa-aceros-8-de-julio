@@ -22,12 +22,52 @@
 			
 			 window.open('mostrar.php' + "?nombre=" +nombre,"_blank");
 		}
-	
+		function iraO(objectpressed){
+			
+			var object=objectpressed.parentNode.parentNode;
+			 var nombre=object.getElementsByTagName('td')[5].innerHTML;
+			
+			 window.open('mostrarOrden.php' + "?nombre=" +nombre,"_blank");
+		}
 		function actualizarProducto(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
-		var nombre=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
-        alert(nombre);
+		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		if(!confirm(`cambiará el estatus de la cotizacion a autorizado una vez haciendo esto ya no podrá
+	       cambiar el estatus y los productos cotizados serán actualizados del inventario`)){
+			
+          return;
+		}
+		var respuesta='actualizarInventarioResta';
+		var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no");
+		$.ajax({
+			url:'../actualizarInventario.php',
+			type:'POST',
+			data:{facturado,folio,respuesta},
+			success:function(respuesta){
+				alert(respuesta);
+			}
+		})
+
+}
+function actualizarOrden(objectpressed){
+        
+        var object=objectpressed.parentNode.parentNode;
+		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		if(!confirm(`cambiará el estatus de la orden a autorizado una vez haciendo esto ya no podrá
+	       cambiar el estatus y los productos cotizados serán actualizados del inventario`)){
+			
+          return;
+		}
+		var respuesta='actualizarInventarioSuma';
+		$.ajax({
+			url:'../actualizarInventario.php',
+			type:'POST',
+			data:{folio,respuesta},
+			success:function(respuesta){
+				alert(respuesta);
+			}
+		})
 
 }
 		function ocultarCotizacion() {
@@ -166,7 +206,7 @@
 											<th>FOLIO</th>
 											<th>ESTATUS</th>
 											<th>TOTAL</th>
-											
+											<th>FACTURADO</th>
 											<td colspan="2">Acciones</td>
 
 
@@ -188,15 +228,21 @@
 												</tfoot>-->
 								</table>
 								<div class="12u$" id="contenedorPaginacion">
-									<!--<div class="row uniform" id="contenedor-padrePagina">
-															<div class="3u 12u$(xsmall)" style="float: right; flex-wrap: nowrap;" id="padrePagina">
-																<input type="button" name="nombre" id="numeroPagina" value="1" /> 
-				
-														</div>
-														
-							
-				
-													</div>	-->
+									<div class="row uniform" id="contenedor-padrePagina">
+										<div class="1u 12u$(xsmall)"  id="padrePagina">
+										 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+										</div>
+										<div class="1u 12u$(xsmall)"  id="padrePagina">
+									   
+										  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+									   
+										</div>
+										<div class="1u 12u$(xsmall)" " id="padrePagina">
+									   
+										<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+										
+										</div>
+										</div>
 
 								</div>
 								<div class="12u$">
@@ -255,37 +301,18 @@
 										<thead>
 											<tr>
 	
-												<th>ID</th>
-												<th>NOMBRE</th>
-												<th>MEDIDA</th>
-												<th>ESPESOR</th>
-												<th>PESO</th>
-												<th>PRECIO</th>
-												<th>CANTIDAD</th>
-												<th>KILOS TOTALES</th>
-												<td>Acciones</td>
+												<th>NOMBRE PROVEEDOR</th>
+												<th>FECHA</th>
+												<th>FOLIO</th>
+												<th>ESTATUS</th>
+												<th>TOTAL</th>
+												<td colspan="2">Acciones</td>
 	
 	
 											</tr>
 										</thead>
 										<tbody id="content_tableOrden">
-											<tr>
-	
-	
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td></td>
-												<td>ver<i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-	
-	
-	
-											</tr>
+											
 										</tbody>
 										<!--<tfoot>
 														<tr>
@@ -300,7 +327,21 @@
 													</tfoot>-->
 									</table>
 									<div class="12u$" id="contenedorPaginacionCompra">
-									
+										<div class="row uniform" id="contenedor-padrePagina">
+											<div class="1u 12u$(xsmall)"  id="padrePagina">
+											 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+											</div>
+											<div class="1u 12u$(xsmall)"  id="padrePagina">
+										   
+											  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+										   
+											</div>
+											<div class="1u 12u$(xsmall)" " id="padrePagina">
+										   
+											<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+											
+											</div>
+											</div>
 	
 									</div>
 									<div class="12u$">
@@ -389,7 +430,21 @@
 													</tfoot>-->
 									</table>
 									<div class="12u$" id="contenedorPaginacionTickets">
-									
+										<div class="row uniform" id="contenedor-padrePagina">
+											<div class="1u 12u$(xsmall)"  id="padrePagina">
+											 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+											</div>
+											<div class="1u 12u$(xsmall)"  id="padrePagina">
+										   
+											  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+										   
+											</div>
+											<div class="1u 12u$(xsmall)" " id="padrePagina">
+										   
+											<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+											
+											</div>
+											</div>
 	
 									</div>
 									<div class="12u$">

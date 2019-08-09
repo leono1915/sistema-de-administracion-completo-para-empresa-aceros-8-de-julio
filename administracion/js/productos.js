@@ -1,14 +1,26 @@
+$(document).on('ready',principal);
 
-$(document).on('ready',listarProductos);
+function principal(){
+ 
+ //alert('si leo')
+  fun();
+ 
+  $('#siguientePagina').on('click',listarProductosSiguiente);
+  $('#anteriorPagina').on('click',listarProductosAnterior);
+  listarProductos();
+  
+}
+
 
 
 function listarProductos(){
+
   var factorCantidad=(1/6);
   var opcion='productos';
   var accion='listar';
   var template="";
   var rango=document.getElementById('rango_page').value;
-  console.log(rango);
+  
   var i=0;
   $.ajax({
       url:'crud.php',
@@ -28,37 +40,166 @@ function listarProductos(){
       <td><p name="fecha_p[]" class="non-margin">   ${element.nombre}</p></td>
       <td><p name="folio_p[]" class="non-margin"> ${element.medida}</p></td>
       <td><p name="estatus_p[]" class="non-margin"> ${element.espesor}</p></td>
+      <td><p name="total_p1[]" class="non-margin">    ${element.peso}</p></td>
+      <td>${element.precio}</td>
+      <td><p name="total_p2[]" class="non-margin">    ${element.cantidad}</p></td>
+      <td><p name="total_p3[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
+        <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+        <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+        </td>
+               
+      
+      </tr>
+              `
+          });
+          $('#content_table').html(template);
+         
+         
+        
+          
+      }
+  })
+
+  
+   
+}
+var i=0;
+function listarProductosSiguiente(){
+  if(i==0){
+    i=1;
+  }
+  
+ 
+  var rangoInf=document.getElementById('rango_page').value*i;
+  //document.getElementsByName('fecha_p[]').length;
+  
+  var factorCantidad=(1/6);
+  var opcion='productos';
+  var accion='listar';
+  var template="";
+  var rango=(document.getElementById('rango_page').value*i)/i;
+console.log(rangoInf+"  "+rango);
+  
+  $.ajax({
+      url:'crud.php',
+      type:'POST',
+      data:{opcion,accion,rango,rangoInf},
+      success:function (respuesta){
+        
+        // alert(respuesta);
+          var jason=JSON.parse(respuesta);
+          jason.forEach(element => {
+          
+            var metro=parseFloat("."+element.metros);
+              template+=`
+              <tr>
+      
+             
+      <td><p name="nombreCliente_p[]" class="non-margin">${element.id}</p></td>
+      <td><p name="fecha_p[]" class="non-margin">   ${element.nombre}</p></td>
+      <td><p name="folio_p[]" class="non-margin"> ${element.medida}</p></td>
+      <td><p name="estatus_p[]" class="non-margin"> ${element.espesor}</p></td>
       <td><p name="total_p[]" class="non-margin">    ${element.peso}</p></td>
       <td>${element.precio}</td>
       <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
-              <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-              <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+              <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+              <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                </td>
                
       
       </tr>
               `
           });
-          fun(i);
+         
           $('#content_table').html(template);
-          
+         i++;
+         document.getElementById('numeroPagina').value=i;
+    
       }
+      
   })
-   
+     
 }
 
 
-function fun(i){
+function listarProductosAnterior(){
+ 
+  console.log(" ante"+i);
+  
+  var rangoInf;
+  if(i==1) rangoInf=0; 
+  else
+  rangoInf=(document.getElementById('rango_page').value*(i-2));
+ if(i==1) return;
+  
+
+  //document.getElementsByName('fecha_p[]').length;
+ 
+  var factorCantidad=(1/6);
+  var opcion='productos';
+  var accion='listar';
+  var template="";
+  var rango=(document.getElementById('rango_page').value);
+  
+  console.log(rangoInf+"  "+rango)
+  
+  $.ajax({
+      url:'crud.php',
+      type:'POST',
+      data:{opcion,accion,rango,rangoInf},
+      success:function (respuesta){
+        
+        // alert(respuesta);
+          var jason=JSON.parse(respuesta);
+          jason.forEach(element => {
+          
+            var metro=parseFloat("."+element.metros);
+              template+=`
+              <tr>
+      
+             
+      <td><p name="nombreCliente_p[]" class="non-margin">${element.id}</p></td>
+      <td><p name="fecha_p[]" class="non-margin">   ${element.nombre}</p></td>
+      <td><p name="folio_p[]" class="non-margin"> ${element.medida}</p></td>
+      <td><p name="estatus_p[]" class="non-margin"> ${element.espesor}</p></td>
+      <td><p name="total_p[]" class="non-margin">    ${element.peso}</p></td>
+      <td>${element.precio}</td>
+      <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
+      <td><p name="total_p[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
+              <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+              <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+               </td>
+               
+      
+      </tr>
+              `
+          });
+         
+          $('#content_table').html(template);
+        i--;
+         document.getElementById('numeroPagina').value=i;
+        
+      }
+      
+  })
+  
+ 
+  
+  
+   
+}
+
+function fun(){
 
   
-   var l= document.getElementById('contenedorPaginacion');
+   var l= document.getElementById('contenedorPaginacion'),i=1;
   
       
      var text=`
      <div class="row uniform" id="contenedor-padrePagina">
      <div class="1u 12u$(xsmall)"  id="padrePagina">
-      <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+      <input type="button" name="nombre" id="anteriorPagina" value="Ant" /> 
      </div>
      <div class="1u 12u$(xsmall)"  id="padrePagina">
     
@@ -67,7 +208,7 @@ function fun(i){
      </div>
      <div class="1u 12u$(xsmall)" " id="padrePagina">
     
-     <input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+     <input type="button" name="nombre" id="siguientePagina" value="Sig" /> 
      
      </div>
      </div>

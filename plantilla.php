@@ -146,15 +146,16 @@ $mpdf->setFooter('
 Precios sujetos a cambios sin previo aviso
 </footer>');
 $cadena='cotizaciones/';
- 
+$facturado='no';
 $folio='00'.$numero;
 $pendiente='pendiente';
 $eliminado='no';
 $nombreArchivo= $folio.$nombre.'.pdf';
 $mpdf->Output($cadena.$nombreArchivo,'F');
-$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?)");
+$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?)");
 foreach($query as $que){
-$pst->bind_param('siissisdd',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total);
+$pst->bind_param('siissisdds',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
+$facturado);
 $query= $pst->execute();
   
 }
