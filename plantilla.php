@@ -14,7 +14,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
   if($query->num_rows==0){
     die('<h1>no hay datos para generar cotización asegurese de generar la tabla de productos</h1>');
   }
-  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre'");
+  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre' or nombre_agente='$nombre'");
   
   $result2=$dbConexion->query('select * from  historialVentas order by numero desc limit 1');
   foreach($result2 as $r){
@@ -54,9 +54,13 @@ $plantilla='
       <div id="CLIENTE:">';
       foreach($queryCliente as $query_cliente){
         $idCliente=$query_cliente["id"];
+        $nombreFinal=$query_cliente["nombre"];
+        if(empty($nombreFinal)){
+          $nombreFinal=$nombreFinal.$query_cliente["nombre"];
+        }
       $plantilla.='
         <div class="to">CLIENTE:</div>
-        <h2 class="name">'.$query_cliente["nombre"].'</h2>
+        <h2 class="name">'.$nombreFinal.'</h2>
         <div class="address">'.$query_cliente["domicilio"].'</div>
         <div class="address">'.$query_cliente["telefono"].'</div>
         <div class="email"><a href="">'.$query_cliente["correo"].'</a></div>

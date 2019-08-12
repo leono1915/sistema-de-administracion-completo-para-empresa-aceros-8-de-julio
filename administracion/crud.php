@@ -44,7 +44,7 @@ $mysqli->close();
           switch($opcion){
           case 'clientes':
           switch($accion){
-            case 'listar':   break;
+            case 'listar': listarClientes();   break;
             case 'crear':    break;
             case 'consultar':    break;
             case 'modificar':    break;
@@ -119,9 +119,15 @@ $mysqli->close();
         
    function  listarCotizaciones(){
           include '../conecta.php';
+          $rango=$_POST['rango'];
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
+       } 
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+     join clientes where clientes.id=historialVentas.id_cliente group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
@@ -141,23 +147,30 @@ $mysqli->close();
           $respuesta=json_encode($jason);
           echo $respuesta;
          }  
-         function  listarClientes(){
+  function  listarClientes(){
           include '../conecta.php';
+      $rango=$_POST['rango'];
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
+       } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+     $sql=$dbConexion->query("select * from clientes limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
           $jason= array();
           foreach($sql as $l){
             $jason[]= array(
+              'id'=>$l['id'],
               'nombre'=>$l['nombre'],
-              'fecha'=>$l['fecha'],
-              'folio'=>$l['folio'],
-              'estatus'=>$l['estatus'],
-              'total'=>$l['total'],
-              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+              'nombre_agente'=>$l['nombre_agente'],
+              'domicilio'=>$l['domicilio'],
+              'telefono'=>$l['telefono'],
+              'celular'=>$l['celular'],
+              'rfc'=>$l['rfc'],
+              'correo'=>$l['correo']
             );
              
           }
@@ -199,9 +212,15 @@ $mysqli->close();
          }  
          function  listarProveedores(){
           include '../conecta.php';
+          $rango=$_POST['rango'];
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
+       } 
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente group by folio;");
+     join clientes where clientes.id=historialVentas.id_cliente group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
@@ -222,9 +241,15 @@ $mysqli->close();
          }  
          function  listarordenes(){
           include '../conecta.php';
+          $rango=$_POST['rango'];
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
+       } 
           //aqui hago mis uniones de la base de datos
      $sql=$dbConexion->query("select clientes.nombre, historialCompras.* from historialCompras 
-     join clientes where clientes.id=historialCompras.id_cliente group by folio;");
+     join clientes where clientes.id=historialCompras.id_cliente group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 

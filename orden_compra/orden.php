@@ -66,7 +66,7 @@ include '../conecta.php';
 					<article id="main">
 						<header style="padding-top: 50px; padding-bottom: 50px;" >
 							<h2>Aceros 8 de julio</h2>
-							<p>Cotizador</p>
+							<p>Generar orden</p>
 						</header>
 						<section class="wrapper style5">
 							<div class="inner">

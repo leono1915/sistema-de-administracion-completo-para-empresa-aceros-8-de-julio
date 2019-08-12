@@ -52,7 +52,7 @@ include 'conecta.php';
 										<ul>
 											<li><a href="administracion/historial.html">Administración</a></li>
 											<li><a href="orden_compra/orden.php">Orden de compra</a></li>
-											<li><a href="cotizador.html">Cotizador</a></li>
+											
 											
 										</ul>
 									</div>
@@ -268,12 +268,20 @@ include 'conecta.php';
 											<select name="" id="selectionNameCliente">
                                             <option value=""> Nombre Cliente</option>
 												<?php
-											$query= $dbConexion->query('select id, nombre from clientes');
+											$query= $dbConexion->query('select * from clientes order by nombre or nombre_agente');
                                             foreach($query as $result){
 												?>
 												
 											 
-											<option><?php echo $result['nombre'] ;  ?></option>
+											<option><?php 
+											     $nombreFinal=$result['nombre'];
+												if(empty($nombreFinal )){
+													$nombreFinal=$nombreFinal.$result['nombre_agente'];
+												}
+													echo $nombreFinal;
+												
+											
+											?></option>
 												
 												<?php
 
@@ -298,13 +306,18 @@ include 'conecta.php';
 
 											<option>Nombre</option>
 												<?php
-							          $query1=$dbConexion->query("select distinct nombre from productos");
+									  $query1=$dbConexion->query("select distinct nombre
+									   from productos");
 
                                              foreach($query1 as $query){
 												?>
 												
 											 <!-- <input type="button" name="numero" id="numero" value="" placeholder="N°" />-->
-											<option><?php echo $query['nombre'] ;  ?></option>
+											<option><?php 
+											
+												echo $query['nombre'] ;
+											
+												  ?></option>
 												
 												<?php
 

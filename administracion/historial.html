@@ -97,6 +97,7 @@ function actualizarOrden(objectpressed){
 							<ul>
 								<li><a href="../index.php">Inicio</a></li>
 								<li><a href="clientes.html">Clientes</a></li>
+								<li><a href="proveedores.html">Proveedores</a></li>
 								<li><a href="productos.html">Productos</a></li>
 								<li><a href="../index.php">cerrar sesión</a></li>
 							</ul>
@@ -162,8 +163,8 @@ function actualizarOrden(objectpressed){
 								<h2 style="text-align: center">Historial Cotizaciones</h2>
 								<div class="row uniform">
 									<div class="2u 12u$(xsmall)">
-										<label for="rango_page"> Listar
-											<input type="number" id="rango_page" value="20" step="20"
+										<label for="rango_pageCotizaciones"> Listar
+											<input type="number" id="rango_pageCotizacion" value="20" step="20"
 												style="color: black;" min="20" max="120"></label>
 
 
@@ -180,7 +181,7 @@ function actualizarOrden(objectpressed){
 									</div>
 									<div class="0u 12u$(xsmall)">
 
-										<label for="buscarProducto"> Buscar </label>
+										<label for="buscarCotizacion"> Buscar </label>
 
 
 
@@ -189,7 +190,7 @@ function actualizarOrden(objectpressed){
 									</div>
 									<div class="2u 12u$(xsmall)">
 
-										<input type="text" name="" id="buscarProducto" placeholder="Folio">
+										<input type="text" name="" id="buscarCotizacion" placeholder="Folio">
 
 
 
@@ -230,16 +231,16 @@ function actualizarOrden(objectpressed){
 								<div class="12u$" id="contenedorPaginacion">
 									<div class="row uniform" id="contenedor-padrePagina">
 										<div class="1u 12u$(xsmall)"  id="padrePagina">
-										 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+										 <input type="button" name="nombre" id="anteriorPaginaCotizacion" value="Ant" /> 
 										</div>
 										<div class="1u 12u$(xsmall)"  id="padrePagina">
 									   
-										  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+										  <input type="button" name="nombre" id="numeroPaginaCotizacion" value="1" /> 
 									   
 										</div>
 										<div class="1u 12u$(xsmall)" " id="padrePagina">
 									   
-										<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+										<input type="button" name="nombre" id="siguientePaginaCotizacion" value="Sig" /> 
 										
 										</div>
 										</div>
@@ -263,8 +264,8 @@ function actualizarOrden(objectpressed){
 									<h2 style="text-align: center">Historial Órdenes de compra</h2>
 									<div class="row uniform">
 										<div class="2u 12u$(xsmall)">
-											<label for="rango_page"> Listar
-												<input type="number" id="rango_page" value="20" step="20"
+											<label for="rango_pageOrden"> Listar
+												<input type="number" id="rango_pageOrden" value="20" step="20"
 													style="color: black;" min="20" max="120"></label>
 	
 	
@@ -329,16 +330,16 @@ function actualizarOrden(objectpressed){
 									<div class="12u$" id="contenedorPaginacionCompra">
 										<div class="row uniform" id="contenedor-padrePagina">
 											<div class="1u 12u$(xsmall)"  id="padrePagina">
-											 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+											 <input type="button" name="nombre" id="anteriorPaginaOrden" value="Ant" /> 
 											</div>
 											<div class="1u 12u$(xsmall)"  id="padrePagina">
 										   
-											  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+											  <input type="button" name="nombre" id="numeroPaginaOrden" value="1" /> 
 										   
 											</div>
 											<div class="1u 12u$(xsmall)" " id="padrePagina">
 										   
-											<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+											<input type="button" name="nombre" id="siguientePaginaOrden" value="Sig" /> 
 											
 											</div>
 											</div>
@@ -363,8 +364,8 @@ function actualizarOrden(objectpressed){
 									<h2 style="text-align: center">Historial Tickets</h2>
 									<div class="row uniform">
 										<div class="2u 12u$(xsmall)">
-											<label for="rango_page"> Listar
-												<input type="number" id="rango_page" value="20" step="20"
+											<label for="rango_pageTickets"> Listar
+												<input type="number" id="rango_pageTickets" value="20" step="20"
 													style="color: black;" min="20" max="120"></label>
 	
 	
@@ -432,16 +433,16 @@ function actualizarOrden(objectpressed){
 									<div class="12u$" id="contenedorPaginacionTickets">
 										<div class="row uniform" id="contenedor-padrePagina">
 											<div class="1u 12u$(xsmall)"  id="padrePagina">
-											 <input type="button" name="nombre" id="siguientePagina" value="Ant" /> 
+											 <input type="button" name="nombre" id="anteriorPaginaTicket" value="Ant" /> 
 											</div>
 											<div class="1u 12u$(xsmall)"  id="padrePagina">
 										   
-											  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+											  <input type="button" name="nombre" id="numeroPaginaTicket" value="1" /> 
 										   
 											</div>
 											<div class="1u 12u$(xsmall)" " id="padrePagina">
 										   
-											<input type="button" name="nombre" id="anteriorPagina" value="Sig" /> 
+											<input type="button" name="nombre" id="siguientePaginaTicket" value="Sig" /> 
 											
 											</div>
 											</div>

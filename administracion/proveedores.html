@@ -6,13 +6,11 @@
 -->
 <html>
 	<head>
-		<title>Productos</title>
+		<title>Proveedoress</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/./css/main.css" />
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" >
-
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script>
@@ -31,7 +29,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="">Productos</a></h1>
+						<h1><a href="">Proveedores</a></h1>
 						<nav id="nav">
 							<ul>
 								<li class="special">
@@ -39,9 +37,9 @@
 									<div id="menu">
 										<ul>
 											<li><a href="../index.php">Inicio</a></li>
-											<li><a href="historial.html">Administración</a></li>
-											<li><a href="clientes.html">Clientes</a></li>
-											<li><a href="proveedores.html">Proveedores</a></li>
+                                            <li><a href="historial.html">Administración</a></li>
+                                            <li><a href="clientes.html">Clientes</a></li>
+											<li><a href="productos.html">Productos</a></li>
 											<li><a href="../index.php">cerrar sesión</a></li>
 										</ul>
 									</div>
@@ -53,53 +51,46 @@
 					<article id="main">
 						<header style="padding-top: 50px; padding-bottom: 50px;" >
 							<h2>Aceros 8 de julio</h2>
-							<p>Productos</p>
+							<p>Proveedores</p>
 						</header>
 						<section class="wrapper style5">
 							<div class="inner">
 								<section>
-									<h4 style="text-align: center;">Ingrese Producto</h4>
+									<h4 style="text-align: center;">Datos Iniciales</h4>
 
 									<form method="post" action="conecta.php">
 										<div class="row uniform">
 
-											<div class="6u 12u$(xsmall)">
+                                                <div class="6u 12u$(xsmall)">
 											
 										
-                                                    <input type="text" name="nombre" id="nombreProducto" value="" placeholder="Nombre" />
-										 
-												
-											</div>
-
-											
-
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="medidaProducto" value="" placeholder="Medida" />
-
-											</div>
-                                            <div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="espesorProducto" value="" placeholder="Espesor" />
-
-											</div>
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso" />
-
-											</div>
-
-											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio" />
-
-										
-
-											</div>
-                                            <div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="cantidad" id="tramosProducto" value="" placeholder="Tramos" onkeyup="format(this)" onchange="format(this)"/>
+                                                        <input type="text" name="nombre" id="nombreProveedores" value="" placeholder="Nombre" />
+                                             
                                                     
                                                 </div>
-											<div class="3u 12u$(xsmall)">
-												<input type="text" name="cantidad" id="metrosProducto" value="" placeholder="Metros" onkeyup="format(this)" onchange="format(this)"/>
-												
-											</div>								
+    
+                                                
+    
+                                                <div class="6u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="direccionProveedores" value="" placeholder="direccion" />
+    
+                                                </div>
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="telefonoProveedores" value="" placeholder="telefono" />
+    
+                                                </div>
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="rfcProveedores" value="" placeholder="rfc" />
+    
+                                                </div>
+    
+                                                <div class="4u 12u$(xsmall)">
+                                                        <input type="text" name="nombre" id="correoProveedores" value="" placeholder="correo" />
+    
+                                            
+    
+                                                </div>
+                                               					
 										</div>
 										<br>
 										<div class="12u$">
@@ -113,7 +104,7 @@
 										<br>
 
 										<div class="table-wrapper">
-												<h2 style="text-align: center">Listado De Productos</h2>
+												<h2 style="text-align: center">Listado De Proveedoress</h2>
 												<div class="row uniform">
 												<div class="2u 12u$(xsmall)">
 														<label for="rango_page" > Listar
@@ -133,7 +124,7 @@
 										</div>
 											<div class="0u 12u$(xsmall)" >
 													
-													<label for="buscarProducto" > Buscar </label>
+													<label for="buscarProveedor" > Buscar </label>
 												
 														
 														
@@ -144,7 +135,7 @@
 													
 													
 												
-															<input type="text" name="" id="buscarProducto"  >
+															<input type="text" name="" id="buscarProveedor"  >
 														
 											
 											
@@ -157,15 +148,11 @@
 									                   
 														<th>ID</th>
 														<th>NOMBRE</th>														
-														<th>MEDIDA</th>
-														<th>ESPESOR</th>
-														<th>PESO</th>
-                                                        <th>PRECIO</th>
-                                                        <th>TRAMOS</th>
-                                                        <th>METROS</th>
-                                                        <td colspan="3">Acciones</td>
-                                                       
-                                                      
+														<th>DIRECCIÓN</th>
+														<th>TELÉFONO</th>
+														<th>RFC</th>
+														<th>CORREO</th>
+														<td>ACCIONES</td>
 													</tr>
 												</thead>
 												<tbody id="content_table">
@@ -184,37 +171,31 @@
 												</tfoot>-->
 											</table>
 											<div class="12u$" id="contenedorPaginacion"> 
-												
+                                                    <div class="row uniform" id="contenedor-padrePagina">
+                                                            <div class="1u 12u$(xsmall)"  id="padrePagina">
+                                                             <input type="button" name="nombre" id="anteriorPagina" value="Ant" /> 
+                                                            </div>
+                                                            <div class="1u 12u$(xsmall)"  id="padrePagina">
+                                                           
+                                                              <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+                                                           
+                                                            </div>
+                                                            <div class="1u 12u$(xsmall)" " id="padrePagina">
+                                                           
+                                                            <input type="button" name="nombre" id="siguientePagina" value="Sig" /> 
+                                                            
+                                                            </div>
+                                                            </div>
 											
 											</div>
-										</div>
 										
+										</div>
 										<div class="12u$">
 											<ul class="actions" style="text-align: center">
-												<li><input type="button" value="actualizar" class="principal" id="update-precio"/></li>
+												<li><input type="submit" value="Imprimir" class="principal" id="add"/></li>
 											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
 											-->	
 											</ul>
-										<div class="row uniform">
-											<div class="3u 12u$(xsmall)">
-												<input type="text" name="nombre" id="nombreUpdate" value="" placeholder="nombre" /> 
-
-										</div>
-										
-										<div class="3u 12u$(xsmall)">
-												
-												<input type="text" name="nombre" id="rango1" value="" placeholder="rango 1" />
-
-										</div>
-										<div class="3u 12u$(xsmall)">
-												<input type="text" name="nombre" id="rango2" value="" placeholder="rango 2" />
-
-										</div>
-										<div class="3u 12u$(xsmall)">
-											<input type="text" name="nombre" id="precioUpdate" value="" placeholder="precio" />
-
-									</div>
-										</div>
 										</div>
 									</form>
 								</section>
@@ -236,14 +217,14 @@
 			</div>
 
 		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/jquery.scrollex.min.js"></script>
-			<script src="../assets/js/jquery.scrolly.min.js"></script>
-			<script src="../assets/js/skel.min.js"></script>
-			<script src="../assets/js/util.js"></script>
-			<!--[if lte I../]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="../assets/js/main.js"></script>
-			<script src="js/productos.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="js/Proveedoress.js"></script>
 
 	</body>
 </html>

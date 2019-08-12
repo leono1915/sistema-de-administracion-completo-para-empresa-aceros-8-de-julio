@@ -60,16 +60,16 @@ switch($respuesta){
     }
     break;
     case 'actualizarInventarioSuma':
-    echo $folio;
-    $sql=" update productos join historialCompras set cantidad=cantidad+historialCompras.cantidadDescontar, estatus='autorizado', 
+    $pend='autorizado';
+    $sql=" update productos join historialCompras set cantidad=cantidad+historialCompras.cantidadDescontar, estatus=?
     where productos.id=historialCompras.id_producto and historialCompras.folio=? and estatus='pendiente'";
     $stmt=$dbConexion->prepare($sql);
-     $stmt->bind_param("s",$folio);
+     $stmt->bind_param("ss",$pend,$folio);
      $stmt->execute();
      
      if($stmt->affected_rows==0){
-        echo 'esa cotizacion ya fue autorizada';
-        echo $stmt->affected_rows;
+        echo 'esa orden de compra ya fue autorizada';
+        
         die();
      }
     if($stmt){
@@ -92,7 +92,7 @@ switch($respuesta){
      
      if($stmt->affected_rows==0){
         echo 'esa cotizacion ya fue autorizada';
-        echo $stmt->affected_rows;
+       // echo $stmt->affected_rows;
         die();
      }
     if($sql){

@@ -28,7 +28,7 @@ function listarProductos(){
       data:{opcion,accion,rango},
       success:function (respuesta){
          i++;
-        // alert(respuesta);
+        // alert(respuesta);   <a href="javascript:void(0);" onclick="" >Ver <i class="fas fa-eye"></i>  </a>
           var jason=JSON.parse(respuesta);
           jason.forEach(element => {
             var metro=parseFloat("."+element.metros);
@@ -44,8 +44,9 @@ function listarProductos(){
       <td>${element.precio}</td>
       <td><p name="total_p2[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p3[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
-        <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-        <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+        <td> 
+        <a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
+        <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
         </td>
                
       
@@ -103,8 +104,8 @@ console.log(rangoInf+"  "+rango);
       <td>${element.precio}</td>
       <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
-              <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-              <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+      <td><a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
+      <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
                </td>
                
       
@@ -167,8 +168,8 @@ function listarProductosAnterior(){
       <td>${element.precio}</td>
       <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p[]" class="non-margin"> ${Math.round((metro/factorCantidad)*100)/100} </p></td>
-              <td> <a href="javascript:void(0);" onclick="" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-              <a href="javascript:void(0);" onclick="">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+              <td> <a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
+              <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
                </td>
                
       

@@ -11,6 +11,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/./css/main.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" >
+
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script>
@@ -36,8 +38,10 @@
 									<a href="#menu" class="menuToggle"><span>Menu</span></a>
 									<div id="menu">
 										<ul>
-                                            <li><a href="../index.php">Inicio</a></li>
-                                            <li><a href="productos.html">Productos</a></li>
+											<li><a href="../index.php">Inicio</a></li>
+											<li><a href="historial.html">Administración</a></li>
+											<li><a href="productos.html">Productos</a></li>
+											<li><a href="proveedores.html">proveedores</a></li>
 											<li><a href="../index.php">cerrar sesión</a></li>
 										</ul>
 									</div>
@@ -144,31 +148,19 @@
 												<thead>
 													<tr>
 									                   
-														<th>ID</th>
-														<th>NOMBRE</th>														
+													
+														<th>NOMBRE</th>	
+														<th>AGENTE</th>													
 														<th>DIRECCIÓN</th>
 														<th>TELÉFONO</th>
+														<th>CELULAR</th>
 														<th>RFC</th>
 														<th>CORREO</th>
 														<td>ACCIONES</td>
 													</tr>
 												</thead>
 												<tbody id="content_table">
-													<tr>
-														
-														
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-														<td></td>
-                                                        <td></td>
-                                                        <td></td>
-                                                        
-                                                       
-                                                        														
-													</tr>
+												
 												</tbody>
 												<!--<tfoot>
 													<tr>
@@ -183,7 +175,21 @@
 												</tfoot>-->
 											</table>
 											<div class="12u$" id="contenedorPaginacion"> 
-													
+													<div class="row uniform" id="contenedor-padrePagina">
+															<div class="1u 12u$(xsmall)"  id="padrePagina">
+															 <input type="button" name="nombre" id="anteriorPagina" value="Ant" /> 
+															</div>
+															<div class="1u 12u$(xsmall)"  id="padrePagina">
+														   
+															  <input type="button" name="nombre" id="numeroPagina" value="1" /> 
+														   
+															</div>
+															<div class="1u 12u$(xsmall)" " id="padrePagina">
+														   
+															<input type="button" name="nombre" id="siguientePagina" value="Sig" /> 
+															
+															</div>
+															</div>
 											
 											</div>
 										
