@@ -7,7 +7,9 @@ function principal(){
  
   $('#siguientePagina').on('click',listarClientesSiguiente);
   $('#anteriorPagina').on('click',listarClientesAnterior);
- listarClientes();
+  $('#add_row').on('click',agregarClientes);
+  $('#buscarCliente').on('click',buscarClientes);
+  listarClientes();
   
 }
 
@@ -15,7 +17,7 @@ function principal(){
 
 function listarClientes(){
 
-  var factorCantidad=(1/6);
+  
   var opcion='clientes';
   var accion='listar';
   var template="";
@@ -43,8 +45,8 @@ function listarClientes(){
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
-                <a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
-                <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
+                <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+                <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
                 </td>
                        
               
@@ -101,8 +103,8 @@ console.log(rangoInf+"  "+rango);
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
-                <a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
-                <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
+                <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+                <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
                 </td>
                        
               
@@ -123,18 +125,13 @@ console.log(rangoInf+"  "+rango);
 
 function listarClientesAnterior(){
  
-  console.log(" ante"+i);
   
   var rangoInf;
   if(i==1) rangoInf=0; 
   else
   rangoInf=(document.getElementById('rango_page').value*(i-2));
  if(i==1) return;
-  
 
-  //document.getElementsByName('fecha_p[]').length;
- 
-  var factorCantidad=(1/6);
   var opcion='clientes';
   var accion='listar';
   var template="";
@@ -152,7 +149,7 @@ function listarClientesAnterior(){
           var jason=JSON.parse(respuesta);
           jason.forEach(element => {
           
-            var metro=parseFloat("."+element.metros);
+           
               template+=`
               <tr>
               <td style="display:none;"> ${element.id} </td>
@@ -164,8 +161,8 @@ function listarClientesAnterior(){
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
-                <a href="javascript:void(0);" onclick="">Editar <i class="far fa-edit"></i>  </a>
-                <a href="javascript:void(0);" onclick="">Borrar <i class="fas fa-trash-alt"></i>  </a>
+                <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+                <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
                 </td>
                        
               
@@ -218,18 +215,39 @@ function fun(){
 
 
 
-function addRow(){
+function agregarClientes(){
 
+     var nombre=document.getElementById('nombreCliente').value;
      var mail=document.getElementById('correoCliente').value;
      var rfc=document.getElementById('rfcCliente').value;
      var direccion=document.getElementById('direccionCliente').value;
-     var rfc=document.getElementById('rfcCliente').value;
      var telefono=document.getElementById('telefonoCliente').value;
-
-    /* if(! isValidEmail(mail)||nombre.length()<3||rfc.length()<16){
-          alert('verifique que los campos cumplan con dato válidos');
+     var nombreAgente=document.getElementById('nombreAgente').value;
+     var descripcion=document.getElementById('descripcion').value;
+     var puesto=document.getElementById('puestoAgente').value;
+     var celular=document.getElementById('celularAgente').value;
+     var opcion='clientes';
+     var accion='crear';
+     if(! isValidEmail(mail)||nombre.length<3||rfc.length<12||telefono.length<8){
+          alert('verifique que el email rfc telefono de empresa y nombre de empresa o agente no estén vacios');
           return;
-     }*/
+     }
+     $.ajax({
+       url:'crud.php',
+       type:'POST',
+       data:{opcion,accion,nombre,
+        mail,
+        rfc,
+        direccion,
+        telefono,
+        nombreAgente,
+        descripcion,
+        puesto,
+        celular},
+       success:function(respuesta){
+          alert(respuesta);
+       }
+     })
 
     
 }
@@ -239,59 +257,49 @@ function isValidEmail(mail) {
   }
 
 
-  function crearClientes(){
-    const factorCantidad=(1/6.1);
 
-    var nombre=document.getElementById('nombreProducto').value;
-    var medida=document.getElementById('medidaProducto').value;
-    var espesor=document.getElementById('espesorProducto').value;
-    var peso=document.getElementById('pesoProducto').value;
-    var precio=document.getElementById('precioProducto').value;
-    var tramos=document.getElementById('tramosProducto').value;
-    var metros=document.getElementById('metrosProducto').value;
-    var cantidad=parseFloat(parseFloat(tramos)+(metros*factorCantidad));
-    var opcion='crear';
-    console.log(cantidad);
-    if(nombre.length<3){
-        //alert('ingrese datos validos');
-        //return;
-    }
 
-   const datos= {
-    nombre:nombre,medida:medida,espesor:espesor,peso:peso,precio:precio,cantidad:cantidad,opcion:opcion
-   };
-
+function buscarClientes(){
+ 
+   var rfc=document.getElementById('buscar').value.toUpperCase();
+   if(rfc.length<12){
+     alert('rfc inválido');
+     return;
+   }
+   var opcion='clientes';
+   var accion='consultar';
+  
     $.ajax({
         url: 'crud.php',
         type: 'POST',
-        data: {nombre,medida,espesor,peso,precio,cantidad,opcion},
+        data: {opcion,accion,rfc},
         success: function(respuesta){
-            alert(respuesta);
-
-        }
-    })
-  /* $.post('crud.php',datos,function (response){
-        console.log(response);
-    })*/
-   // e.preventDefault();
-
-}
-
-
-function updateTotal(){
-   
-    var nombre=document.getElementById('nombreUpdate').value;
-    var rango1=document.getElementById('rango1').value;
-    var rango2=document.getElementById('rango2').value;
-    var precio=document.getElementById('precioUpdate').value;
-
-    $.ajax({
-        url: 'crud.php',
-        type: 'POST',
-        data: {nombre,rango1,rango2,precio},
-        success: function(respuesta){
-
-               alert(respuesta);
+          var template='';
+          var jason=JSON.parse(respuesta);
+          jason.forEach(element => {
+          
+            
+              template+=`
+              <tr>
+              <td style="display:none;"> ${element.id} </td>
+              <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+              <td><p name="fecha_p[]" class="non-margin">   ${element.nombre_agente}</p></td>
+              <td><p name="folio_p[]" class="non-margin"> ${element.domicilio}</p></td>
+              <td><p name="estatus_p[]" class="non-margin"> ${element.telefono}</p></td>
+              <td><p name="total_p1[]" class="non-margin">    ${element.celular}</p></td>
+              <td>${element.rfc}</td>
+              <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
+                <td> 
+                <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+                <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
+                </td>
+                       
+              
+              </tr>
+              `
+          });
+         
+          $('#content_table').html(template);
         }
     })
 

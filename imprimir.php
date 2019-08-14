@@ -20,7 +20,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
  if($nombre=='Nombre Cliente'){
    die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
  }
-  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre'");
+  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre' or nombre_agente='$nombre'");
 
   if(!$query||!$queryCliente){
     $dbConexion->error;

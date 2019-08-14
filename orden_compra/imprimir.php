@@ -20,7 +20,7 @@ $sqlQuery="select * from  ordenCompra ";
  if($nombre=='Nombre Proveedor'){
    die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
  }
-  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre'");
+  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre' or nombre_agente='$nombre'");
 
   if(!$query||!$queryCliente){
     $dbConexion->error;
@@ -138,7 +138,6 @@ require_once '../libreria_pdf/vendor/autoload.php' ;
   $mpdf = new Mpdf\Mpdf([]);
   
 $css =file_get_contents('../impresion/estilosImpresin.css');
-$mpdf->SetProtection(array('extract'));
 $mpdf->SetHTMLHeader('FOLIO 00'.$id_orden);
 $mpdf->writeHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 $mpdf->setTitle('ORDEN DE COMPRA');

@@ -1,41 +1,6 @@
 <?php
 
 
- 
-
-
-
-/*$r=12;
-$s=5001;
-$a='awwwwww';
-$b='bwwwww';
-$c='cwwwwww';
-$d='dwwwwwww';
-$e='ewwwwwww';
-$f='fwwwwwww';
-$nombre =$_POST['nombre'];
-$medida=$_POST['medida'];
-$espesor=$_POST['espesor'];
-$peso=$_POST['peso'];
-$precio=$_POST['precio'];
-$cantidad=$_POST['cantidad'];
-$pst = $mysqli->prepare("INSERT INTO customer values (? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-$pst->bind_param('iisssssssss',$s,$r,$nombre,$medida,$espesor,$a,$b,$c,$d,$e,$f);
-
-$resu=$pst->execute();
-//
-//printf("%d Fila insertada.\n", $pst->affected_rows);
-
-if($resu){
-  echo 'logrado';
-  $pst->close();
-$mysqli->close();
-}else{
-  die('no se pudo ingresar '.$mysqli->error);
-  
-}*/
-
  $opcion=$_POST['opcion'];
  $accion=$_POST['accion'];   
  $rango=$_POST['rango'];
@@ -45,10 +10,10 @@ $mysqli->close();
           case 'clientes':
           switch($accion){
             case 'listar': listarClientes();   break;
-            case 'crear':    break;
-            case 'consultar':    break;
-            case 'modificar':    break;
-            case 'eliminar':    break;
+            case 'crear':  agregarClientes();  break;
+            case 'consultar': buscarClientes();   break;
+            case 'modificar': modificarClientes();   break;
+            case 'eliminar': eliminarCliente();    break;
             break; default: die('no existe opcion');  break;
            }
           
@@ -269,10 +234,111 @@ $mysqli->close();
           echo $respuesta;
          }  
 
+        function agregarClientes(){
+          include '../conecta.php';
+          $nombre       =$_POST['nombre'];
+          $mail=$_POST['mail'];
+          $rfc=$_POST['rfc'];
+          $direccion=$_POST['direccion'];
+          $telefono=$_POST['telefono'];
+          $nombreAgente=$_POST['nombreAgente'];
+          $descripcion=$_POST['descripcion'];
+          $puesto=$_POST['puesto'];
+          $celular=$_POST['celular'];
+          $query='insert into clientes values (null,?,?,?,?,?,?,?,?,?)';
+          $stm=$dbConexion->prepare($query);
+          $stm->bind_param("sssssssss",$nombre,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular);
+          $stm->execute();
+          if($stm->affected_rows==0){
+            echo 'no se pudo realizar el registro';
+            die();
+          }
+          if(!stm){
+            echo 'no se pudo registrar';
+            die();
+          }
+          echo 'cliente registrado exitosamente';
+          $stm->close();
+          $dbConexion->close();
+        }
 
+  function  buscarClientes(){
+          include '../conecta.php';
+          $rfc=$_POST['rfc'];
+          $query="select * from clientes where rfc='$rfc' ";
+          $sql=$dbConexion->query($query);
+         
+          if(!$sql||$sql->num_rows==0){
+            echo 'no se existe cliente con ese rfc';
+            die();
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $jason[]= array(
+              'id'=>$l['id'],
+              'nombre'=>$l['nombre'],
+              'nombre_agente'=>$l['nombre_agente'],
+              'domicilio'=>$l['domicilio'],
+              'telefono'=>$l['telefono'],
+              'celular'=>$l['celular'],
+              'rfc'=>$l['rfc'],
+              'correo'=>$l['correo']
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+         
+          echo $respuesta;
+         } 
+         function  eliminarCliente(){
+          include '../conecta.php';
+          $id=$_POST['id'];
+          $query="delete from clientes where id='$id' ";
+          $sql=$dbConexion->query($query);
+         
+          if(!$sql){
+            echo 'no se eliminó el registro';
+            die();
+          } 
+          echo 'registro eliminado';
+         
+         } 
 
-
-
+      function modificarClientes(){
+        include '../conecta.php';
+        $id=$_POST['id'];
+        $nombre =$_POST['nombre'];
+        $mail=$_POST['mail'];
+        $rfc=$_POST['rfc'];
+        $direccion=$_POST['direccion'];
+        $telefono=$_POST['telefono'];
+        $nombreAgente=$_POST['nombreAgente'];
+        $descripcion=$_POST['descripcion'];
+        $puesto=$_POST['puesto'];
+        $celular=$_POST['celular'];
+        //,correo=?,rfc=?,direccion=?,telefono=?,nombre_agente=?,descripcion=?,puesto=?,celular=?
+        //,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular
+        $sql="update clientes set nombre= ?,correo=?,rfc=?,domicilio=?,telefono=?,nombre_agente=?,descripcion=?,puesto=?,celular=?
+         where id=$id";
+        $stmt=$dbConexion->prepare($sql);
+        $stmt->bind_param("sssssssss",$nombre,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular);
+        $stmt->execute();
+        
+        if($stmt->affected_rows==0){
+           echo 'no se pudo modificar'.$id.$nombre.$nombreAgente;
+          // echo $stmt->affected_rows;
+           die();
+        }
+       if($sql){
+           $stmt->close();
+           $dbConexion->close();
+           echo'actualizacion exitosa';
+   
+       }else{
+           echo 'no quedo';
+           $sql->error;
+       }
+      }
 
 
 ?>

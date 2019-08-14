@@ -12,13 +12,13 @@ include 'conecta.php';
  // $nombre="ANGULO";
   // $medida="3/4";
   // $espesor="1/8";
-  $sqlQuery="select * from productos where nombre=?  and medida=? and espesor=?";
+  //$sqlQuery="select * from productos where nombre=?  and medida=? and espesor=?";
   $query = $dbConexion->query("select * from productos where nombre='$nombre'  and medida='$medida' and espesor='$espesor'");
   /*prepare($sqlQuery);
   $query->bind_param("sss",$nombre,$medida,$espesor);
   $query->execute();*/
   if($query->num_rows==0){
-    echo 'no se encontró el producto en la base de datos';
+    //echo $respuesta=json_encode('no se existe ese producto');
     die();
   }
   if(!$query){

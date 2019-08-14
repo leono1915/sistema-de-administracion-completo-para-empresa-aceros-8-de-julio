@@ -296,7 +296,7 @@ include 'conecta.php';
 
 											<div class="2u$ 12u$(xsmall)">
                                        
-									 <input type="text" name="numero" id="numero" value="" placeholder="I.C°" onkeyup="format(this)" onchange="format(this)" />
+									 <input type="text" name="numero" id="numero" value="" placeholder="I.C°"  />
 									
 											</div>
 										
