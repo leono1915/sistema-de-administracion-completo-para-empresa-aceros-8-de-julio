@@ -41,7 +41,7 @@ switch($respuesta){
     break;
     case 'calcularNuevoTotal':
     $sql=$dbConexion->query("update cotizacionTemporal set cantidad='$cantidad', subtotal='$subtotal', iva='$iva',
-     total='$total' where id_cotizacion='$id'");
+     total='$total', cantidadDescontar=cantidadDescontar*'$cantidad' where id_cotizacion='$id'");
     if($sql){
         $dbConexion->close();
         echo'Eliminado sin actualizar';
@@ -51,7 +51,7 @@ switch($respuesta){
     break;
     case 'calcularNuevoTotalCompras':
     $sql=$dbConexion->query("update ordenCompra set cantidad='$cantidad', subtotal='$subtotal', iva='$iva',
-     total='$total' where id_orden='$id'");
+     total='$total', cantidadDescontar=cantidadDescontar*'$cantidad' where id_orden='$id'");
     if($sql){
         $dbConexion->close();
         echo'Eliminado sin actualizar';
@@ -106,16 +106,7 @@ switch($respuesta){
     }
     break;
 }
-/*$query=$dbConexion->query();
 
-if(!$query){
-    $dbConexion->error;
-    echo 'error';
-  }else{
-      echo 'dato insertado exitosamente';
-      $pst->close();
-      $dbConexion->close();
-  }*/
 
 
 

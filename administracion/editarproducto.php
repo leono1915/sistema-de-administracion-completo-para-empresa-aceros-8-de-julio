@@ -25,37 +25,34 @@
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<script>
-		function editar(id) {
-            
-            var nombre=document.getElementById('nombreCliente').value;
-            var mail=document.getElementById('correoCliente').value;
-            var rfc=document.getElementById('rfcCliente').value;
-            var direccion=document.getElementById('direccionCliente').value;
-            var telefono=document.getElementById('telefonoCliente').value;
-            var nombreAgente=document.getElementById('nombreAgente').value;
-            var descripcion=document.getElementById('descripcion').value;
-            var puesto=document.getElementById('puestoAgente').value;
-            var celular=document.getElementById('celularAgente').value;
-            var opcion='clientes';
-            var accion='modificar';
-    
-     $.ajax({
-       url:'crud.php',
-       type:'POST',
-       data:{opcion,accion,id,nombre,
-        mail,
-        rfc,
-        direccion,
-        telefono,
-        nombreAgente,
-        descripcion,
-        puesto,
-        celular},
-       success:function(respuesta){
-          alert(respuesta);
-          
-       }
-     })
+	function editar(id) {
+    const factorCantidad=(1/6.1);
+    //alert(12);
+    var nombre=document.getElementById('nombreProducto').value;
+    var medida=document.getElementById('medidaProducto').value;
+    var espesor=document.getElementById('espesorProducto').value;
+    var peso=document.getElementById('pesoProducto').value;
+    var precio=document.getElementById('precioProducto').value;
+    var tramos=document.getElementById('tramosProducto').value;
+    var metros=document.getElementById('metrosProducto').value;
+    var cantidad=parseFloat(parseFloat(tramos)+(metros*factorCantidad));
+    var opcion='productos';
+    var accion='modificar';
+   
+   
+
+   
+
+    $.ajax({
+        url: 'crud.php',
+        type: 'POST',
+        data: {nombre,medida,espesor,peso,precio,cantidad,opcion,accion,id},
+        success: function(respuesta){
+            alert(respuesta);
+
+        }
+    })
+  
 
 		
 		}
@@ -105,11 +102,11 @@
                                 <?php
               
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-                                    <input type="text" name="nombre" id="nombreCliente" value="<?php 
+                                    <input type="text" name="nombre" id="nombreProducto" value="<?php 
                                     echo $l['nombre'];
                                     ?>" placeholder="Nombre" />
                                <?php
@@ -122,14 +119,14 @@
                                 <?php
                
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="direccionCliente" value="<?php 
-                                    echo $l['domicilio'];
+									<input type="text" name="nombre" id="medidaProducto" value="<?php 
+                                    echo $l['medida'];
                                     ?>"
-                                        placeholder="direccion" />
+                                        placeholder="medida" />
                                         <?php
                   }
                   ?>
@@ -138,14 +135,14 @@
 								<div class="4u 12u$(xsmall)">
                                 <?php
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="telefonoCliente" value="<?php 
-                                    echo $l['telefono'];
+									<input type="text" name="nombre" id="espesorProducto" value="<?php 
+                                    echo $l['espesor'];
                                     ?>"
-                                        placeholder="telefono empresa" />
+                                        placeholder="espesor" />
                                         <?php
                   }
                   ?>
@@ -154,12 +151,12 @@
 								<div class="4u 12u$(xsmall)">
                                 <?php
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="rfcCliente" value="<?php 
-                                    echo $l['rfc'];
+									<input type="text" name="nombre" id="pesoProducto" value="<?php 
+                                    echo $l['peso'];
                                     ?>" placeholder="rfc" />
                                       <?php
                   }
@@ -170,13 +167,13 @@
 								<div class="4u 12u$(xsmall)">
                                 <?php
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="correoCliente" value="<?php 
-                                    echo $l['correo'];
-                                    ?>" placeholder="correo" />
+									<input type="text" name="nombre" id="precioProducto" value="<?php 
+                                    echo $l['precio'];
+                                    ?>" placeholder="precio" />
                                       <?php
                   }
                   ?>
@@ -187,14 +184,15 @@
 								<div class="4u 12u$(xsmall)">
                                 <?php
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-                                    <input type="text" name="nombre" id="nombreAgente" value="<?php 
-                                    echo $l['nombre_agente'];
+                                    <input type="text" name="nombre" id="tramosProducto" value="<?php 
+                                    $tramos=explode('.',$l['cantidad']);
+                                    echo $tramos[0];
                                     ?>
-                                    " placeholder="Agente" />
+                                    " placeholder="tramos" />
                                     <?php
                   }
                   ?>
@@ -205,51 +203,22 @@
 								<div class="4u 12u$(xsmall)">
                                 <?php
 
-               $query="select * from clientes where id='$id' ";
+               $query="select * from productos where id='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="puestoAgente" value="<?php 
-                                    echo $l['puesto'];
-                                    ?>" placeholder="puesto" />
+                                    <input type="text" name="nombre" id="metrosProducto" value="<?php 
+                                      $tramos=explode('.',$l['cantidad']);
+                                      $metros=floatval(".".$tramos[1])/(1/6.1);
+                                      echo round($metros,2);
+                                 
+                                    ?>" placeholder="metros" />
                                       <?php
                   }
                   ?>
 
 								</div>
-								<div class="4u 12u$(xsmall)">
-                                <?php
-
-               $query="select * from clientes where id='$id' ";
-               $sql=$dbConexion->query($query);
-                  foreach($sql as $l){
-                      ?>
-									<input type="text" name="nombre" id="celularAgente" value="<?php 
-                                    echo $l['celular'];
-                                    ?>"
-                                        placeholder="celular" />
-                                        <?php
-                  }
-                  ?>
-
-								</div>
-								<div class="4u 12u$(xsmall)">
-                                <?php
-
-               $query="select * from clientes where id='$id' ";
-               $sql=$dbConexion->query($query);
-                  foreach($sql as $l){
-                      ?>
-									<input type="text" name="nombre" id="descripcion" value="<?php 
-                                    echo $l['descripcion'];
-                                    ?>"
-                                        placeholder="descripcion" />
-                                        <?php
-                  }
-                  ?>
-                                        
-
-								</div>
+								
                     
 							</div>
 							<br>

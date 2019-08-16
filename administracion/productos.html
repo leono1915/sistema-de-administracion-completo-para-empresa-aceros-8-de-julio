@@ -16,12 +16,30 @@
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script>
-		function validarIndex(){
+		function editar(_this) {
+		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].getElementsByTagName('p')[0].innerHTML;
+	
+		window.open('editarproducto.php' + "?id=" +id,"_blank");
 
-			var a=document.getElementById('selectionName').selectedIndex;
-			var b=document.getElementById('selectionName').options;
-			
-			alert('el index es'+b[a].index+'y su valor es '+b[a].text);
+		
+		}
+		function eliminar(_this) {
+		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].getElementsByTagName('p')[0].innerHTML;
+		var opcion='productos';
+		var accion='eliminar';
+		if(!confirm('está seguro de eliminar este registro de producto '+id)){
+			return;
+		}
+		$.ajax({
+			url:'crud.php',
+			type:'POST',
+			data:{id,accion,opcion},
+			success:function (respuesta){
+				alert(respuesta);
+				
+			}
+		})
+		$(_this).parent().parent().fadeOut("fast", function () { $(this).remove(); });	
 		}
 		</script>
 	</head>
@@ -82,12 +100,12 @@
 
 											</div>
 											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso" />
+                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso"  onkeyup="format(this)" onchange="format(this)" />
 
 											</div>
 
 											<div class="3u 12u$(xsmall)">
-                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio" />
+                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio"  onkeyup="format(this)" onchange="format(this)" />
 
 										
 
@@ -133,7 +151,7 @@
 										</div>
 											<div class="0u 12u$(xsmall)" >
 													
-													<label for="buscarProducto" > Buscar </label>
+													<input id="buscarProducto" type="button" value="Buscar" ">
 												
 														
 														
@@ -144,7 +162,7 @@
 													
 													
 												
-															<input type="text" name="" id="buscarProducto"  >
+															<input type="text" placeholder="nombre" id="buscar"  >
 														
 											
 											
@@ -196,22 +214,22 @@
 											-->	
 											</ul>
 										<div class="row uniform">
-											<div class="3u 12u$(xsmall)">
-												<input type="text" name="nombre" id="nombreUpdate" value="" placeholder="nombre" /> 
+										<!--	<div class="3u 12u$(xsmall)">
+										<input type="text" name="nombre" id="nombreUpdate" value="" placeholder="nombre" />
 
-										</div>
+										</div> -->
 										
-										<div class="3u 12u$(xsmall)">
+										<div class="4u 12u$(xsmall)">
 												
-												<input type="text" name="nombre" id="rango1" value="" placeholder="rango 1" />
+												<input type="text" name="nombre" id="rango1" value="" placeholder="rango 1"  onkeyup="format(this)" onchange="format(this)" />
 
 										</div>
-										<div class="3u 12u$(xsmall)">
-												<input type="text" name="nombre" id="rango2" value="" placeholder="rango 2" />
+										<div class="4u 12u$(xsmall)">
+												<input type="text" name="nombre" id="rango2" value="" placeholder="rango 2"  onkeyup="format(this)" onchange="format(this)"  />
 
 										</div>
-										<div class="3u 12u$(xsmall)">
-											<input type="text" name="nombre" id="precioUpdate" value="" placeholder="precio" />
+										<div class="4u 12u$(xsmall)">
+											<input type="text" name="nombre" id="precioUpdate" value="0" placeholder="precio"  onkeyup="format(this)" onchange="format(this)" />
 
 									</div>
 										</div>
