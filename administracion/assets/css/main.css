@@ -3869,3 +3869,32 @@ p.non-margin{
 	margin-left: -.4%;
 	
   }
+  .encabezadoMes{
+	  background-color: rgba(0, 0, 0, 0.245);
+	  width: 1200px;
+	  font-size: 25px;
+	  text-transform: uppercase;
+  }
+  #btnEstadis{
+	margin-left: -60px;
+  }
+  @media  (max-width: 460px) {
+
+	#btnEstadis{
+margin-left: 15%;
+	}
+
+}
+#tablaEstadisticas{
+	width: 100%;
+	
+}
+#tabla1, #tabla2,#tabla3{
+	width: 33%;
+	height: auto;
+	float: left;
+}
+
+  
+ 
+  

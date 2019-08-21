@@ -3,9 +3,10 @@
 include 'conecta.php';
 $time = time();
 
-$fecha= date("d-m-Y", $time);
+$fecha= date("y-m-d", $time);
 
 $nombre=$_GET['nombreCliente'];
+$descuento=$_GET['descuento'];
 if($nombre=='Nombre Cliente'){
   die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
 }
@@ -56,7 +57,7 @@ $plantilla='
         $idCliente=$query_cliente["id"];
         $nombreFinal=$query_cliente["nombre"];
         if(empty($nombreFinal)){
-          $nombreFinal=$nombreFinal.$query_cliente["nombre"];
+          $nombreFinal=$nombreFinal.$query_cliente["nombre_agente"];
         }
       $plantilla.='
         <div class="to">CLIENTE:</div>
@@ -110,13 +111,13 @@ $plantilla='
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">IVA 16%</td>
-          <td>'.$iva.'</td>
+          <td colspan="2">IVA </td>
+          <td>'.floatval($iva-$descuento).'</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">TOTAL</td>
-          <td>'.$total.'</td>
+          <td>'.floatval($total-$descuento).'</td>
         </tr>
       </tfoot>
     </table>

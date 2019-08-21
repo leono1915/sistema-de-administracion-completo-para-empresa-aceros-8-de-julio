@@ -4,8 +4,9 @@ $(document).on('ready',funcionMain);
         ocultarCotizacion();
         ocultarOrden();
         ocultarTikect();
-        
+        ocultarEstadisticas();
         $('#mostrarCotizacion').on('click',Cotizacion);
+        $('#mostrarEstadisticas').on('click',mostrarEsta);
         $('#mostrarOrdenes').on('click',ordenes);
         $('#mostrarTickets').on('click',tickets);
         $('#siguientePaginaCotizacion').on('click',listarCotizacionSiguiente);
@@ -18,9 +19,23 @@ $(document).on('ready',funcionMain);
        //$("loans_table").on('click', '.fa fa-check',actualizarProductos);
        // $("body").on('click', ".fa fa-check",actualizarProductos);
 
-
+      /* var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+	 if ((new Date().getTime() - start) > 3000) {
+	  break;
+	 }
+	}*/
+        
 
 }
+function mostrarEsta(){
+    mostrarEstadisticas();
+    listarEstadisticas();
+        listarEstadistica();
+        listarEstadistica2();
+}
+/*                          varibles globales contadoras de paginacion                              */
+var i=0,j=0,k=0;
 
 function Cotizacion(){
     
@@ -61,7 +76,7 @@ function Cotizacion(){
     })
      
 }
-var i=0,j=0,k=0,l=0;
+
 function listarCotizacionSiguiente(){
     if(i==0){
         i=1;
@@ -280,26 +295,313 @@ function ordenes(){
          
     }
 function tickets(){
-    mostrarTikect();
+    
+    var opcion='tickets';
+    var accion='listar';
+    var template="";
+    var rango=document.getElementById('rango_pageTickets').value;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,rango},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+				
+			
+				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
+				
+				</tr>
+                `
+            });
+            $('#content_tableTicket').html(template);
+            mostrarTikect();
+        }
+    })
      
 }
 
-
-function addRow(){
-
-     var mail=document.getElementById('correoCliente').value;
-     var rfc=document.getElementById('rfcCliente').value;
-     var direccion=document.getElementById('direccionCliente').value;
-     var rfc=document.getElementById('rfcCliente').value;
-     var telefono=document.getElementById('telefonoCliente').value;
-
-    /* if(! isValidEmail(mail)||nombre.length()<3||rfc.length()<16){
-          alert('verifique que los campos cumplan con dato válidos');
-          return;
-     }*/
-
-    
+function listarTicketSiguiente(){
+    if(k==0){
+        k=1;
+      }
+    var rangoInf=document.getElementById('rango_pageTickets').value*k;
+    var opcion='tickets';
+    var accion='listar';
+    var template="";
+    var rango=(document.getElementById('rango_pageTickets').value*k)/k;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,rango,rangoInf},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+				
+			
+				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
+				
+				</tr>
+                `
+            });
+            $('#content_tableTicket').html(template);
+            k++;
+            document.getElementById('numeroPaginaTicket').value=k;
+            mostrarTikect();
+        }
+    })
+     
 }
+function listarTicketAnterior(){
+    var rangoInf;
+    if(k==1) rangoInf=0; 
+    else
+    rangoInf=(document.getElementById('rango_pageTickets').value*(k-2));
+   if(k==1) return;
+    var opcion='tickets';
+    var accion='listar';
+    var template="";
+    var rango=document.getElementById('rango_pageTickets').value;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,rango,rangoInf},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+				
+			
+				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
+				
+				</tr>
+                `
+            });
+            $('#content_tableTicket').html(template);
+            k--;
+            document.getElementById('numeroPaginaTicket').value=k;
+            mostrarTikect();
+            
+        }
+    })
+     
+}
+var aux2="";
+  function listarEstadisticas(){
+   
+   var opcion='historial';
+   var accion='listar';
+  
+   $.ajax({
+       url:'crud.php',
+       type:'POST',
+       data:{opcion,accion},
+       success:function (respuesta){
+        var template="";
+        var mes="";
+        var aux1="";
+       
+           var jason=JSON.parse(respuesta);
+           jason.forEach(element => {
+
+          switch(parseInt(element.mes)){
+              case 1: mes='ENERO'; break;
+              case 2: mes='FEBRERO'; break;
+              case 3: mes='MARZO'; break;
+              case 4: mes='ABRIL'; break;
+              case 5: mes='MAYO'; break;
+              case 6: mes='JUNIO'; break;
+              case 7: mes='JULIO'; break;
+              case 8: mes='AGOSTO'; break;
+              case 9: mes='SEPTIEMPRE'; break;
+              case 10: mes='OCTUBRE'; break;
+              case 11: mes='NOVIEMBRE'; break;
+              case 12: mes='DICIEMBRE'; break;
+          }
+           template+=` <th> ${mes} </th>
+           <tr>
+            <TD>
+                     
+            <TABLE WIDTH=100%>
+                    
+            <TR>
+            <TD>pendientes ${element.pendiente}</TD>
+            <TD>autorizadas ${element.autorizado}</TD>
+            </TR>
+            <TD>facturado</TD>
+            <TD>no facturado</TD>
+            <TR>
+                <Td>${element.facturado}</Td>
+                <Td>${element.no_facturado}</Td>
+                
+            </TR>
+                 <Td>Total</Td>
+                 <td>${element.total}</td>
+            </TABLE>
+            </TD> 
+           
+            
+            </tr>`
+            ;
+
+                     
+                     }
+                     
+                    
+                    
+             
+           
+                            );
+        
+           
+           document.getElementById("contenido-estadisticas").innerHTML=template;
+          
+       }
+   })
+   
+  }
+ 
+  function listarEstadistica(){
+   
+    var opcion='historial';
+    var accion='listar';
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion},
+        success:function (respuesta){
+         var template="";
+         var fecha=" ";
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=` <th>|</th>
+                <tr>
+                 <TD>
+                          
+                 <TABLE WIDTH=100%>
+                         
+                 <TR>
+                 <TD>pendientes ${element.pendiente}</TD>
+                 <TD>autorizadas ${element.autorizado}</TD>
+                 </TR>
+                 <TD>facturado</TD>
+                 <TD>no facturado</TD>
+                 <TR>
+                     <Td>${element.facturado}</Td>
+                     <Td>${element.no_facturado}</Td>
+                     
+                 </TR>
+                      <Td>Total</Td>
+                      <td>${element.total}</td>
+                 </TABLE>
+                 </TD> 
+                
+                 
+                 </tr>
+     
+                         
+                         
+                         `;
+                       
+            });
+            //$('#contenido-estadisticas').html(template);
+           
+            document.getElementById("contenido-estadisticas2").innerHTML=template;
+        }
+    })
+    
+   }  
+
+   function listarEstadistica2(){
+   
+    var opcion='historial';
+    var accion='listarCompras';
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion},
+        success:function (respuesta){
+         var template="";
+         var fecha="";
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=` <th>|      </th>
+                <tr>
+                 <TD>
+                          
+                 <TABLE WIDTH=100%>
+                         
+                 <TR>
+                 <TD>pendientes ${element.pendiente}</TD>
+                 <TD>autorizadas ${element.autorizado}</TD>
+                 </TR>
+                 <TD>Total</TD>
+                 <TD>Compras</TD>
+                 <TR>
+                     <Td>total</Td>
+                     <Td>${element.facturado}</Td>
+                     
+                 </TR>
+                      <Td>Total</Td>
+                      <td>${element.facturado}</td>
+                 </TABLE>
+                 </TD> 
+                
+                 
+                 </tr>
+     
+                         
+                         
+                         `;
+                       
+            });
+        
+           
+            document.getElementById("contenido-estadisticas3").innerHTML=template;
+        }
+    })
+    
+   }  
+  
+
         function ocultarCotizacion() {
 			document.getElementById('tablaCotizaciones').style.display = 'none';
 		}
@@ -317,6 +619,12 @@ function addRow(){
 		}
 		function mostrarTikect() {
 			document.getElementById('tablaTickets').style.display = 'block';
+        }
+        function ocultarEstadisticas() {
+			document.getElementById('tablaEstadisticas').style.display = 'none';
+        }
+        function mostrarEstadisticas() {
+			document.getElementById('tablaEstadisticas').style.display = 'block';
 		}
         function isValidEmail(mail) { 
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(mail); 

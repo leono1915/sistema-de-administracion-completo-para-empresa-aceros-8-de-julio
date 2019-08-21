@@ -31,8 +31,14 @@ include 'conecta.php';
 		var nombrey=document.getElementById('selectionNameCliente').selectedIndex;
 	var nombrex=document.getElementById('selectionNameCliente').options;
 	var nombreCliente=nombrex[nombrey].text;
+	var descuento=parseFloat(document.getElementById('descuento').innerHTML);
 
-	window.open('imprimir.php' + "?nombreCliente=" +nombreCliente,"_blank");
+
+	//window.open('imprimir.php' + "?nombreCliente=" +nombreCliente,"_blank");
+	//window.open("imprimir.php?nombreCliente=&descuento=descuento "); 
+	window.open("imprimir.php?nombreCliente=" + nombreCliente + "&descuento="+ descuento +""); 
+
+	
 	}
 	
 		</script>
@@ -95,7 +101,9 @@ include 'conecta.php';
 					   </div>
 										</div>
 										<div class="cotizador-placas" id="cotizador-placas">
+											
 											<div class="captura-datos">
+										
 													<div class="2u 5u$(xsmall)" id="placeholder">	
                                             <select name="" id="selectionNamePlaca">
 												
@@ -117,9 +125,11 @@ include 'conecta.php';
 												<input type="text" id="precio" class="2u 5u$(xsmall)" placeholder="Precio">
 												<input type="text" id="precioCorte" class="2u 5u$(xsmall)" placeholder="Corte">
 											</div>
-											
 											</div>
+										
+											
 											<div class="separador">
+											<label for="pulgadas"><input type="checkbox" id="pulgadas" value="2.54">Pulgadas</label>
                                         <div class="espesores">
 																<div class="contenidoRadio">
 																<label class="label-radio item-content">
@@ -391,6 +401,8 @@ include 'conecta.php';
 											</div>								
 										</div>
 										<br>
+								<label for="pulgadasMaterial"><input type="checkbox" id="pulgadasMaterial" value=".0254">Pulgadas</label>
+										<br>
 										<div class="12u$">
 											<ul class="actions" style="text-align: center">
 											  <!--<input type="button" value="Cotizar" class="principal" id="add_row"/>-->
@@ -399,6 +411,7 @@ include 'conecta.php';
 												<li><input type="button" id="imprimir" class="" value="Imprimir" ></li>
 												<li><a href="javascript:void(0);" target="_blank" onclick="mensaje();">
 												<input type="button" id="vista" class="principal" value="vista previa" ></a></li>
+												<li><input type="button" id="generarTicket" class="" value="Ticket" ></li>
 											</ul>
 										</div>
 										<br>

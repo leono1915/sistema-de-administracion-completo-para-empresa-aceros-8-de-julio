@@ -12,6 +12,7 @@
   $nombre=$_GET['nombre'];
   $ubicacion='../cotizaciones/';
   $direccion=$ubicacion.trim($nombre);
+  echo $direccion;
 ?>
   <embed src="<?php  echo $direccion; ?>" type="application/pdf" width="100% " height="1000px" >
 </body>

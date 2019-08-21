@@ -19,6 +19,8 @@
 			
 			var object=objectpressed.parentNode.parentNode;
 			 var nombre=object.getElementsByTagName('td')[5].innerHTML;
+			 
+			 
 			
 			 window.open('mostrar.php' + "?nombre=" +nombre,"_blank");
 		}
@@ -79,6 +81,9 @@ function actualizarOrden(objectpressed){
 		function ocultarTikect() {
 			document.getElementById('tablaTickets').style.display = 'none';
 		}
+		function ocultarEstadisticas() {
+			document.getElementById('tablaEstadisticas').style.display = 'none';
+		}
 	</script>
 </head>
 
@@ -137,7 +142,7 @@ function actualizarOrden(objectpressed){
 									<input type="button" name="nombre" class="principal" id="mostrarTickets" value="tickets"  />
 
 								</div>
-								<div class="3u 12u$(xsmall)" style="margin-left: -60px">
+								<div class="3u 12u$(xsmall)" id="btnEstadis">
 									<input type="button" name="nombre" class="principal" id="mostrarEstadisticas" value="Estadisticas"  />
 
 								</div>
@@ -402,15 +407,13 @@ function actualizarOrden(objectpressed){
 										<thead>
 											<tr>
 	
-												<th>ID</th>
-												<th>NOMBRE</th>
-												<th>MEDIDA</th>
-												<th>ESPESOR</th>
-												<th>PESO</th>
-												<th>PRECIO</th>
-												<th>CANTIDAD</th>
-												<th>KILOS TOTALES</th>
-												<td>Acciones</td>
+											<th>NOMBRE CLIENTE</th>
+											<th>FECHA</th>
+											<th>FOLIO</th>
+											<th>ESTATUS</th>
+											<th>TOTAL</th>
+											<th>FACTURADO</th>
+											<td colspan="2">Acciones</td>
 	
 	
 											</tr>
@@ -457,6 +460,75 @@ function actualizarOrden(objectpressed){
 										</ul>
 									</div>
 								</div>
+								            
+									
+								<div class="table-wrapper" id="tablaEstadisticas">
+										<h2 style="text-align: center">Estadisticas</h2>
+										<h4 style="text-align: center"> año 2019 </h4>
+										<br>
+										<TABLE id="tabla1">
+											
+												<TR ALIGN="center">
+												<TD>Cotizaciones</TD>
+										
+												
+												</TR>
+												
+												<tbody id="contenido-estadisticas">
+
+												</tbody>
+											
+												
+												
+											
+												
+												</TABLE>
+												<TABLE id="tabla2">
+
+													<TR ALIGN="center">
+												
+													<TD>Tickets</TD>
+													
+													
+													</TR>
+													
+													<tbody id="contenido-estadisticas2">
+	
+													</tbody>
+												
+													
+													
+												
+													
+													</TABLE>
+													<TABLE id="tabla3">
+
+											
+														<TR ALIGN="center">
+														
+														<td >Órdenes de compra</td>
+														
+														</TR>
+														
+														<tbody id="contenido-estadisticas3">
+		
+														</tbody>
+													
+														
+														
+													
+														
+														</TABLE>
+
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="button" value="Ocultar Estadisticas" class="principal" id="add"
+														onclick="ocultarEstadisticas();"></li>
+												<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+													-->
+											</ul>
+										</div>
+									</div>
 						</form>
 					</section>
 					<br>

@@ -3,7 +3,7 @@
 include '../conecta.php';
 $time = time();
 
-$fecha= date("d-m-Y", $time);
+$fecha= date("y-m-d", $time);
 
 $nombre=$_GET['nombreCliente'];
 if($nombre=='Nombre Proveedor'){
@@ -147,7 +147,7 @@ Precios sujetos a cambios sin previo aviso
 </footer>');
 $cadena='ordenes_compra/';
  
-$folio='00'.$numero;
+$folio='C0'.$numero;
 $pendiente='pendiente';
 $eliminado='no';
 $nombreArchivo= $folio.$nombre.'.pdf';

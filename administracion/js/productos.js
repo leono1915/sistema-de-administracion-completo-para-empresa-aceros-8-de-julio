@@ -377,7 +377,13 @@ function buscarProductos() {
 
 
 }
-
+/*SELECT Mes,no_facturado,facturado,no_facturado+facturado as total,
+    historialCompras.total,
+  FROM (SELECT MONTH(Fecha) AS Mes
+ ,SUM(IF(YEAR(Fecha)=2019&&facturado='si',Total,0)) As 'facturado'
+,SUM(IF(YEAR(Fecha)=2019&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
+ FROM  (select * from historialVentas group by folio) as nu group by mes) as nuevo,
+ ;*/
     function actualizarProductos() {
      var rango1=document.getElementById('rango1').value;
      var rango2=document.getElementById('rango2').value;
@@ -393,6 +399,7 @@ function buscarProductos() {
        type:'POST',
        data:{rango1,rango2,precio,accion,opcion},
        success:function(respuesta){
+         alert(respuesta);
          listarProductos();
        }
      })

@@ -74,8 +74,14 @@
            }
           
           break;
-           
-           
+          case 'historial':
+          switch($accion){
+            case 'listar': listarHistorial();  break;
+            case 'listarTickets': listarHistorialTickets(); break;
+            case 'listarCompras':listarHistorialCompras(); break;
+            break; default: die('no existe opcion');  break;
+           }
+           break;
            default: die('no existe opcion');  break;
 
 
@@ -93,20 +99,24 @@
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, historialVentas.* from historialVentas 
      join clientes where clientes.id=historialVentas.id_cliente group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
           $jason= array();
           foreach($sql as $l){
+            $nombreFinal=$l['nombre'];
+            if(empty($nombreFinal)){
+              $nombreFinal=$nombreFinal.$l['nombre_agente'];
+            }
             $jason[]= array(
-              'nombre'=>$l['nombre'],
+              'nombre'=>$nombreFinal,
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
-              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf',
+              'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
               'facturado'=>$l['facturado']
             );
              
@@ -181,6 +191,107 @@
           $respuesta=json_encode($jason);
           echo $respuesta;
          }  
+//                                              funcion listarHistorial
+  function listarHistorial(){
+          include '../conecta.php';
+         
+          $anio=date('Y');
+  $sql=$dbConexion->query("
+  SELECT Mes,no_facturado,facturado,no_facturado+facturado as total,autorizado,pendiente
+  FROM (SELECT MONTH(Fecha) AS Mes,
+count(if(estatus='autorizado',1,null)) as autorizado,
+count(if(estatus='pendiente',1,null)) as pendiente
+ ,SUM(IF(YEAR(Fecha)=$anio&&facturado='si',Total,0)) As 'facturado'
+,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
+ FROM  (select * from historialVentas group by folio) as nu group by mes) as ventas;
+  ");
+ 
+  if(!$sql){
+   die( 'error');
+  
+ } 
+ $jason= array();
+ foreach($sql as $l){
+  
+   $jason[]= array(
+     'autorizado'=>$l['autorizado'],
+     'pendiente'=>$l['pendiente'],
+     'mes'=>$l['Mes'],
+     'no_facturado'=>$l['no_facturado'],
+     'facturado'=>$l['facturado'],
+     'total'=>$l['total']
+    
+   );
+    
+ }
+ $respuesta=json_encode($jason);
+ echo $respuesta;
+}  
+function listarHistorialTickets(){
+  include '../conecta.php';
+  $anio=date('Y');
+$sql=$dbConexion->query("
+SELECT Mes,no_facturado,facturado,no_facturado+facturado as total,autorizado,pendiente
+FROM (SELECT MONTH(Fecha) AS Mes,
+count(if(estatus='autorizado',1,null)) as autorizado,
+count(if(estatus='pendiente',1,null)) as pendiente
+,SUM(IF(YEAR(Fecha)=$anio&&facturado='si',Total,0)) As 'facturado'
+,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
+FROM  (select * from tickets group by folio) as nu group by mes) as ventas;
+");
+
+if(!$sql){
+die( 'error');
+
+} 
+$jason= array();
+foreach($sql as $l){
+
+$jason[]= array(
+'autorizado'=>$l['autorizado'],
+'pendiente'=>$l['pendiente'],
+'mes'=>$l['Mes'],
+'no_facturado'=>$l['no_facturado'],
+'facturado'=>$l['facturado'],
+'total'=>$l['total']
+
+);
+
+}
+$respuesta=json_encode($jason);
+echo $respuesta;
+} 
+function listarHistorialCompras(){
+  include '../conecta.php';
+  $anio=date('Y');
+$sql=$dbConexion->query("
+SELECT Mes,facturado,autorizado,pendiente
+FROM (SELECT MONTH(Fecha) AS Mes,
+count(if(estatus='autorizado',1,null)) as autorizado,
+count(if(estatus='pendiente',1,null)) as pendiente
+,SUM(IF(YEAR(Fecha)=$anio&&estatus='autorizado',Total,0)) As 'facturado'
+FROM  (select * from historialCompras group by folio) as nu group by mes) as ventas;
+");
+
+if(!$sql){
+die( 'error');
+
+} 
+$jason= array();
+foreach($sql as $l){
+
+$jason[]= array(
+'autorizado'=>$l['autorizado'],
+'pendiente'=>$l['pendiente'],
+'mes'=>$l['Mes'],
+'facturado'=>$l['facturado']
+
+);
+
+}
+$respuesta=json_encode($jason);
+echo $respuesta;
+} 
              //                                         funcion listar proveedores
 
    function  listarProveedores(){
@@ -458,6 +569,8 @@ function  buscarProductos(){
       $stm->close();
       $dbConexion->close();
     }
+    //                                         funcion modificar precio de productos por rango de id
+
     function modificarProductosRango(){
       include '../conecta.php';
         

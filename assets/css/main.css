@@ -3886,6 +3886,21 @@ p.non-margin{
 	align-items: center;
 	top: 7%;
 }
+@media screen and (max-width:450px){
+	.cotizador-placas{
+		background-color: white;
+		width: 100%;
+		max-width: 95%;
+		flex-direction: column;
+		height:800px;
+		position: absolute;
+		border-radius: .5rem;
+		z-index: 150;
+		
+		align-items: center;
+		top: 7%;
+	}
+}
 
 .captura-datos #placeholder{
 	width: 25%;
@@ -3894,6 +3909,16 @@ p.non-margin{
 	float: left;
 	overflow: hidden;
 	
+}
+@media screen and (max-width:450px){
+	.captura-datos #placeholder{
+		width: 100%;
+		margin-right: 10px;
+		
+		float: left;
+		overflow: hidden;
+		
+	}
 }
 
 #placeholder input{
@@ -3911,6 +3936,22 @@ width: 60%;
 
 
 }
+@media screen and (max-width:450px){
+	.espesores{
+
+		margin-top: 2%;
+		
+		width: 100%;
+		
+		
+		}
+		.separador{
+			width: 100%;
+			float: left;
+		}
+
+}
+
 .informacion-placas{
 	width: 30%;
 	margin-right:5%;
@@ -3921,13 +3962,33 @@ width: 60%;
 	
 	width: 70%;
 }
+@media screen and (max-width:450px){
+	.informacion-placas{
+		width: 100%;
+	    background-color: white;
+		float:right;
+		margin-top: -1%;
+	}
+	.informacion-placas input{
+		
+		width: 100%;
+	}
+
+}
 .contenidoRadio{
 	width: 15%;
 	float: left;
 	
 }
 
+@media screen and (max-width:450px){
+	.contenidoRadio{
+		width: 25%;
+		float: left;
+		
+	}
 
+}
 .espesores input{
 	font-size: 2rem;
 	margin-bottom: 30px;

@@ -4,9 +4,10 @@
 include 'conecta.php';
 $time = time();
 
-$fecha= date("d-m-Y", $time);
+$fecha= date("y-m-d", $time);
 
 $nombre=$_GET['nombreCliente'];
+$descuento=$_GET['descuento'];
 $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
 
   $query = $dbConexion->query($sqlQuery);
@@ -56,9 +57,14 @@ $plantilla='
     <div id="details" class="clearfix">
       <div id="CLIENTE:">';
       foreach($queryCliente as $query_cliente){
+        $idCliente=$query_cliente["id"];
+        $nombreFinal=$query_cliente["nombre"];
+        if(empty($nombreFinal)){
+          $nombreFinal=$nombreFinal.$query_cliente["nombre_agente"];
+        }
       $plantilla.='
         <div class="to">CLIENTE:</div>
-        <h2 class="name">'.$query_cliente["nombre"].'</h2>
+        <h2 class="name">'.$nombreFinal.'</h2>
         <div class="address">'.$query_cliente["domicilio"].'</div>
         <div class="address">'.$query_cliente["telefono"].'</div>
         <div class="email"><a href="">'.$query_cliente["correo"].'</a></div>
@@ -108,13 +114,13 @@ $plantilla='
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">IVA 16%</td>
-          <td>'.$iva.'</td>
+          <td colspan="2">IVA </td>
+          <td>'.floatval($iva-$descuento).'</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">TOTAL</td>
-          <td>'.$total.'</td>
+          <td>'.floatval($total-$descuento).'</td>
         </tr>
       </tfoot>
     </table>
