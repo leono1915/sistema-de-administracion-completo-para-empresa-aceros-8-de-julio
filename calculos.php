@@ -17,8 +17,9 @@ include 'conecta.php';
   /*prepare($sqlQuery);
   $query->bind_param("sss",$nombre,$medida,$espesor);
   $query->execute();*/
+  
   if($query->num_rows==0){
-    //echo $respuesta=json_encode('no se existe ese producto');
+   
     die();
   }
   if(!$query){

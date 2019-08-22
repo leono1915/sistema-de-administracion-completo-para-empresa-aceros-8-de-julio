@@ -81,7 +81,7 @@ function newConcepto() {
 		calculateTotals(precio, subtotal, impuesto, total_n, 1);
 		tablaParametros(1,descripcion,an=  Math.round(precio * 100) / 100,
 		subtotal= Math.round(subtotal * 100) / 100 ,iva=Math.round(impuesto * 100) / 100,total= Math.round(total_n* 100) / 100,
-		accion='<span ">     </span><span class="icon fa-eraser"></span>',0,0);
+		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0);
 		closeConcepto();
 	}
 
@@ -522,7 +522,7 @@ function calculoDePlacas() {
 		
 		tablaParametros(1,descripcion,an= Math.round(subtotal * 100) / 100 ,
 		subtotal1= Math.round(subtotal * 100) / 100 ,iva1=Math.round(impuesto * 100) / 100,total1= Math.round(total* 100) / 100,
-		accion='<span ">     </span><span class="icon fa-eraser"></span>',0,0);
+		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0);
 		calculateTotals(subtotal, subtotal, impuesto, total, 1);
 	}
 }

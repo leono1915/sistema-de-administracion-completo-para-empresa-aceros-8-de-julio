@@ -48,6 +48,7 @@
 			data:{facturado,folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
+				location.href="historial.html";
 			}
 		})
 
@@ -68,6 +69,7 @@ function actualizarOrden(objectpressed){
 			data:{folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
+			   location.href="historial.html";
 			}
 		})
 
@@ -464,7 +466,9 @@ function actualizarOrden(objectpressed){
 									
 								<div class="table-wrapper" id="tablaEstadisticas">
 										<h2 style="text-align: center">Estadisticas</h2>
-										<h4 style="text-align: center"> año 2019 </h4>
+										<h4 style="text-align: center"> <script> var date=new Date(); 
+										document.write("año "+date.getFullYear());
+										</script> </h4>
 										<br>
 										<TABLE id="tabla1">
 											

@@ -7,6 +7,12 @@ $fecha= date("y-m-d", $time);
 
 $nombre=$_GET['nombreCliente'];
 $descuento=$_GET['descuento'];
+$datoDes;
+if($descuento!='0'){
+ $datoDes="8%";
+}else{
+  $datoDes=" ";
+}
 if($nombre=='Nombre Cliente'){
   die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
 }
@@ -111,7 +117,7 @@ $plantilla='
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">IVA </td>
+          <td colspan="2">IVA'.$datoDes.'</td>
           <td>'.floatval($iva-$descuento).'</td>
         </tr>
         <tr>
