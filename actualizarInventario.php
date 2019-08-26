@@ -5,6 +5,8 @@ include 'conecta.php';
 $id=$_POST['idCotizacion'];
 $idProducto=$_POST['idProducto'];
 $cantidad=$_POST['cantidad'];
+$cantidadD=$_POST['cantidadT'];
+$metros=$_POST['metrosT'];
 $facturado=$_POST['facturado'];
 $folio=trim($_POST['folio']);
 $respuesta=$_POST['respuesta'];
@@ -41,7 +43,7 @@ switch($respuesta){
     break;
     case 'calcularNuevoTotal':
     $sql=$dbConexion->query("update cotizacionTemporal set cantidad='$cantidad', subtotal='$subtotal', iva='$iva',
-     total='$total', cantidadDescontar=cantidadDescontar*'$cantidad' where id_cotizacion='$id'");
+     total='$total', cantidadDescontar='$cantidadD' where id_cotizacion='$id'");
     if($sql){
         $dbConexion->close();
         echo'Eliminado sin actualizar';
@@ -51,7 +53,7 @@ switch($respuesta){
     break;
     case 'calcularNuevoTotalCompras':
     $sql=$dbConexion->query("update ordenCompra set cantidad='$cantidad', subtotal='$subtotal', iva='$iva',
-     total='$total', cantidadDescontar=cantidadDescontar*'$cantidad' where id_orden='$id'");
+     total='$total', cantidadDescontar='$cantidadD' where id_orden='$id'");
     if($sql){
         $dbConexion->close();
         echo'Eliminado sin actualizar';
@@ -105,6 +107,53 @@ switch($respuesta){
         $sql->error;
     }
     break;
+    case 'actualizarInventarioSumaTicket':
+    $pend='cancelado';
+    $sql=" update productos join tickets set cantidad=cantidad+tickets.cantidadDescontar, estatus=?
+    where productos.id=tickets.id_producto and tickets.folio=? and estatus='autorizado' and facturado='no'";
+    $stmt=$dbConexion->prepare($sql);
+     $stmt->bind_param("ss",$pend,$folio);
+     $stmt->execute();
+     
+     if($stmt->affected_rows==0){
+        echo 'este ticket ya fue cancelado o facturado';
+        
+        die();
+     }
+    if($stmt){
+        $stmt->close();
+        $dbConexion->close();
+        echo'actualizacion exitosa';
+
+    }else{
+        echo 'no quedo';
+        $sql->error;
+    }
+    break;
+    case 'actualizarEstatusTicket':
+    $pend='si';
+    $sql=" update  tickets set facturado=?
+    where folio=? and facturado='no' and estatus!='cancelado'";
+    $stmt=$dbConexion->prepare($sql);
+     $stmt->bind_param("ss",$pend,$folio);
+     $stmt->execute();
+     
+     if($stmt->affected_rows==0){
+        echo 'este ticket ya fue facturado o cancelado';
+        
+        die();
+     }
+    if($stmt){
+        $stmt->close();
+        $dbConexion->close();
+        echo'actualizacion exitosa';
+
+    }else{
+        echo 'no quedo';
+        $sql->error;
+    }
+    break;
+    default: die("no existe esa opcion"); break;
 }
 
 

@@ -11,15 +11,32 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/./css/main.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<script>
-		function validarIndex(){
-
-			var a=document.getElementById('selectionName').selectedIndex;
-			var b=document.getElementById('selectionName').options;
-			
-			alert('el index es'+b[a].index+'y su valor es '+b[a].text);
+			function editar(_this) {
+		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].innerHTML;
+	
+		window.open('editarproveedor.php' + "?id=" +id,"_blank");
+		
+		}
+		function eliminar(_this) {
+		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].innerHTML;
+		var opcion='proveedores';
+		var accion='eliminar';
+		if(!confirm('está seguro de eliminar este registro de proveedor'+id)){
+			return;
+		}
+		$.ajax({
+			url:'crud.php',
+			type:'POST',
+			data:{id,accion,opcion},
+			success:function (respuesta){
+				alert(respuesta);
+			}
+		})
+		$(_this).parent().parent().fadeOut("fast", function () { $(this).remove(); });	
 		}
 		</script>
 	</head>
@@ -122,23 +139,26 @@
 											
 											
 										</div>
-											<div class="0u 12u$(xsmall)" >
+										
+										<div class="0u 12u$(xsmall)">
+
+											<input id="buscar" type="button" value="Buscar" ">
+														
+						
 													
-													<label for="buscarProveedor" > Buscar </label>
+															
+															
 												
-														
-														
-											
-											
-										</div>
-											<div class="2u 12u$(xsmall)" >
-													
-													
 												
-															<input type="text" name="" id="buscarProveedor"  >
-														
-											
-											
+											</div>
+												<div class=" 2u 12u$(xsmall)">
+	
+	
+	
+											<input type="text" name="" placeholder="rfc" id="buscarP">
+	
+	
+	
 										</div>
 										</div>
 										<br><br>
@@ -146,7 +166,7 @@
 												<thead>
 													<tr>
 									                   
-														<th>ID</th>
+														
 														<th>NOMBRE</th>														
 														<th>DIRECCIÓN</th>
 														<th>TELÉFONO</th>
@@ -224,7 +244,7 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte I]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-			<script src="js/Proveedoress.js"></script>
+			<script src="js/Proveedores.js"></script>
 
 	</body>
 </html>

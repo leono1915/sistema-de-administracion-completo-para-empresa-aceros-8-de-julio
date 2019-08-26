@@ -57,6 +57,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
   $printer->text("Aceros 8 de Julio \n");
   $printer->text("Av 8 de Julio #1671 \n");
   $printer->text("Col. Morelos \n");
+  $printer->text("Tel. 36-19-36-63 \n");
   $printer->setJustification(Printer::JUSTIFY_LEFT);
   $printer->text("FECHA ".date("d-m-Y")."     FOLIO ".$folio." \n");
   $printer->setJustification(Printer::JUSTIFY_LEFT);
@@ -66,7 +67,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
     if(empty($nombreFinal)){
       $nombreFinal=$nombreFinal.$query_cliente["nombre_agente"];
     }
-    $printer->text("CLIENTE ".$nombreFinal."\n");
+    $printer->text("CLIENTE :".$nombreFinal."\n");
     /*$printer->text("Domicilio ".$query_cliente["domicilio"]."\n");
     $printer->text("Telefono ".$query_cliente["telefono"]."\n");
     $printer->text(" Correo ".$query_cliente["correo"]."\n");*/
@@ -82,15 +83,21 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
 
   $printer->setJustification(Printer::JUSTIFY_LEFT);
   foreach ($query as $querys) { 
-     
+    $pieza;
+    if(intval($querys['cantidad'])>1){
+      $pieza=" pzas ";
+    } else{
+      $pieza=" pza ";
+    }
     $total+=$querys["total"];
     $subtotal+=$querys["subtotal"];
     $iva+=$querys["iva"];
-    $printer->text("Producto #".$i."\n");
-    $printer->text($querys["descripcion"]."\n");
+    //$printer->text("Producto #".$i."\n");
+    $printer->text($querys["cantidad"].$pieza.$querys["descripcion"]."\n");
     //$printer->text("Precio ".$querys["precio"]."\n");
-    $printer->text("Cantidad ".$querys["cantidad"]."\n");
-    $printer->text("Precio -------------------".$querys["total"]."\n");
+   // $printer->text("Cantidad ".$querys["cantidad"]."\n");
+  
+    $printer->text("Precio -----------------".$querys["total"]."\n");
    
       $i++;
     }
@@ -112,14 +119,39 @@ $facturado);
 $query= $pst->execute();
   
 }
-//$delete =$dbConexion->query("update cotizacionTemporal set eliminado='si' where eliminado='no'");
- /* if(!$query||!$delete){
+
+$sql3=" update productos join tickets set cantidad=cantidad-tickets.cantidadDescontar
+where productos.id=tickets.id_producto and tickets.folio=? and estatus='autorizado'";
+$stmt=$dbConexion->prepare($sql3);
+ $stmt->bind_param("s",trim($folio));
+ $stmt->execute();
+ 
+ if($stmt->affected_rows==0){
+    echo 'este ticket ya fue cancelado o facturado';
+    
+    die();
+ }
+if($stmt){
+    $stmt->close();
+   
+    echo'actualizacion exitosa';
+
+}else{
+    echo 'no quedo';
+    $sql->error;
+}
+$delete =$dbConexion->query("update cotizacionTemporal set eliminado='si' where eliminado='no'");
+  if(!$query||!$delete){
     $dbConexion->error;
     echo 'error';
   }else{
       echo 'dato insertado exitosamente';
       $pst->close();
       $dbConexion->close();
-  }*/
- 
+  }
+  
+  echo '<script>
+    alert("ticket generdo exitosamente cierre la ventana del nvegador para continuar");
+  </script>';
+  exit();
 ?>

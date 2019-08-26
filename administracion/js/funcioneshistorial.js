@@ -13,6 +13,9 @@ $(document).on('ready',funcionMain);
         $('#anteriorPaginaCotizacion').on('click',listarCotizacionAnterior);
         $('#siguientePaginaOrden').on('click',listarOrdenSiguiente);
         $('#anteriorPaginaOrden').on('click',listarOrdenAnterior);
+        $('#buscarC').on('click',buscarCotizacion);
+        $('#buscarT').on('click',buscartickets);
+        $('#buscarO').on('click',buscarOrdenes);
        // $('#siguientePaginaTicket').on('click',listarTicketSiguiente);
        // $('#anteriorPaginaTicket').on('click',listarTicketAnterior);
      // $('#actualizarProductos').on('click',actualizarProductos);
@@ -47,6 +50,45 @@ function Cotizacion(){
         url:'crud.php',
         type:'POST',
         data:{opcion,accion,rango},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+				
+			
+				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
+				
+				</tr>
+                `
+            });
+            $('#content_table').html(template);
+            mostrarCotizacion();
+        }
+    })
+     
+}
+function buscarCotizacion(){
+    
+    var opcion='cotizaciones';
+    var accion='consultar';
+    var template="";
+    var folio=document.getElementById('txtCotizacion').value;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,folio},
         success:function (respuesta){
            
             var jason=JSON.parse(respuesta);
@@ -205,6 +247,44 @@ function ordenes(){
     })
      
 }
+function buscarOrdenes(){
+       
+    var opcion='ordenes';
+    var accion='consultar';
+    var template="";
+    var folio=document.getElementById('txtOrden').value;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,folio},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+                
+            
+                <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+                <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+                <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+                <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+                <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
+                 
+                
+                </tr>
+                `
+            });
+            $('#content_tableOrden').html(template);
+            mostrarOrden();
+        }
+    })
+     
+}
   function listarOrdenSiguiente(){
     if(j==0){
         j=1;
@@ -319,6 +399,45 @@ function tickets(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Cancelar</a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Facturar  </a>
+                 </td>
+                 
+				
+				</tr>
+                `
+            });
+            $('#content_tableTicket').html(template);
+            mostrarTikect();
+        }
+    })
+     
+}
+function buscartickets(){
+    
+    var opcion='tickets';
+    var accion='consultar';
+    var template="";
+    var folio=document.getElementById('txtTicket').value;
+    $.ajax({
+        url:'crud.php',
+        type:'POST',
+        data:{opcion,accion,folio},
+        success:function (respuesta){
+           
+            var jason=JSON.parse(respuesta);
+            jason.forEach(element => {
+                template+=`
+                <tr>
+				
+			
+				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+				<td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                  </td>
@@ -333,7 +452,6 @@ function tickets(){
     })
      
 }
-
 function listarTicketSiguiente(){
     if(k==0){
         k=1;
@@ -362,8 +480,8 @@ function listarTicketSiguiente(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
-                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Cancelar  </a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Facturar  </a>
                  </td>
                  
 				
@@ -407,8 +525,8 @@ function listarTicketAnterior(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
-                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Cancelar  </a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Facturar </a>
                  </td>
                  
 				
@@ -463,11 +581,11 @@ var aux2="";
             <TABLE WIDTH=100%>
                     
             <TR>
-            <TD>pendientes ${element.pendiente}</TD>
-            <TD>autorizadas ${element.autorizado}</TD>
+            <TD>Pendientes ${element.pendiente}</TD>
+            <TD>Autorizadas ${element.autorizado}</TD>
             </TR>
-            <TD>facturado</TD>
-            <TD>no facturado</TD>
+            <TD>Facturado</TD>
+            <TD>No Facturado</TD>
             <TR>
                 <Td>${element.facturado}</Td>
                 <Td>${element.no_facturado}</Td>
@@ -502,7 +620,7 @@ var aux2="";
   function listarEstadistica(){
    
     var opcion='historial';
-    var accion='listar';
+    var accion='listarTickets';
     $.ajax({
         url:'crud.php',
         type:'POST',
@@ -519,11 +637,11 @@ var aux2="";
                  <TABLE WIDTH=100%>
                          
                  <TR>
-                 <TD>pendientes ${element.pendiente}</TD>
-                 <TD>autorizadas ${element.autorizado}</TD>
+                 <TD>Cancelados ${element.pendiente}</TD>
+                 <TD>Autorizados ${element.autorizado}</TD>
                  </TR>
-                 <TD>facturado</TD>
-                 <TD>no facturado</TD>
+                 <TD>Facturado</TD>
+                 <TD>No Facturado</TD>
                  <TR>
                      <Td>${element.facturado}</Td>
                      <Td>${element.no_facturado}</Td>
@@ -570,13 +688,13 @@ var aux2="";
                  <TABLE WIDTH=100%>
                          
                  <TR>
-                 <TD>pendientes ${element.pendiente}</TD>
-                 <TD>autorizadas ${element.autorizado}</TD>
+                 <TD>Pendientes ${element.pendiente}</TD>
+                 <TD>Autorizadas ${element.autorizado}</TD>
                  </TR>
                  <TD>Total</TD>
                  <TD>Compras</TD>
                  <TR>
-                     <Td>total</Td>
+                     <Td>Total</Td>
                      <Td>${element.facturado}</Td>
                      
                  </TR>

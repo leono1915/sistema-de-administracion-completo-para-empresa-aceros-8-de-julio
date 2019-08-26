@@ -20,11 +20,11 @@
           break;
             case 'proveedores':
             switch($accion){
-              case 'listar':   break;
-              case 'crear':    break;
-              case 'consultar':    break;
-              case 'modificar':    break;
-              case 'eliminar':    break;
+              case 'listar': listarProveedores();   break;
+              case 'crear':   agregarProveedores(); break;
+              case 'consultar': buscarProveedores();   break;
+              case 'modificar': modificarProveedores();  break;
+              case 'eliminar':  eliminarProveedores();  break;
               break; default: die('no existe opcion');  break;
              }
             
@@ -45,7 +45,7 @@
           switch($accion){
             case 'listar': listarCotizaciones();  break;
             case 'crear':    break;
-            case 'consultar':    break;
+            case 'consultar':  buscarCotizaciones();  break;
             case 'modificar':    break;
             case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
@@ -56,7 +56,7 @@
           switch($accion){
             case 'listar': listarordenes();  break;
             case 'crear':    break;
-            case 'consultar':    break;
+            case 'consultar': buscarOrdenes();   break;
             case 'modificar':    break;
             case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
@@ -65,9 +65,9 @@
           break;
           case 'tickets':
           switch($accion){
-            case 'listar':   break;
+            case 'listar': listarTickets();  break;
             case 'crear':    break;
-            case 'consultar':    break;
+            case 'consultar':buscarTickets();    break;
             case 'modificar':    break;
             case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
@@ -112,6 +112,138 @@
             }
             $jason[]= array(
               'nombre'=>$nombreFinal,
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
+              'facturado'=>$l['facturado']
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         
+         //                                                    funcion buscar cotizaciones
+     function  buscarCotizaciones(){
+          include '../conecta.php';
+         $folio=$_POST['folio'];
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, historialVentas.* from historialVentas 
+     join clientes where clientes.id=historialVentas.id_cliente and folio = '$folio' group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          if($sql->num_rows==0){
+            return;
+          }
+          $jason= array();
+          foreach($sql as $l){
+            $nombreFinal=$l['nombre'];
+            if(empty($nombreFinal)){
+              $nombreFinal=$nombreFinal.$l['nombre_agente'];
+            }
+            $jason[]= array(
+              'nombre'=>$nombreFinal,
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
+              'facturado'=>$l['facturado']
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         //                                                      funcion listar tickets
+         function  listarTickets(){
+          include '../conecta.php';
+          $rango=$_POST['rango'];
+       
+       $limitInf=$_POST['rangoInf'];
+       if(empty($limitInf)){
+         $limitInf=0;
+       } 
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, tickets.* from tickets 
+     join clientes where clientes.id=tickets.id_cliente group by folio limit $limitInf,$rango ;");
+          if(!$sql){
+            die( 'error');
+          } 
+          $jason= array();
+          foreach($sql as $l){
+            $nombreFinal=$l['nombre'];
+            if(empty($nombreFinal)){
+              $nombreFinal=$nombreFinal.$l['nombre_agente'];
+            }
+            $jason[]= array(
+              'nombre'=>$nombreFinal,
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
+              'facturado'=>$l['facturado']
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         } 
+         //                                                      funcion buscar tickets
+         function  buscarTickets(){
+          include '../conecta.php';
+         $folio=$_POST['folio'];
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, tickets.* from tickets 
+     join clientes where clientes.id=tickets.id_cliente and folio = '$folio' group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          if($sql->num_rows==0){
+            return;
+          }
+          $jason= array();
+          foreach($sql as $l){
+            $nombreFinal=$l['nombre'];
+            if(empty($nombreFinal)){
+              $nombreFinal=$nombreFinal.$l['nombre_agente'];
+            }
+            $jason[]= array(
+              'nombre'=>$nombreFinal,
+              'fecha'=>$l['fecha'],
+              'folio'=>$l['folio'],
+              'estatus'=>$l['estatus'],
+              'total'=>$l['total'],
+              'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
+              'facturado'=>$l['facturado']
+            );
+             
+          }
+          $respuesta=json_encode($jason);
+          echo $respuesta;
+         }  
+         //                                                      funcion buscar ordenes de compra
+         function  buscarOrdenes(){
+          include '../conecta.php';
+         $folio=$_POST['folio'];
+          //aqui hago mis uniones de la base de datos
+     $sql=$dbConexion->query("select proveedores.nombre, historialcompras.* from historialcompras
+     join proveedores where proveedores.id=historialcompras.id_cliente and folio = '$folio' group by folio;");
+          if(!$sql){
+            die( 'error');
+          } 
+          if($sql->num_rows==0){
+            return;
+          }
+          $jason= array();
+          foreach($sql as $l){
+            
+            $jason[]= array(
+              'nombre'=>$l['nombre'],
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
               'estatus'=>$l['estatus'],
@@ -234,7 +366,7 @@ $sql=$dbConexion->query("
 SELECT Mes,no_facturado,facturado,no_facturado+facturado as total,autorizado,pendiente
 FROM (SELECT MONTH(Fecha) AS Mes,
 count(if(estatus='autorizado',1,null)) as autorizado,
-count(if(estatus='pendiente',1,null)) as pendiente
+count(if(estatus='cancelado',1,null)) as pendiente
 ,SUM(IF(YEAR(Fecha)=$anio&&facturado='si',Total,0)) As 'facturado'
 ,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
 FROM  (select * from tickets group by folio) as nu group by mes) as ventas;
@@ -295,33 +427,32 @@ echo $respuesta;
              //                                         funcion listar proveedores
 
    function  listarProveedores(){
-          include '../conecta.php';
-          $rango=$_POST['rango'];
-       
-       $limitInf=$_POST['rangoInf'];
-       if(empty($limitInf)){
-         $limitInf=0;
-       } 
-          //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente group by folio limit $limitInf,$rango;");
-          if(!$sql){
-            die( 'error');
-          } 
-          $jason= array();
-          foreach($sql as $l){
-            $jason[]= array(
-              'nombre'=>$l['nombre'],
-              'fecha'=>$l['fecha'],
-              'folio'=>$l['folio'],
-              'estatus'=>$l['estatus'],
-              'total'=>$l['total'],
-              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
-            );
-             
-          }
-          $respuesta=json_encode($jason);
-          echo $respuesta;
+    include '../conecta.php';
+    $rango=$_POST['rango'];
+     
+     $limitInf=$_POST['rangoInf'];
+     if(empty($limitInf)){
+       $limitInf=0;
+     } 
+        //aqui hago mis uniones de la base de datos
+   $sql=$dbConexion->query("select * from proveedores limit $limitInf,$rango;");
+        if(!$sql){
+          die( 'error');
+        } 
+        $jason= array();
+        foreach($sql as $l){
+          $jason[]= array(
+            'id'=>$l['id'],
+            'nombre'=>$l['nombre'],
+            'domicilio'=>$l['direccion'],
+            'telefono'=>$l['telefono'],
+            'rfc'=>$l['rfc'],
+            'correo'=>$l['correo']
+          );
+           
+        }
+        $respuesta=json_encode($jason);
+        echo $respuesta;
          }  
 
                       //                                         funcion listar ordenes de compra
@@ -335,8 +466,8 @@ echo $respuesta;
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre, historialCompras.* from historialCompras 
-     join clientes where clientes.id=historialCompras.id_cliente group by folio limit $limitInf,$rango;");
+     $sql=$dbConexion->query("select proveedores.nombre, historialCompras.* from historialCompras 
+     join  proveedores where  proveedores.id=historialCompras.id_cliente group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
@@ -593,6 +724,109 @@ function  buscarProductos(){
         $stm->close();
         $dbConexion->close();
       }
+
+
+
+      // ------------------------------------- aqui empiezan las funciones de crud de proveedores      -----------------------------                
+                                               //        funcion agregar proveedor
+      function agregarProveedores(){
+        include '../conecta.php';
+        $nombre       =$_POST['nombre'];
+        $mail=$_POST['mail'];
+        $rfc=$_POST['rfc'];
+        $direccion=$_POST['direccion'];
+        $telefono=$_POST['telefono'];
+        $query='insert into proveedores values (null,?,?,?,?,?)';
+        $stm=$dbConexion->prepare($query);
+        $stm->bind_param("sssss",$nombre,$direccion,$telefono,$rfc,$mail);
+        $stm->execute();
+        if($stm->affected_rows==0){
+          echo 'no se pudo realizar el registro';
+          die();
+        }
+        if(!stm){
+          echo 'no se pudo registrar';
+          die();
+        }
+        echo 'proveedor registrado exitosamente';
+        $stm->close();
+        $dbConexion->close();
+      }
+  //                                         funcion buscar Proveedores
+
+function  buscarProveedores(){
+        include '../conecta.php';
+        $rfc=$_POST['rfc'];
+        $query="select * from proveedores where rfc='$rfc' ";
+        $sql=$dbConexion->query($query);
+       
+        if(!$sql||$sql->num_rows==0){
+          echo 'no se existe proveedor con ese rfc';
+          die();
+        } 
+        $jason= array();
+        foreach($sql as $l){
+          $jason[]= array(
+            'id'=>$l['id'],
+            'nombre'=>$l['nombre'],
+            'domicilio'=>$l['direccion'],
+            'telefono'=>$l['telefono'],
+            'rfc'=>$l['rfc'],
+            'correo'=>$l['correo']
+          );
+           
+        }
+        $respuesta=json_encode($jason);
+       
+        echo $respuesta;
+       } 
+  //                                         funcion eliminar Proveedores
+       function  eliminarProveedores(){
+        include '../conecta.php';
+        $id=$_POST['id'];
+        $query="delete from proveedores where id='$id' ";
+        $sql=$dbConexion->query($query);
+       
+        if(!$sql){
+          echo 'no se eliminó el registro';
+          die();
+        } 
+        echo 'registro eliminado';
+       
+       } 
+  //                                         funcion modificar Proveedores
+
+    function modificarProveedores(){
+      include '../conecta.php';
+      $id=$_POST['id'];
+      $nombre =$_POST['nombre'];
+      $mail=$_POST['mail'];
+      $rfc=$_POST['rfc'];
+      $direccion=$_POST['direccion'];
+      $telefono=$_POST['telefono'];
+      //,correo=?,rfc=?,direccion=?,telefono=?,nombre_agente=?,descripcion=?,puesto=?,celular=?
+      //,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular
+      $sql="update proveedores set nombre= ?,direccion=?,telefono=?,rfc=?,correo=?
+       where id=$id";
+      $stmt=$dbConexion->prepare($sql);
+      $stmt->bind_param("sssss",$nombre,$direccion,$telefono,$rfc,$mail);
+      $stmt->execute();
+      
+      if($stmt->affected_rows==0){
+         echo 'no se pudo modificar'.$id.$nombre.$nombreAgente;
+        // echo $stmt->affected_rows;
+         die();
+      }
+     if($sql){
+         $stmt->close();
+         $dbConexion->close();
+         echo'actualizacion exitosa';
+ 
+     }else{
+         echo 'no quedo';
+         $sql->error;
+     }
+    }
 
 ?>
 

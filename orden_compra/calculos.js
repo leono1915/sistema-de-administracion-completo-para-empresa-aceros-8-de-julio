@@ -53,35 +53,12 @@ function newConcepto() {
 		var impuesto = parseFloat(subtotal) * 0.16;
 		var total_n = parseFloat(subtotal) + parseFloat(impuesto);
 
-		/*var name_table = document.getElementById("tabla_factura");
-
-		var row = name_table.insertRow(0 + 1);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
-		var cell4 = row.insertCell(3);
-		var cell5 = row.insertCell(4);
-		var cell6 = row.insertCell(5);
-		var cell7 = row.insertCell(6);
-		var cell8 = row.insertCell(7);
-		var cell9 = row.insertCell(8);
-
-		cell1.innerHTML = '<p name="numero_f[]" class="non-margin"><input type="number" name="des" class="cant" id="cantiti" value="1" min="1" max="1000" style=" color:black"></p>';
-
-		cell2.innerHTML = '<p name="descuento_p[]" class="non-margin">' + descripcion + '</p>';
-		cell3.innerHTML = '<p name="precio_p[]" class="non-margin">' + Math.round(precio * 100) / 100 + '</p>';
-		cell4.innerHTML = '<p name="subtotal_p[]" class="non-margin">' + Math.round(subtotal * 100) / 100 + '</p>';
-		cell5.innerHTML = '<p name="impuesto_p[]" class="non-margin">' + Math.round(impuesto * 100) / 100 + '</p>';
-		cell6.innerHTML = '<p name="total_p[]" class="non-margin">' + Math.round(total_n * 100) / 100 + '</p>';
-		cell7.innerHTML = '<span ">     </span><span class="icon fa-eraser"></span>';
-		cell8.innerHTML = '<p name="id_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="concepto" value="0" ></p>';
-		cell9.innerHTML = '<p name="cantidad_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value="0" ></p>';
-*/
+	
 		//Para calcular los totales enviando los parametros
 		calculateTotals(precio, subtotal, impuesto, total_n, 1);
 		tablaParametros(1,descripcion,an=  Math.round(precio * 100) / 100,
 		subtotal= Math.round(subtotal * 100) / 100 ,iva=Math.round(impuesto * 100) / 100,total= Math.round(total_n* 100) / 100,
-		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0);
+		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0,0,0);
 		closeConcepto();
 	}
 
@@ -163,8 +140,25 @@ function calcularNewTotal() {
     
 	var a = objeto(this);
 	var idCotizacion= a.getElementsByTagName("td")[9].getElementsByTagName("input")[0].value;
+	var tramos= parseFloat(a.getElementsByTagName("td")[11].getElementsByTagName("input")[0].value);
+	var metros= parseFloat(a.getElementsByTagName("td")[10].getElementsByTagName("input")[0].value);
+	var cantidad = parseInt(a.getElementsByTagName("td")[0].getElementsByTagName("input")[0].value);
+	var auxMetros=(metros*(1/6));
 	
-	var cantidad = a.getElementsByTagName("td")[0].getElementsByTagName("input")[0].value;
+	if(tramos>1&&metros!=0){
+		alert('solo puede incrementar unidades');
+		return;
+	}else if(tramos!=0&&metros>0){
+		alert('solo puede incrementar unidades');
+		return;
+	}else if(tramos>1){
+		alert('solo puede incrementar unidades');
+		return;
+	}
+	
+	var cantidadT;
+	cantidadT=(tramos+auxMetros)*cantidad;
+	//alert(cantidadT+" "+cantidad+" "+auxMetros);
 	var precio = a.getElementsByTagName("td")[2].getElementsByTagName("p")[0].innerHTML;
 	var subtotal = cantidad * parseFloat(precio);
 	var impuesto = parseFloat(subtotal) * 0.16;
@@ -176,7 +170,7 @@ function calcularNewTotal() {
 	$.ajax({
 		url:'../actualizarInventario.php',
 		type:'POST',
-		data:{cantidad,idCotizacion,subtotal,impuesto,total_n,respuesta},
+		data:{cantidadT,cantidad,idCotizacion,subtotal,impuesto,total_n,respuesta},
 		success:function(respuesta){
 			
 			listarTablaTemporal();
@@ -200,6 +194,7 @@ function newRowTable() {
 	var tramosX = document.getElementById('selectionTramos').selectedIndex;
 	var tramosY = document.getElementById('selectionTramos').options;
 	var cantidad = tramosY[tramosX].text;
+	var tramos;
 	var metros = document.getElementById('metros').value;
 	var impuestoCredito = document.getElementById('numero').value;
 	if (impuestoCredito.length == 0) {
@@ -245,9 +240,13 @@ function newRowTable() {
 			}
 			if (cantidad == 'Tramos') {
 				cantidad = 0;
+				
+
 			}
+	       
             var descripcion = nombrey[nombrex].text + " " + medidaY[medidaX].text + " " + espesorY[espesorX].text+" tramos :"+ cantidad+" metros :"
-			+ metros;
+			+ Math.round(parseFloat(metros)*100)/100;
+			var nombreBaseDatos=nombrey[nombrex].text + " " + medidaY[medidaX].text + " " + espesorY[espesorX].text+"";
 			var costoMetros = ((parseFloat(metros) * (factorTramo)) * peso) * precio;
 			var cantidadDescontar=parseInt(cantidad)+(parseFloat(metros) * factorTramo);
 			var subtotalMetros = costoMetros * costoPerdida;
@@ -257,37 +256,19 @@ function newRowTable() {
 			var subtotal = cantidad * peso * parseFloat(precio) + costoMetros;
 			var impuesto = parseFloat(subtotal) * 0.16;
 			var total_n = parseFloat(subtotal) + parseFloat(impuesto);
+			var aux=1;
+			tramos=cantidad;
 			if(cantidad==0){
 				cantidad=1;
+				
 			}
-			/*var name_table = document.getElementById("tabla_factura");
-
-			var row = name_table.insertRow(0 + 1);
-			var cell1 = row.insertCell(0);
-			var cell2 = row.insertCell(1);
-			var cell3 = row.insertCell(2);
-			var cell4 = row.insertCell(3);
-			var cell5 = row.insertCell(4);
-			var cell6 = row.insertCell(5);
-			var cell7 = row.insertCell(6);
-			var cell8=row.insertCell(7);
-			var cell9= row.insertCell(8);
-            
-
-			cell1.innerHTML = '<p name="numero_f[]" class="non-margin"><input type="number" name="des" class="cant" id="cantiti" value="' + cantidad + '" min="1" max="1000" style=" color:black"></p>';
-			cell2.innerHTML = '<p name="descuento_p[]" class="non-margin">' + descripcion + '</p>';
-			cell3.innerHTML = '<p name="precio_p[]" class="non-margin">' + Math.round((subtotal / cantidad) * 100) / 100 + '</p>';
-			cell4.innerHTML = '<p name="subtotal_p[]" class="non-margin">' + Math.round(subtotal * 100) / 100 + '</p>';
-			cell5.innerHTML = '<p name="impuesto_p[]" class="non-margin">' + Math.round(impuesto * 100) / 100 + '</p>';
-			cell6.innerHTML = '<p name="total_p[]" class="non-margin">' + Math.round(total_n * 100) / 100 + '</p>';
-			cell7.innerHTML = '<span ">     </span><span class="icon fa-eraser"></span>';
-			cell8.innerHTML= '<p name="id_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="id" value="' + id + '"></p>';
-			cell9.innerHTML = '<p name="cantidad_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value="'+cantidadDescontar +'" ></p>';
-            */
+		   
 			//Para calcular los totales enviando los parametros
-			 tablaParametros(cantidad,descripcion,an= Math.round((subtotal / cantidad) * 100) / 100,
+			
+			
+			 tablaParametros(aux,descripcion,an= Math.round((subtotal / cantidad) * 100) / 100,
 			subtotal= Math.round(subtotal * 100) / 100 ,iva=Math.round(impuesto * 100) / 100,total= Math.round(total_n * 100) / 100,
-			accion='<span ">     </span><span class="icon fa-eraser"></span>',id,cantidadDescontar);
+			accion='<span ">     </span><span class="icon fa-eraser"></span>',id,cantidadDescontar, Math.round(parseFloat(metros)*100)/100,tramos);
 		
 			calculateTotals(precio, subtotal, impuesto, total_n, 1);
 		
@@ -495,34 +476,11 @@ function calculoDePlacas() {
 		document.getElementById('txtSubTotalPlaca').value = Math.round(subtotal * 100) / 100;
 		document.getElementById('txtIvaPlaca').value = Math.round(impuesto * 100) / 100;
 		document.getElementById('txtTotalPlaca').value = Math.round(total * 100) / 100;
-		/*var name_table = document.getElementById("tabla_factura");
-
-		var row = name_table.insertRow(0 + 1);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
-		var cell4 = row.insertCell(3);
-		var cell5 = row.insertCell(4);
-		var cell6 = row.insertCell(5);
-		var cell7 = row.insertCell(6);
-		var cell8 = row.insertCell(7);
-		var cell9 = row.insertCell(8);
-
-
-		cell1.innerHTML = '<p name="numero_f[]" class="non-margin"><input type="number" name="des" class="cant" id="cantiti" value="1" min="1" max="1000" style=" color:black"></p>';
-		cell2.innerHTML = '<p name="descuento_p[]" class="non-margin">' + descripcion + '</p>';
-		cell3.innerHTML = '<p name="precio_p[]" class="non-margin">' + Math.round(subtotal * 100) / 100 + '</p>';
-		cell4.innerHTML = '<p name="subtotal_p[]" class="non-margin">' + Math.round(subtotal * 100) / 100 + '</p>';
-		cell5.innerHTML = '<p name="impuesto_p[]" class="non-margin">' + Math.round(impuesto * 100) / 100 + '</p>';
-		cell6.innerHTML = '<p name="total_p[]" class="non-margin">' + Math.round(total * 100) / 100 + '</p>';
-		cell7.innerHTML = '<span ">     </span><span class="icon fa-eraser"></span>';
-		cell8.innerHTML = '<p name="id_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="concepto" value="0" ></p>';
-		cell9.innerHTML = '<p name="cantidad_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value="0" ></p>';
-*/
+	
 		
 		tablaParametros(1,descripcion,an= Math.round(subtotal * 100) / 100 ,
 		subtotal1= Math.round(subtotal * 100) / 100 ,iva1=Math.round(impuesto * 100) / 100,total1= Math.round(total* 100) / 100,
-		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0);
+		accion='<span ">     </span><span class="icon fa-eraser"></span>',250,0,0,0);
 		calculateTotals(subtotal, subtotal, impuesto, total, 1);
 	}
 }
@@ -573,6 +531,8 @@ function listarTablaTemporal(){
 				<td><p name="id_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="concepto" value=${element.id}></p></td>
 				<td><p name="cantidad_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value=${element.cantidadDescontar}></p></td>
 				<td ><p name="cantidad2_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value=${element.idCotizacion}></p></td>
+				<td><p name="cantidad3_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value=${element.metros}></p></td>
+				<td><p name="cantidad3_f[]" class="non-margin"><input type="hidden" name="des" class="cant" id="" value=${element.tramos}></p></td>
 				</tr>
 				`
 			});
@@ -581,12 +541,12 @@ function listarTablaTemporal(){
 		}
 	})
 }
-function tablaParametros(cantidad,descripcion,precioUnitario,subtotal,iva,total,accion,id,cantidadDescontar){
+function tablaParametros(cantidad,descripcion,precioUnitario,subtotal,iva,total,accion,id,cantidadDescontar,metros,tramos){
 
 	$.ajax({
 		url:'tablaTemporal.php',
 		type:'POST',
-		data:{cantidad,descripcion,precioUnitario,subtotal,iva,total,accion,id,cantidadDescontar},
+		data:{cantidad,descripcion,precioUnitario,subtotal,iva,total,accion,id,cantidadDescontar,metros,tramos},
 		success:function(respuesta){
 			//alert(respuesta);
 			listarTablaTemporal();

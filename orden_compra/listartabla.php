@@ -3,21 +3,6 @@
 <?php
 include '../conecta.php';
 
-/*${element.cantidad
-    ${element.descripcion
-    ${element.precioUnitario
-    ${element.subtotal
-    ${element.iva
-    ${element.total
-    ${element.accion
-    ${element.id
-    ${element.cantidadDescontar*/
-//function  precio(){
-  
-
- //$nombre=$_POST['tabla'];
-  // $medida="3/4";
-  // $espesor="1/8";
   $sqlQuery="select * from  ordenCompra ";
   $query = $dbConexion->query($sqlQuery);
 
@@ -39,7 +24,9 @@ include '../conecta.php';
         'total'=>$l['total'],
         'accion'=>$l['accion'],
         'id'=>$l['id'],
-        'cantidadDescontar'=>$l['cantidadDescontar']
+        'cantidadDescontar'=>$l['cantidadDescontar'],
+        'metros'=>$l['metros'],
+        'tramos'=>$l['tramos']
     );
     
   }
@@ -48,7 +35,7 @@ echo $respuesta;
 
 
 
-//precio();
+
 
 
 

@@ -7,14 +7,14 @@ $fecha= date("y-m-d", $time);
 
 $nombre=$_GET['nombreCliente'];
 if($nombre=='Nombre Proveedor'){
-  die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
+  die('<h1>se necesita elegir un proveedor para generar la cotización</h1>');
 }
 $sqlQuery="select * from  ordenCompra";
   $query = $dbConexion->query($sqlQuery);
   if($query->num_rows==0){
     die('<h1>no hay datos para generar orden de compra asegurese de generar la tabla de productos</h1>');
   }
-  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre'");
+  $queryCliente=$dbConexion->query("select *from proveedores where nombre='$nombre'");
   
   $result2=$dbConexion->query('select * from  historialCompras order by numero desc limit 1');
   foreach($result2 as $r){
@@ -55,9 +55,9 @@ $plantilla='
       foreach($queryCliente as $query_cliente){
         $idCliente=$query_cliente["id"];
       $plantilla.='
-        <div class="to">CLIENTE:</div>
+        <div class="to">Proveedor:</div>
         <h2 class="name">'.$query_cliente["nombre"].'</h2>
-        <div class="address">'.$query_cliente["domicilio"].'</div>
+        <div class="address">'.$query_cliente["direccion"].'</div>
         <div class="address">'.$query_cliente["telefono"].'</div>
         <div class="email"><a href="">'.$query_cliente["correo"].'</a></div>
       </div>';

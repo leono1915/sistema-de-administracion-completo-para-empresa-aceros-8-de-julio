@@ -9,7 +9,7 @@ $nombre=$_GET['nombreCliente'];
 $descuento=$_GET['descuento'];
 $datoDes;
 if($descuento!='0'){
- $datoDes="8%";
+ $datoDes="8 %";
 }else{
   $datoDes=" ";
 }
@@ -117,7 +117,7 @@ $plantilla='
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">IVA'.$datoDes.'</td>
+          <td colspan="2">IVA '.$datoDes.'</td>
           <td>'.floatval($iva-$descuento).'</td>
         </tr>
         <tr>

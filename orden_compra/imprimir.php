@@ -20,7 +20,7 @@ $sqlQuery="select * from  ordenCompra ";
  if($nombre=='Nombre Proveedor'){
    die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
  }
-  $queryCliente=$dbConexion->query("select *from clientes where nombre='$nombre' or nombre_agente='$nombre'");
+  $queryCliente=$dbConexion->query("select *from proveedores where nombre='$nombre'");
 
   if(!$query||!$queryCliente){
     $dbConexion->error;
@@ -59,7 +59,7 @@ $plantilla='
       $plantilla.='
         <div class="to">CLIENTE:</div>
         <h2 class="name">'.$query_cliente["nombre"].'</h2>
-        <div class="address">'.$query_cliente["domicilio"].'</div>
+        <div class="address">'.$query_cliente["direccion"].'</div>
         <div class="address">'.$query_cliente["telefono"].'</div>
         <div class="email"><a href="">'.$query_cliente["correo"].'</a></div>
       </div>';

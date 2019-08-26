@@ -41,7 +41,12 @@
           return;
 		}
 		var respuesta='actualizarInventarioResta';
-		var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no");
+		var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no").toLowerCase();
+		
+		if(facturado!='no'&& facturado!='si'){
+			alert('respuesta no válida');
+			return;
+		}
 		$.ajax({
 			url:'../actualizarInventario.php',
 			type:'POST',
@@ -53,6 +58,52 @@
 		})
 
 }
+ //                              actualizar ticket
+ function iraT(objectpressed){
+			
+	var object=objectpressed.parentNode.parentNode;
+		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		if(!confirm(`cambiará el estatus del ticket a cancelado una vez haciendo esto ya no podrá
+	       cambiar el estatus y los productos serán sumados al inventario`)){
+			
+          return;
+		}
+		var respuesta='actualizarInventarioSumaTicket';
+		//var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no");
+		$.ajax({
+			url:'../actualizarInventario.php',
+			type:'POST',
+			data:{folio,respuesta},
+			success:function(respuesta){
+				alert(respuesta);
+				location.href="historial.html";
+			}
+		})
+		}
+
+		function actualizarTicket(objectpressed){
+        
+        var object=objectpressed.parentNode.parentNode;
+		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		if(!confirm(`cambiará el estatus del ticket a facturado desea continuar`)){
+			
+          return;
+		}
+		var respuesta='actualizarEstatusTicket';
+		//var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no").toLocaleLowerCase();
+	
+		$.ajax({
+			url:'../actualizarInventario.php',
+			type:'POST',
+			data:{folio,respuesta},
+			success:function(respuesta){
+				alert(respuesta);
+				location.href="historial.html";
+			}
+		})
+
+}
+
 function actualizarOrden(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
@@ -188,16 +239,20 @@ function actualizarOrden(objectpressed){
 									</div>
 									<div class="0u 12u$(xsmall)">
 
-										<label for="buscarCotizacion"> Buscar </label>
+										<input id="buscarC" type="button" value="Buscar" >
+													
+					
+												
+														
+														
+											
+											
+										</div>
+											<div class=" 2u 12u$(xsmall)">
 
 
 
-
-
-									</div>
-									<div class="2u 12u$(xsmall)">
-
-										<input type="text" name="" id="buscarCotizacion" placeholder="Folio">
+										<input type="text" name="" placeholder="Folio" id="txtCotizacion">
 
 
 
@@ -288,17 +343,21 @@ function actualizarOrden(objectpressed){
 	
 										</div>
 										<div class="0u 12u$(xsmall)">
+
+											<input id="buscarO" type="button" value="Buscar" >
+														
+						
+													
+															
+															
+												
+												
+											</div>
+												<div class=" 2u 12u$(xsmall)">
 	
-											<label for="buscarOrden"> Buscar </label>
 	
 	
-	
-	
-	
-										</div>
-										<div class="2u 12u$(xsmall)">
-	
-											<input type="text" name="" id="buscarOrden" placeholder="Folio">
+											<input type="text" name="" placeholder="Folio" id="txtOrden">
 	
 	
 	
@@ -388,17 +447,21 @@ function actualizarOrden(objectpressed){
 	
 										</div>
 										<div class="0u 12u$(xsmall)">
+
+											<input id="buscarT" type="button" value="Buscar" >
+														
+						
+													
+															
+															
+												
+												
+											</div>
+												<div class=" 2u 12u$(xsmall)">
 	
-											<label for="buscarTicket"> Buscar </label>
 	
 	
-	
-	
-	
-										</div>
-										<div class="2u 12u$(xsmall)">
-	
-											<input type="text" name="" id="buscarTicket" placeholder="Folio">
+											<input type="text" name="" placeholder="Folio" id="txtTicket">
 	
 	
 	

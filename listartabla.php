@@ -29,6 +29,7 @@ include 'conecta.php';
   foreach($query as $l){
 
     
+    
     $jason[]= array(
         'idCotizacion'=>$l['id_cotizacion'],
         'cantidad'=>$l['cantidad'],
@@ -39,7 +40,9 @@ include 'conecta.php';
         'total'=>$l['total'],
         'accion'=>$l['accion'],
         'id'=>$l['id'],
-        'cantidadDescontar'=>$l['cantidadDescontar']
+        'cantidadDescontar'=>$l['cantidadDescontar'],
+        'metros'=>$l['metros'],
+        'tramos'=>$l['tramos']
     );
     
   }

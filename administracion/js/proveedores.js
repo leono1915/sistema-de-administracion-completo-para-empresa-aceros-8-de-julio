@@ -5,20 +5,20 @@ function principal(){
  //alert('si leo')
   //fun();
  
-  $('#siguientePagina').on('click',listarClientesSiguiente);
-  $('#anteriorPagina').on('click',listarClientesAnterior);
-  $('#add_row').on('click',agregarClientes);
-  $('#buscarCliente').on('click',buscarClientes);
-  listarClientes();
+  $('#siguientePagina').on('click',listarProveedoresSiguiente);
+  $('#anteriorPagina').on('click',listarProveedoresAnterior);
+  $('#add_row').on('click',agregarProveedores);
+  $('#buscar').on('click',buscarProveedores);
+  listarProveedores();
   
 }
 
 
 
-function listarClientes(){
+function listarProveedores(){
 
   
-  var opcion='clientes';
+  var opcion='proveedores';
   var accion='listar';
   var template="";
   var rango=document.getElementById('rango_page').value;
@@ -38,10 +38,10 @@ function listarClientes(){
               <tr>
               <td style="display:none;"> ${element.id} </td>
               <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
-              <td><p name="fecha_p[]" class="non-margin">   ${element.nombre_agente}</p></td>
+            
               <td><p name="folio_p[]" class="non-margin"> ${element.domicilio}</p></td>
               <td><p name="estatus_p[]" class="non-margin"> ${element.telefono}</p></td>
-              <td><p name="total_p1[]" class="non-margin">    ${element.celular}</p></td>
+              
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
@@ -65,7 +65,7 @@ function listarClientes(){
    
 }
 var i=0;
-function listarClientesSiguiente(){
+function listarProveedoresSiguiente(){
   if(i==0){
     i=1;
   }
@@ -74,8 +74,8 @@ function listarClientesSiguiente(){
   var rangoInf=document.getElementById('rango_page').value*i;
   //document.getElementsByName('fecha_p[]').length;
   
-  var factorCantidad=(1/6);
-  var opcion='clientes';
+  
+  var opcion='proveedores';
   var accion='listar';
   var template="";
   var rango=(document.getElementById('rango_page').value*i)/i;
@@ -96,10 +96,10 @@ console.log(rangoInf+"  "+rango);
               <tr>
               <td style="display:none;"> ${element.id} </td>
               <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
-              <td><p name="fecha_p[]" class="non-margin">   ${element.nombre_agente}</p></td>
+             
               <td><p name="folio_p[]" class="non-margin"> ${element.domicilio}</p></td>
               <td><p name="estatus_p[]" class="non-margin"> ${element.telefono}</p></td>
-              <td><p name="total_p1[]" class="non-margin">    ${element.celular}</p></td>
+            
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
@@ -123,7 +123,7 @@ console.log(rangoInf+"  "+rango);
 }
 
 
-function listarClientesAnterior(){
+function listarProveedoresAnterior(){
  
   
   var rangoInf;
@@ -132,7 +132,7 @@ function listarClientesAnterior(){
   rangoInf=(document.getElementById('rango_page').value*(i-2));
  if(i==1) return;
 
-  var opcion='clientes';
+  var opcion='proveedores';
   var accion='listar';
   var template="";
   var rango=(document.getElementById('rango_page').value);
@@ -154,10 +154,10 @@ function listarClientesAnterior(){
               <tr>
               <td style="display:none;"> ${element.id} </td>
               <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
-              <td><p name="fecha_p[]" class="non-margin">   ${element.nombre_agente}</p></td>
+            
               <td><p name="folio_p[]" class="non-margin"> ${element.domicilio}</p></td>
               <td><p name="estatus_p[]" class="non-margin"> ${element.telefono}</p></td>
-              <td><p name="total_p1[]" class="non-margin">    ${element.celular}</p></td>
+              
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 
@@ -184,52 +184,22 @@ function listarClientesAnterior(){
    
 }
 
-function fun(){
 
-  
-   var l= document.getElementById('contenedorPaginacion'),i=1;
-  
-      
-     var text=`
-     <div class="row uniform" id="contenedor-padrePagina">
-     <div class="1u 12u$(xsmall)"  id="padrePagina">
-      <input type="button" name="nombre" id="anteriorPagina" value="Ant" /> 
-     </div>
-     <div class="1u 12u$(xsmall)"  id="padrePagina">
-    
-       <input type="button" name="nombre" id="numeroPagina" value="${i}" /> 
-    
-     </div>
-     <div class="1u 12u$(xsmall)" " id="padrePagina">
-    
-     <input type="button" name="nombre" id="siguientePagina" value="Sig" /> 
-     
-     </div>
-     </div>
-     `
-     //l.appendChild(text); 
-     $("#contenedorPaginacion").append(text);
+
+
+
+function agregarProveedores(){
+
+     var nombre=document.getElementById('nombreProveedores').value;
+     var mail=document.getElementById('correoProveedores').value;
+     var rfc=document.getElementById('rfcProveedores').value;
+     var direccion=document.getElementById('direccionProveedores').value;
+     var telefono=document.getElementById('telefonoProveedores').value;
    
-  
-}
-
-
-
-function agregarClientes(){
-
-     var nombre=document.getElementById('nombreCliente').value;
-     var mail=document.getElementById('correoCliente').value;
-     var rfc=document.getElementById('rfcCliente').value;
-     var direccion=document.getElementById('direccionCliente').value;
-     var telefono=document.getElementById('telefonoCliente').value;
-     var nombreAgente=document.getElementById('nombreAgente').value;
-     var descripcion=document.getElementById('descripcion').value;
-     var puesto=document.getElementById('puestoAgente').value;
-     var celular=document.getElementById('celularAgente').value;
-     var opcion='clientes';
+     var opcion='proveedores';
      var accion='crear';
      if(! isValidEmail(mail)||nombre.length<3||rfc.length<12||telefono.length<8){
-          alert('verifique que el email rfc telefono de empresa y nombre de empresa o agente no estén vacios');
+          alert('verifique que el email rfc y telefono  no estén vacíos');
           return;
      }
      $.ajax({
@@ -240,13 +210,10 @@ function agregarClientes(){
         rfc,
         direccion,
         telefono,
-        nombreAgente,
-        descripcion,
-        puesto,
-        celular},
+       },
        success:function(respuesta){
           alert(respuesta);
-          listarClientes();
+          listarProveedores();
        }
      })
 
@@ -260,14 +227,14 @@ function isValidEmail(mail) {
 
 
 
-function buscarClientes(){
+function buscarProveedores(){
  
-   var rfc=document.getElementById('buscar').value.toUpperCase();
+   var rfc=document.getElementById('buscarP').value.toUpperCase();
    if(rfc.length<12){
      alert('rfc inválido');
      return;
    }
-   var opcion='clientes';
+   var opcion='proveedores';
    var accion='consultar';
   
     $.ajax({
@@ -284,10 +251,8 @@ function buscarClientes(){
               <tr>
               <td style="display:none;"> ${element.id} </td>
               <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
-              <td><p name="fecha_p[]" class="non-margin">   ${element.nombre_agente}</p></td>
               <td><p name="folio_p[]" class="non-margin"> ${element.domicilio}</p></td>
               <td><p name="estatus_p[]" class="non-margin"> ${element.telefono}</p></td>
-              <td><p name="total_p1[]" class="non-margin">    ${element.celular}</p></td>
               <td>${element.rfc}</td>
               <td><p name="total_p2[]" class="non-margin">    ${element.correo}</p></td>
                 <td> 

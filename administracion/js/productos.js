@@ -305,6 +305,7 @@ function crearProductos() {
     data: { nombre, medida, espesor, peso, precio, cantidad, opcion, accion },
     success: function (respuesta) {
       alert(respuesta);
+      listarProductos();
 
     }
   })

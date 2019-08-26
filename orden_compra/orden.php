@@ -269,7 +269,7 @@ include '../conecta.php';
 											<select name="" id="selectionNameCliente">
                                             <option value=""> Nombre Proveedor</option>
 												<?php
-											$query= $dbConexion->query('select id, nombre from clientes');
+											$query= $dbConexion->query('select id, nombre from proveedores');
                                             foreach($query as $result){
 												?>
 												
@@ -358,7 +358,7 @@ include '../conecta.php';
 												<option id="">Tramos</option>
 												<?php
 										    $i=1;
-                                            while($i<=1000){
+                                            while($i<=100){
 												?>
 												
 											 <!-- <input type="button" name="numero" id="numero" value="" placeholder="N°" />-->

@@ -380,7 +380,7 @@ include 'conecta.php';
 												<option id="">Tramos</option>
 												<?php
 										    $i=1;
-                                            while($i<=1000){
+                                            while($i<=100){
 												?>
 												
 											 <!-- <input type="button" name="numero" id="numero" value="" placeholder="N°" />-->
