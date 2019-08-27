@@ -2,23 +2,10 @@
 
 <?php
 include 'conecta.php';
+session_start();
+$varsesion=$_SESSION['usuario'];
 
-/*${element.cantidad
-    ${element.descripcion
-    ${element.precioUnitario
-    ${element.subtotal
-    ${element.iva
-    ${element.total
-    ${element.accion
-    ${element.id
-    ${element.cantidadDescontar*/
-//function  precio(){
-  
-
- //$nombre=$_POST['tabla'];
-  // $medida="3/4";
-  // $espesor="1/8";
-  $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
+  $sqlQuery="select * from  cotizacionTemporal where eliminado='no' and usuario='$varsesion'";
   $query = $dbConexion->query($sqlQuery);
 
   if(!$query){

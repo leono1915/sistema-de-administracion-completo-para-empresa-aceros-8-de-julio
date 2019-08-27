@@ -534,7 +534,7 @@ echo $respuesta;
           $celular=$_POST['celular'];
           $query='insert into clientes values (null,?,?,?,?,?,?,?,?,?)';
           $stm=$dbConexion->prepare($query);
-          $stm->bind_param("sssssssss",$nombre,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular);
+          $stm->bind_param("sssssssss",$nombre,$nombreAgente,$direccion,$puesto,$telefono,$celular,$rfc,$mail,$descripcion);
           $stm->execute();
           if($stm->affected_rows==0){
             echo 'no se pudo realizar el registro';

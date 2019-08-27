@@ -2,8 +2,9 @@
 
 <?php
 include '../conecta.php';
-
-  $sqlQuery="select * from  ordenCompra ";
+session_start();
+$varsesion=$_SESSION['usuario'];
+  $sqlQuery="select * from  ordenCompra where usuario='$varsesion'";
   $query = $dbConexion->query($sqlQuery);
 
   if(!$query){

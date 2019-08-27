@@ -1,5 +1,7 @@
 <?php
 include 'conecta.php';
+session_start();
+$varsesion=$_SESSION['usuario'];
 $cantidad  =$_POST['cantidad'];
 $metros  =$_POST['metros'];
 $tramos  =$_POST['tramos'];
@@ -12,8 +14,8 @@ $accion=$_POST['accion'];
 $id=$_POST['id'];
 $no='no';
 $cantidadDescontar=$_POST['cantidadDescontar'];
-$pst=$dbConexion->prepare("insert into cotizacionTemporal values(null,?,?,?,?,?,?,?,?,?,?,?,?)");
-$pst->bind_param('isddddsissdd',$cantidad,$descripcion,$precioUnitario,$subtotal,$iva,$total,$accion,$id,$cantidadDescontar,$no,$metros,$tramos);
+$pst=$dbConexion->prepare("insert into cotizacionTemporal values(null,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+$pst->bind_param('isddddsissdds',$cantidad,$descripcion,$precioUnitario,$subtotal,$iva,$total,$accion,$id,$cantidadDescontar,$no,$metros,$tramos,$varsesion);
 $query= $pst->execute();
   
 

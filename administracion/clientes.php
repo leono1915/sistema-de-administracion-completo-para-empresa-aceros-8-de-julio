@@ -117,7 +117,7 @@
 
 								</div>
 								<div class="4u 12u$(xsmall)">
-									<input type="text" name="nombre" id="nombreAgente" value="" placeholder="Agente" />
+									<input type="text" name="nombre" id="nombreAgente" value="" placeholder="agente" />
 
 
 								</div>

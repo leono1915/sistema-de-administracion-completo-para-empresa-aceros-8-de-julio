@@ -189,8 +189,8 @@
                       ?>
                                     <input type="text" name="nombre" id="nombreAgente" value="<?php 
                                     echo $l['nombre_agente'];
-                                    ?>
-                                    " placeholder="Agente" />
+                                    ?>"
+                                     placeholder="Agente" />
                                     <?php
                   }
                   ?>
