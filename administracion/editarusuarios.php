@@ -1,9 +1,13 @@
-
 <?php
  
  
  include '../conecta.php';
- $id=$_GET['id'];
+ session_start();
+if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
+	die("usted no tiene autorización para acceder a este panel");
+	header("Location:cotizador.php");
+}
+$id=$_SESSION['usuario'];
 
 ?>
 <!DOCTYPE HTML>
@@ -15,7 +19,7 @@
 <html>
 
 <head>
-	<title>clientes</title>
+	<title>usuario </title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -26,26 +30,23 @@
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	<script>
 		function editar(id) {
+            alert(id);
+            var nombre=document.getElementById('nombre').value;
+            var mail=document.getElementById('correo').value;
+            var password=document.getElementById('password').value;
+           
+            var opcion='usuarios';
             
-            var nombre=document.getElementById('nombreProveedores').value;
-            var mail=document.getElementById('correoProveedores').value;
-            var rfc=document.getElementById('rfcProveedores').value;
-            var direccion=document.getElementById('direccionProveedores').value;
-            var telefono=document.getElementById('telefonoProveedores').value;
-            var opcion='proveedores';
-            var accion='modificar';
     
      $.ajax({
        url:'crud.php',
        type:'POST',
-       data:{opcion,accion,id,nombre,
+       data:{opcion,id,nombre,
         mail,
-        rfc,
-        direccion,
-        telefono
-       },
+       password},
        success:function(respuesta){
           alert(respuesta);
+         
           
        }
      })
@@ -62,14 +63,14 @@
 
 		<!-- Header -->
 		<header id="header">
-			<h1><a href="">Proveedores</a></h1>
+			<h1><a href="">Usuario </a></h1>
 			<nav id="nav">
 				<ul>
 					<li class="special">
 						<a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								
+							
 							</ul>
 						</div>
 					</li>
@@ -80,7 +81,7 @@
 		<article id="main">
 			<header style="padding-top: 50px; padding-bottom: 50px;">
 				<h2>Aceros 8 de julio</h2>
-				<p>Clientes</p>
+				<p>Bienvenido <?php  echo $_SESSION['usuario']; ?> </p>
 			</header>
 			<section class="wrapper style5">
 				<div class="inner">
@@ -94,11 +95,11 @@
                                 <?php
               
 
-               $query="select * from proveedores where id='$id' ";
+               $query="select * from usuarios where usuario='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-                                    <input type="text" name="nombre" id="nombreProveedores" value="<?php 
+                                    <input type="text" name="nombre" id="nombre" value="<?php 
                                     echo $l['nombre'];
                                     ?>" placeholder="Nombre" />
                                <?php
@@ -111,80 +112,58 @@
                                 <?php
                
 
-               $query="select * from proveedores where id='$id' ";
+               $query="select * from usuarios where usuario='$id' ";
                $sql=$dbConexion->query($query);
                   foreach($sql as $l){
                       ?>
-									<input type="text" name="nombre" id="direccionProveedores" value="<?php 
-                                    echo $l['direccion'];
-                                    ?>"
-                                        placeholder="direccion" />
-                                        <?php
-                  }
-                  ?>
-
-								</div>
-								<div class="4u 12u$(xsmall)">
-                                <?php
-
-               $query="select * from proveedores where id='$id' ";
-               $sql=$dbConexion->query($query);
-                  foreach($sql as $l){
-                      ?>
-									<input type="text" name="nombre" id="telefonoProveedores" value="<?php 
-                                    echo $l['telefono'];
-                                    ?>"
-                                        placeholder="telefono"  />
-                                        <?php
-                  }
-                  ?>
-
-								</div>
-			<div class="4u 12u$(xsmall)">
-                                <?php
-
-               $query="select * from proveedores where id='$id' ";
-               $sql=$dbConexion->query($query);
-                  foreach($sql as $l){
-                      ?>
-									<input type="text" name="nombre" id="rfcProveedores" value="<?php 
-                                    echo $l['rfc'];
-                                    ?>" placeholder="rfc" />
-                                      <?php
-                  }
-                  ?>
-
-								</div>
-
-								<div class="4u 12u$(xsmall)">
-                                <?php
-
-               $query="select * from proveedores where id='$id' ";
-               $sql=$dbConexion->query($query);
-                  foreach($sql as $l){
-                      ?>
-									<input type="text" name="nombre" id="correoProveedores" value="<?php 
+									<input type="text" name="nombre" id="correo" value="<?php 
                                     echo $l['correo'];
-                                    ?>" placeholder="correo" />
-                                      <?php
+                                    ?>"
+                                        placeholder="correo" />
+                                        <?php
                   }
                   ?>
 
+								</div>
+								<div class="4u 12u$(xsmall)">
+                                <?php
 
+               $query="select * from usuarios where usuario='$id' ";
+               $sql=$dbConexion->query($query);
+                  foreach($sql as $l){
+                      ?>
+									<input type="text" name="nombre" id="password" value="<?php 
+                                    echo $l['password'];
+                                    ?>"
+                                        placeholder="password" />
+                                        <?php
+                  }
+                  ?>
+
+								</div>
+							
 
 							
-                </div>
                     
 							</div>
-							<br>
+                            <br>
+                            <?php
+
+               $query="select * from usuarios where usuario='$id' ";
+               $sql=$dbConexion->query($query);
+                  foreach($sql as $l){
+                      ?>
 							<div class="12u$">
 								<ul class="actions" style="text-align: center">
 									<li><input type="button" value="guardar cambios" class="principal" onclick="editar(
-                                        <?php   echo $id; ?>
+                                        <?php   echo $l['id']; ?>
                                     );" /></li>
 									<!--<li><input type="button" class="chek" value="Imprimir" ></li>
 											-->
-								</ul>
+                                </ul>
+                                <?php
+                  }
+                  ?>
 							</div>
 							<br>
 							<br>

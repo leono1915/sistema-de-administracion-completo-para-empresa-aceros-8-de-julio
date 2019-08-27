@@ -1,6 +1,8 @@
 <?php
 include 'conecta.php';
 require __DIR__ . '/libreria_ticket/vendor/mike42/escpos-php/autoload.php';
+session_start();
+$varsession=$_SESSION['usuario'];
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscPosImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
@@ -14,7 +16,11 @@ if($descuento!='0'){
   $datoDes=" ";
 }
 $nombreImpresora="Generica-tickets";
+$queryUsuario=$dbConexion->query("select * from usuarios where usuario='$varsession'");
 
+ foreach($queryUsuario  as $user){
+         $idUser=$user['id'];
+ }
 $conecctor = new WindowsPrintConnector($nombreImpresora);
 $printer = new Printer($conecctor);
 
@@ -22,7 +28,10 @@ $printer = new Printer($conecctor);
 $time = time();
 
 $fecha= date("y-m-d", $time);
-
+/*try{
+     $logo=EscPosImage::load("impresion/img/logo_opt.png",false);
+     $printer->bitImage($logo);
+}catch(Exception $e){};*/
 
 if($nombre=='Nombre Cliente'){
   die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
@@ -41,7 +50,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
   if(empty($numero)){
     $numero=1;
   }
-
+ 
   $folio='T0'.$numero;
 
 
@@ -54,10 +63,16 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
   //https://github.com/mike42/escpos-php link 
   $printer->setJustification(Printer::JUSTIFY_CENTER);
   //$printer->text("FOLIO ".$folio);
+  $printer->text("\nMatriz \n");
   $printer->text("Aceros 8 de Julio \n");
   $printer->text("Av 8 de Julio #1671 \n");
   $printer->text("Col. Morelos \n");
   $printer->text("Tel. 36-19-36-63 \n");
+  $printer->text("Sucursal\n");
+  
+  $printer->text("Camichines #30 \n");
+  $printer->text("Col. Jardines de Sta María \n");
+  $printer->text("Tel. 38-55-57-83 \n");
   $printer->setJustification(Printer::JUSTIFY_LEFT);
   $printer->text("FECHA ".date("d-m-Y")."     FOLIO ".$folio." \n");
   $printer->setJustification(Printer::JUSTIFY_LEFT);
@@ -67,7 +82,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
     if(empty($nombreFinal)){
       $nombreFinal=$nombreFinal.$query_cliente["nombre_agente"];
     }
-    $printer->text("CLIENTE :".$nombreFinal."\n");
+    $printer->text("CLIENTE:".$nombreFinal."\n");
     /*$printer->text("Domicilio ".$query_cliente["domicilio"]."\n");
     $printer->text("Telefono ".$query_cliente["telefono"]."\n");
     $printer->text(" Correo ".$query_cliente["correo"]."\n");*/
@@ -96,8 +111,9 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
     $printer->text($querys["cantidad"].$pieza.$querys["descripcion"]."\n");
     //$printer->text("Precio ".$querys["precio"]."\n");
    // $printer->text("Cantidad ".$querys["cantidad"]."\n");
-  
-    $printer->text("Precio -----------------".$querys["total"]."\n");
+   $printer->setJustification(Printer::JUSTIFY_RIGHT);
+    $printer->text("Precio -------------------------\n");
+    $printer->text($querys["total"]);
    
       $i++;
     }
@@ -112,10 +128,10 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
 
 $pendiente='autorizado';
 $eliminado='no';
-  $pst=$dbConexion->prepare("insert into tickets values(null,?,?,?,?,?,?,?,?,?,?)");
+  $pst=$dbConexion->prepare("insert into tickets values(null,?,?,?,?,?,?,?,?,?,?,?)");
 foreach($query as $que){
-$pst->bind_param('siissisdds',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
-$facturado);
+$pst->bind_param('siissisddsi',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
+$facturado,$idUser);
 $query= $pst->execute();
   
 }

@@ -44,21 +44,15 @@
           case 'cotizaciones':
           switch($accion){
             case 'listar': listarCotizaciones();  break;
-            case 'crear':    break;
             case 'consultar':  buscarCotizaciones();  break;
-            case 'modificar':    break;
-            case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
            }
           
           break;
           case 'ordenes':
           switch($accion){
-            case 'listar': listarordenes();  break;
-            case 'crear':    break;
+            case 'listar': listarordenes();  break;           
             case 'consultar': buscarOrdenes();   break;
-            case 'modificar':    break;
-            case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
            }
           
@@ -66,10 +60,7 @@
           case 'tickets':
           switch($accion){
             case 'listar': listarTickets();  break;
-            case 'crear':    break;
             case 'consultar':buscarTickets();    break;
-            case 'modificar':    break;
-            case 'eliminar':    break;
             break; default: die('no existe opcion');  break;
            }
           
@@ -81,6 +72,35 @@
             case 'listarCompras':listarHistorialCompras(); break;
             break; default: die('no existe opcion');  break;
            }
+           break;
+           case 'usuarios':
+           include '../conecta.php';
+           $password=$_POST['password'];
+           $id=$_POST['id'];
+           $nombre =$_POST['nombre'];
+           $mail=$_POST['mail'];
+           $sql="update usuarios set nombre= ?,correo=?, password=?
+           where id=$id";
+          $stmt=$dbConexion->prepare($sql);
+          $stmt->bind_param("sss",$nombre,$mail,$password);
+          $stmt->execute();
+         
+          if($stmt->affected_rows==0){
+             echo 'no se pudo modificar'.$id.$nombre;
+            // echo $stmt->affected_rows;
+             die();
+          }
+         if($sql){
+             $stmt->close();
+             $dbConexion->close();
+             echo'actualizacion exitosa';
+     
+         }else{
+             echo 'no quedo';
+             $sql->error;
+            
+         }
+        
            break;
            default: die('no existe opcion');  break;
 
@@ -99,8 +119,9 @@
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente group by folio limit $limitInf,$rango;");
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU, historialVentas.* from historialVentas 
+     join clientes join usuarios where clientes.id=historialVentas.id_cliente and usuarios.id=historialventas.id_usuario
+     group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
@@ -111,7 +132,9 @@
               $nombreFinal=$nombreFinal.$l['nombre_agente'];
             }
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$nombreFinal,
+             
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
               'estatus'=>$l['estatus'],
@@ -130,8 +153,9 @@
           include '../conecta.php';
          $folio=$_POST['folio'];
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, historialVentas.* from historialVentas 
-     join clientes where clientes.id=historialVentas.id_cliente and folio = '$folio' group by folio;");
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU historialVentas.* from historialVentas 
+     join clientes join usuarios where clientes.id=historialVentas.id_cliente and usuario.id=historialventas.id_usuario 
+     and folio = '$folio' group by folio;");
           if(!$sql){
             die( 'error');
           } 
@@ -145,6 +169,7 @@
               $nombreFinal=$nombreFinal.$l['nombre_agente'];
             }
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$nombreFinal,
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
@@ -168,8 +193,8 @@
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, tickets.* from tickets 
-     join clientes where clientes.id=tickets.id_cliente group by folio limit $limitInf,$rango ;");
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU, tickets.* from tickets 
+     join clientes join usuarios where clientes.id=tickets.id_cliente and usuarios.id=tickets.id_usuario group by folio limit $limitInf,$rango ;");
           if(!$sql){
             die( 'error');
           } 
@@ -180,6 +205,7 @@
               $nombreFinal=$nombreFinal.$l['nombre_agente'];
             }
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$nombreFinal,
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
@@ -198,8 +224,8 @@
           include '../conecta.php';
          $folio=$_POST['folio'];
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente, tickets.* from tickets 
-     join clientes where clientes.id=tickets.id_cliente and folio = '$folio' group by folio;");
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU, tickets.* from tickets 
+     join clientes join usuarios where clientes.id=tickets.id_cliente and usuarios.id=tickets.id_usuario and folio = '$folio' group by folio;");
           if(!$sql){
             die( 'error');
           } 
@@ -213,6 +239,7 @@
               $nombreFinal=$nombreFinal.$l['nombre_agente'];
             }
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$nombreFinal,
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
@@ -231,8 +258,8 @@
           include '../conecta.php';
          $folio=$_POST['folio'];
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select proveedores.nombre, historialcompras.* from historialcompras
-     join proveedores where proveedores.id=historialcompras.id_cliente and folio = '$folio' group by folio;");
+     $sql=$dbConexion->query("select proveedores.nombre,usuarios.nombre as nombreU, historialcompras.* from historialcompras
+     join proveedores join usuarios where proveedores.id=historialcompras.id_cliente and usuarios.id=hitorialcompras.id_usuario and folio = '$folio' group by folio;");
           if(!$sql){
             die( 'error');
           } 
@@ -243,6 +270,7 @@
           foreach($sql as $l){
             
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$l['nombre'],
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
@@ -466,14 +494,16 @@ echo $respuesta;
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select proveedores.nombre, historialCompras.* from historialCompras 
-     join  proveedores where  proveedores.id=historialCompras.id_cliente group by folio limit $limitInf,$rango;");
+     $sql=$dbConexion->query("select proveedores.nombre,usuarios.nombre as nombreU, historialCompras.* from historialCompras 
+     join  proveedores join usuarios where  proveedores.id=historialCompras.id_cliente and usuarios.id=historialcompras.id_usuario
+      group by folio limit $limitInf,$rango;");
           if(!$sql){
             die( 'error');
           } 
           $jason= array();
           foreach($sql as $l){
             $jason[]= array(
+              'nombreU'=>$l['nombreU'],
               'nombre'=>$l['nombre'],
               'fecha'=>$l['fecha'],
               'folio'=>$l['folio'],
@@ -807,7 +837,7 @@ function  buscarProveedores(){
       //,correo=?,rfc=?,direccion=?,telefono=?,nombre_agente=?,descripcion=?,puesto=?,celular=?
       //,$mail,$rfc,$direccion,$telefono,$nombreAgente,$descripcion,$puesto,$celular
       $sql="update proveedores set nombre= ?,direccion=?,telefono=?,rfc=?,correo=?
-       where id=$id";
+       where id='$id'";
       $stmt=$dbConexion->prepare($sql);
       $stmt->bind_param("sssss",$nombre,$direccion,$telefono,$rfc,$mail);
       $stmt->execute();

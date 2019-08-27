@@ -1,3 +1,16 @@
+<?php
+
+
+
+session_start();
+if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
+	die("usted no tiene autorización para acceder a este panel");
+	header("Location:cotizador.php");
+}
+
+
+?>
+
 <!DOCTYPE HTML>
 <!--
 	Spectral by HTML5 UP
@@ -7,7 +20,7 @@
 <html>
 
 <head>
-	<title>Historial</title>
+	<title>Estadísticas</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -18,7 +31,7 @@
 	    function ira(objectpressed){
 			
 			var object=objectpressed.parentNode.parentNode;
-			 var nombre=object.getElementsByTagName('td')[5].innerHTML;
+			 var nombre=object.getElementsByTagName('td')[6].innerHTML;
 			 
 			 
 			
@@ -27,14 +40,14 @@
 		function iraO(objectpressed){
 			
 			var object=objectpressed.parentNode.parentNode;
-			 var nombre=object.getElementsByTagName('td')[5].innerHTML;
+			 var nombre=object.getElementsByTagName('td')[6].innerHTML;
 			
 			 window.open('mostrarOrden.php' + "?nombre=" +nombre,"_blank");
 		}
 		function actualizarProducto(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
-		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
 		if(!confirm(`cambiará el estatus de la cotizacion a autorizado una vez haciendo esto ya no podrá
 	       cambiar el estatus y los productos cotizados serán actualizados del inventario`)){
 			
@@ -53,7 +66,7 @@
 			data:{facturado,folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
-				location.href="historial.html";
+				location.href="estadisticas.php";
 			}
 		})
 
@@ -62,7 +75,7 @@
  function iraT(objectpressed){
 			
 	var object=objectpressed.parentNode.parentNode;
-		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
 		if(!confirm(`cambiará el estatus del ticket a cancelado una vez haciendo esto ya no podrá
 	       cambiar el estatus y los productos serán sumados al inventario`)){
 			
@@ -76,7 +89,7 @@
 			data:{folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
-				location.href="historial.html";
+				location.href="estadisticas.php";
 			}
 		})
 		}
@@ -84,7 +97,7 @@
 		function actualizarTicket(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
-		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
 		if(!confirm(`cambiará el estatus del ticket a facturado desea continuar`)){
 			
           return;
@@ -98,7 +111,7 @@
 			data:{folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
-				location.href="historial.html";
+				location.href="estadisticas.php";
 			}
 		})
 
@@ -107,7 +120,7 @@
 function actualizarOrden(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
-		var folio=object.getElementsByTagName('td')[2].getElementsByTagName('p')[0].innerHTML;
+		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
 		if(!confirm(`cambiará el estatus de la orden a autorizado una vez haciendo esto ya no podrá
 	       cambiar el estatus y los productos cotizados serán actualizados del inventario`)){
 			
@@ -120,7 +133,7 @@ function actualizarOrden(objectpressed){
 			data:{folio,respuesta},
 			success:function(respuesta){
 				alert(respuesta);
-			   location.href="historial.html";
+			   location.href="estadisticas.php";
 			}
 		})
 
@@ -153,10 +166,11 @@ function actualizarOrden(objectpressed){
 						<a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="../index.php">Inicio</a></li>
-								<li><a href="clientes.html">Clientes</a></li>
-								<li><a href="proveedores.html">Proveedores</a></li>
-								<li><a href="productos.html">Productos</a></li>
+								<li><a href="../cotizador.php">Cotizador</a></li>
+								<li><a href="clientes.php">Clientes</a></li>
+							 <li><a href="proveedores.php">Proveedores</a></li>
+							   <li><a href="productos.php">Productos</a></li>
+							   <li><a href="editarusuarios.php">Editar mis datos</a></li>
 								<li><a href="../index.php">cerrar sesión</a></li>
 							</ul>
 						</div>
@@ -168,7 +182,7 @@ function actualizarOrden(objectpressed){
 		<article id="main">
 			<header style="padding-top: 50px; padding-bottom: 50px;">
 				<h2>Aceros 8 de julio</h2>
-				<p>Productos</p>
+				<p>Estadísticas</p>
 				
 				
 					
@@ -263,7 +277,7 @@ function actualizarOrden(objectpressed){
 									<thead>
 										<tr>
 
-											
+											<th>NOMBRE VENDEDOR</th>
 											<th>NOMBRE CLIENTE</th>
 											<th>FECHA</th>
 											<th>FOLIO</th>
@@ -367,7 +381,7 @@ function actualizarOrden(objectpressed){
 									<table id="tabla_orden">
 										<thead>
 											<tr>
-	
+                                                <th>NOMBRE SOLICITANTE</th>
 												<th>NOMBRE PROVEEDOR</th>
 												<th>FECHA</th>
 												<th>FOLIO</th>
@@ -471,7 +485,7 @@ function actualizarOrden(objectpressed){
 									<table id="tabla_Ticket">
 										<thead>
 											<tr>
-	
+											<th>NOMBRE VENDEDOR</th>
 											<th>NOMBRE CLIENTE</th>
 											<th>FECHA</th>
 											<th>FOLIO</th>

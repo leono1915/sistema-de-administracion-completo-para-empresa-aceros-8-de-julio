@@ -1,6 +1,8 @@
 <?php
 
 include 'conecta.php';
+session_start();
+$varsession=$_SESSION['usuario'];
 $time = time();
 
 $fecha= date("y-m-d", $time);
@@ -13,6 +15,11 @@ if($descuento!='0'){
 }else{
   $datoDes=" ";
 }
+$queryUsuario=$dbConexion->query("select * from usuarios where usuario='$varsession'");
+
+ foreach($queryUsuario  as $user){
+         $idUser=$user['id'];
+ }
 if($nombre=='Nombre Cliente'){
   die('<h1>se necesita elegir un cliente para generar la cotización</h1>');
 }
@@ -163,10 +170,10 @@ $pendiente='pendiente';
 $eliminado='no';
 $nombreArchivo= $folio.$nombre.'.pdf';
 $mpdf->Output($cadena.$nombreArchivo,'F');
-$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?)");
+$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?,?)");
 foreach($query as $que){
-$pst->bind_param('siissisdds',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
-$facturado);
+$pst->bind_param('siissisddsi',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
+$facturado,$idUser);
 $query= $pst->execute();
   
 }

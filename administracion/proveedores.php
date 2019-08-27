@@ -1,3 +1,12 @@
+
+<?php
+ session_start();
+ $varsesion=$_SESSION['usuario'];
+ if($varsesion==null||$varsesion==''){
+	 die( "<h1>  error 404 not found </h1>");
+ }
+
+?>
 <!DOCTYPE HTML>
 <!--
 	Spectral by HTML5 UP
@@ -53,10 +62,10 @@
 									<a href="#menu" class="menuToggle"><span>Menu</span></a>
 									<div id="menu">
 										<ul>
-											<li><a href="../index.php">Inicio</a></li>
-                                            <li><a href="historial.html">Administración</a></li>
-                                            <li><a href="clientes.html">Clientes</a></li>
-											<li><a href="productos.html">Productos</a></li>
+											<li><a href="../cotizador.php">Cotizador</a></li>
+											<li><a href="clientes.php">Clientes</a></li>
+											<li><a href="productos.php">Productos</a></li>
+											<li><a href="estadisticas.php">Estadísticas</a></li>
 											<li><a href="../index.php">cerrar sesión</a></li>
 										</ul>
 									</div>

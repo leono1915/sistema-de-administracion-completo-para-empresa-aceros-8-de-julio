@@ -76,11 +76,7 @@
 						<a href="#menu" class="menuToggle"><span>Menu</span></a>
 						<div id="menu">
 							<ul>
-								<li><a href="../index.php">Inicio</a></li>
-								<li><a href="historial.html">Administración</a></li>
-								<li><a href="productos.html">Productos</a></li>
-								<li><a href="proveedores.html">proveedores</a></li>
-								<li><a href="../index.php">cerrar sesión</a></li>
+							
 							</ul>
 						</div>
 					</li>

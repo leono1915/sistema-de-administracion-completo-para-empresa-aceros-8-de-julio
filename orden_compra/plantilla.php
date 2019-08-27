@@ -1,10 +1,16 @@
 <?php
 
 include '../conecta.php';
+session_start();
+$varsession=$_SESSION['usuario'];
 $time = time();
 
 $fecha= date("y-m-d", $time);
+$queryUsuario=$dbConexion->query("select * from usuarios where usuario='$varsession'");
 
+ foreach($queryUsuario  as $user){
+         $idUser=$user['id'];
+ }
 $nombre=$_GET['nombreCliente'];
 if($nombre=='Nombre Proveedor'){
   die('<h1>se necesita elegir un proveedor para generar la cotización</h1>');
@@ -152,9 +158,9 @@ $pendiente='pendiente';
 $eliminado='no';
 $nombreArchivo= $folio.$nombre.'.pdf';
 $mpdf->Output($cadena.$nombreArchivo,'F');
-$pst=$dbConexion->prepare("insert into historialCompras values(null,?,?,?,?,?,?,?,?,?)");
+$pst=$dbConexion->prepare("insert into historialCompras values(null,?,?,?,?,?,?,?,?,?,?)");
 foreach($query as $que){
-$pst->bind_param('siissisdd',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total);
+$pst->bind_param('siissisddi',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,$idUser);
 $query= $pst->execute();
   
 }

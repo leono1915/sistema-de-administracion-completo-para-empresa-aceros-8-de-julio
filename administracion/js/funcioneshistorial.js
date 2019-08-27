@@ -57,7 +57,7 @@ function Cotizacion(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -96,7 +96,7 @@ function buscarCotizacion(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -139,7 +139,7 @@ function listarCotizacionSiguiente(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -184,7 +184,7 @@ function listarCotizacionAnterior(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -226,7 +226,7 @@ function ordenes(){
                 template+=`
                 <tr>
                 
-            
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
                 <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
                 <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
                 <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -264,7 +264,7 @@ function buscarOrdenes(){
                 template+=`
                 <tr>
                 
-            
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
                 <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
                 <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
                 <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -305,7 +305,7 @@ function buscarOrdenes(){
                     template+=`
                     <tr>
                     
-                
+                    <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
                     <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
                     <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
                     <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -350,7 +350,7 @@ function buscarOrdenes(){
                     template+=`
                     <tr>
                     
-                
+                    <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
                     <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
                     <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
                     <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -391,7 +391,7 @@ function tickets(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -430,7 +430,7 @@ function buscartickets(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -438,8 +438,8 @@ function buscartickets(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
-                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <td> <a href="javascript:void(0);" onclick="iraT(this);" >Cancelar</a> 
+                <a href="javascript:void(0);" onclick="actualizarTicket(this);">Facturar  </a>
                  </td>
                  
 				
@@ -472,7 +472,7 @@ function listarTicketSiguiente(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
@@ -517,7 +517,7 @@ function listarTicketAnterior(){
                 template+=`
                 <tr>
 				
-			
+                <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
 				<td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
 				<td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
 				<td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
