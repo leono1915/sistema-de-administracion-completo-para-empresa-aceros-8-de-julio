@@ -169,6 +169,8 @@ switch($respuesta){
    
     break;
     case 'actualizarInventarioSumaTicket':
+    switch($serie){
+    case 'serie a': 
     $pend='pendiente';
     $sql=" update productos join historialVentas set cantidad=cantidad+historialVentas.cantidadDescontar, estatus=?, pago=' ',
     credito=' '
@@ -190,6 +192,33 @@ switch($respuesta){
     }else{
         echo 'no quedo';
         $sql->error;
+    }
+    break;
+    case 'serie b':
+    $pend='pendiente';
+    $sql=" update productosb join historialVentas set cantidad=cantidad+historialVentas.cantidadDescontar, estatus=?, pago=' ',
+    credito=' '
+    where productosb.id=historialVentas.id_producto and historialVentas.folio=? and estatus='autorizado' and facturado='no'";
+    $stmt=$dbConexion->prepare($sql);
+     $stmt->bind_param("ss",$pend,$folio);
+     $stmt->execute();
+     
+     if($stmt->affected_rows==0){
+        echo 'esta cotización ya fue cancelado o facturado';
+        
+        die();
+     }
+    if($stmt){
+        $stmt->close();
+        $dbConexion->close();
+        echo'actualizacion exitosa';
+
+    }else{
+        echo 'no quedo';
+        $sql->error;
+    }
+    break;
+    default: echo 'error';
     }
     break;
     case 'actualizarEstatusTicket':

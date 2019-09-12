@@ -168,11 +168,11 @@
          //                                                    funcion buscar cotizaciones
      function  buscarCotizaciones(){
           include '../conecta.php';
-         $folio=$_POST['folio'];
+         $folio=trim($_POST['folio']);
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU historialVentas.* from historialVentas 
-     join clientes join usuarios where clientes.id=historialVentas.id_cliente and usuario.id=historialventas.id_usuario 
-     and folio = '$folio' group by folio;");
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU, historialVentas.* from historialVentas 
+     join clientes join usuarios where clientes.id=historialVentas.id_cliente and usuarios.id=historialventas.id_usuario 
+     and folio ='$folio' group by folio;");
           if(!$sql){
             die( 'error');
           } 

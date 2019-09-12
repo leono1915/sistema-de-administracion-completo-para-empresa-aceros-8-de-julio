@@ -116,7 +116,7 @@ function Cotizacion(){
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
-                <td class ="arch"style="display:none">${element.serie}</td>
+                <td  class ="arch"style="display:none"><p name="folios_p[]" class="non-margin"> ${element.serie}</p></td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
                 <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
@@ -167,7 +167,7 @@ function buscarCotizacion(){
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
-                <td class ="arch"style="display:none">${element.serie}</td>
+                <td  class ="arch"style="display:none"><p name="folios_p[]" class="non-margin"> ${element.serie}</p></td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
                 <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
@@ -223,7 +223,7 @@ function listarCotizacionSiguiente(){
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
-                <td class ="arch"style="display:none">${element.serie}</td>
+                <td  class ="arch"style="display:none"><p name="folios_p[]" class="non-margin"> ${element.serie}</p></td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
                 <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
@@ -281,7 +281,7 @@ function listarCotizacionAnterior(){
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
                 <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
-                <td class ="arch"style="display:none">${element.serie}</td>
+                <td  class ="arch"style="display:none"><p name="folios_p[]" class="non-margin"> ${element.serie}</p></td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
                 <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>

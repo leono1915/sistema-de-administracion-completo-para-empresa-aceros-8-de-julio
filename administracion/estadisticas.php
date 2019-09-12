@@ -69,7 +69,7 @@ if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
 				let res=JSON.parse(respuesta);
 				console.log();
 				if(res[0].pendiente=='autorizado'&&res[0].credito=='no'){
-				alert("aesta cotización ha sido autorizada y no puede modificarse si desea puede cancelarla para modificarla");
+				alert("esta cotización ha sido autorizada y no puede modificarse si desea puede cancelarla para modificarla");
 				return;
 				}
 				window.open('../editarCotizacion.php' + "?folio=" +folio,"_blank");
