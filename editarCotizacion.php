@@ -1,6 +1,14 @@
 <?php
 
-include '../conecta.php';
+include 'conecta.php';
+$folio=trim($_GET['folio']);
+
+ session_start();
+ $varsesion=$_SESSION['usuario'];
+ if($varsesion==null||$varsesion==''){
+	 die( "<h1>  error 404 not found </h1>");
+ }
+
 
 ?>
 <!DOCTYPE HTML>
@@ -11,11 +19,11 @@ include '../conecta.php';
 -->
 <html>
 	<head>
-		<title>Orden de compra</title>
+		<title>Cotizador</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" >
 	  
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -27,27 +35,9 @@ include '../conecta.php';
 		var ar=mensaje();
 	   console.log(ar[0]);	
 	}
-	function mensaje(){
-		var nombrey=document.getElementById('selectionNameCliente').selectedIndex;
-	var nombrex=document.getElementById('selectionNameCliente').options;
-	var nombreCliente=nombrex[nombrey].text;
-
-	window.open('imprimir.php' + "?nombreCliente=" +nombreCliente,"_blank");
-
-	}
+	
 	
 		</script>
-			<style>
-		div#menu ul li  ul{
-		 display:none;
-		 
-		
-		}
-		div#menu ul li:hover > ul {
-		  display:block;
-		
-		}
-		</style>
 	</head>
 	<body onload="closeConcepto(),closeCotizadorPlacas();">
 		<!-- Page Wrapper -->
@@ -55,27 +45,19 @@ include '../conecta.php';
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="">Orden de compra</a></h1>
+						<h1><a href="index.html">Cotizador</a></h1>
 						<nav id="nav">
 							<ul>
 								<li class="special">
 									<a href="#menu" class="menuToggle"><span>Menu</span></a>
 									<div id="menu">
 										<ul>
-											
-											<li><a href="../administracion/clientes.php">Clientes</a></li>
-											<li><a href="../administracion/proveedores.php">Proveedores</a></li>
-											<li><a href="../administracion/productos.php">Productos</a>
-											
-										    <ul>
-												<br>
-												<li><a href="../administracion/productosA.php">Serie A</a></li>
-												<li><a href="../administracion/productosB.php">Serie B</a></li>
-											</ul>
-										   </li>
-											<li><a href="../administracion/estadisticas.php">Estadísticas</a></li>
-											<li><a href="../cotizador.php">Cotizador</a></li>
-											<li><a href="../index.php">Cerrar sesión</a></li>
+											<li><a href="administracion/clientes.php">Clientes</a></li>
+											<li><a href="administracion/proveedores.php">Proveedores</a></li>
+											<li><a href="administracion/productos.php">Productos</a></li>
+											<li><a href="administracion/estadisticas.php">Estadísticas</a></li>
+											<li><a href="orden_compra/orden.php">Orden de compra</a></li>
+											<li><a href="./index.php">Cerrar sesión</a></li>
 											
 										</ul>
 									</div>
@@ -84,11 +66,12 @@ include '../conecta.php';
 						</nav>
 					</header>
 				<!-- Main -->
-				
+				 <input type="hidden" id="folio" value="<?php echo $folio ?>">  
 					<article id="main">
 						<header style="padding-top: 50px; padding-bottom: 50px;" >
 							<h2>Aceros 8 de julio</h2>
-							<p>Generar orden</p>
+             <?php echo '<h1 style="color:white">'.$folio.'</h1>'; ?>
+							<p>Cotizador</p>
 						</header>
 						<section class="wrapper style5">
 							<div class="inner">
@@ -118,7 +101,9 @@ include '../conecta.php';
 					   </div>
 										</div>
 										<div class="cotizador-placas" id="cotizador-placas">
+											
 											<div class="captura-datos">
+										
 													<div class="2u 5u$(xsmall)" id="placeholder">	
                                             <select name="" id="selectionNamePlaca">
 												
@@ -140,9 +125,11 @@ include '../conecta.php';
 												<input type="text" id="precio" class="2u 5u$(xsmall)" placeholder="Precio">
 												<input type="text" id="precioCorte" class="2u 5u$(xsmall)" placeholder="Corte">
 											</div>
-											
 											</div>
+										
+											
 											<div class="separador">
+											<label for="pulgadas"><input type="checkbox" id="pulgadas" value="2.54">Pulgadas</label>
                                         <div class="espesores">
 																<div class="contenidoRadio">
 																<label class="label-radio item-content">
@@ -289,15 +276,25 @@ include '../conecta.php';
 											
 
 											<select name="" id="selectionNameCliente">
-                                            <option value=""> Nombre Proveedor</option>
+                                    
 												<?php
-											$query= $dbConexion->query('select id, nombre from proveedores');
+											$query= $dbConexion->query("select *from clientes where id in(select id_cliente from historialVentas where folio='$folio' 
+											group by folio)");
                                             foreach($query as $result){
 												?>
 												
-											 
-											<option><?php echo $result['nombre'] ;  ?></option>
+											
+											<option><?php 
+												 $nombreFinal=$result['nombre'];
+												 
+												if(empty($nombreFinal )){
+													$nombreFinal=$nombreFinal.$result['nombre_agente'];
+												}
+													echo $nombreFinal;
 												
+											
+											?></option>
+													<input type="hidden" id="idC" value="<?php    echo $result['id']; ?>">
 												<?php
 
 												
@@ -311,7 +308,7 @@ include '../conecta.php';
 
 											<div class="2u$ 12u$(xsmall)">
                                        
-									 <input type="text" name="numero" id="numero" value="" placeholder="I.C°" onkeyup="format(this)" onchange="format(this)" />
+									 <input type="text" name="numero" id="numero" value="" placeholder="I.C°"  />
 									
 											</div>
 										
@@ -321,13 +318,18 @@ include '../conecta.php';
 
 											<option>Nombre</option>
 												<?php
-							          $query1=$dbConexion->query("select distinct nombre from productos");
+									  $query1=$dbConexion->query("select distinct nombre
+									   from productos");
 
                                              foreach($query1 as $query){
 												?>
 												
 											 <!-- <input type="button" name="numero" id="numero" value="" placeholder="N°" />-->
-											<option><?php echo $query['nombre'] ;  ?></option>
+											<option><?php 
+											
+												echo $query['nombre'] ;
+											
+												  ?></option>
 												
 												<?php
 
@@ -398,17 +400,120 @@ include '../conecta.php';
 											<div class="2u$ 12u$(xsmall)">
 												<input type="text" name="cantidad" id="metros" value="" placeholder="Metros" onkeyup="format(this)" onchange="format(this)"/>
 												
-											</div>								
+											</div>	
+											<div class="3u 12u$(xsmall)">
+												<h4>MÉTODO DE PAGO</h4>
+											<select name="" id="opcionPago">
+											<?php
+											 $query1=$dbConexion->query("select * from historialVentas where folio='$folio' group by folio");
+
+                                             foreach($query1 as $query){
+												 
+												?>
+												 
+											  <option value=""><?php echo $query['pago']; ?></option>
+											 
+											 <?php
+                                               
+											 }
+											 
+											 ?>
+						                      <option value="">Transferencia</option>
+						                      <option value="">Tarjeta</option>
+						                      <option value="">Efectivo</option>
+											 
+					                         </select>
+											 
+											</div>	
+											<div class="2u 12u$(xsmall)">
+												<h4>ESTATUS</h4>
+											<select name="" id="opcionEstatus">
+											<?php
+											 $query1=$dbConexion->query("select * from historialVentas where folio='$folio' group by folio");
+
+                                             foreach($query1 as $query){
+												?>
+											  <option value=""><?php echo $query['estatus']; ?></option>
+											
+											 <?php
+
+											 }
+											 ?>
+												<option id="">Estatus</option>
+												<option id="">Autorizado</option>
+												<option id="">Pendiente</option>
+												
+											 </select>
+											</div>	
+											<div class="2u 12u$(xsmall)">
+												<H4>FACTURADO</H4>
+											<select name="" id="opcionFacturado" >
+											<?php
+											 $query1=$dbConexion->query("select * from historialVentas where folio='$folio' group by folio");
+
+                                             foreach($query1 as $query){
+												?>
+											  <option value=""><?php echo $query['facturado']; ?></option>
+											 <?php
+
+											 }
+											 ?>
+					                            <option value="">Facturado</option>
+					                        	<option value="">SI</option>
+					                        	<option value="">NO</option>
+					                           </select>
+											</div>	
+											<div class="2u 12u$(xsmall)">
+												<h4>CRÉDITO</h4>
+											<select name="" id="opcionCredito" >
+											<?php
+											 $query1=$dbConexion->query("select * from historialVentas where folio='$folio' group by folio");
+
+                                             foreach($query1 as $query){
+												?>
+											  <option value=""><?php echo $query['credito']; ?></option>
+											 <?php
+
+											 }
+											 ?>
+				                               <option value="">Crédito</option>
+				                               <option value="">SI</option>
+				                               <option value="">NO</option>
+				                              </select>
+											</div>
+											<div class="2u 12u$(xsmall)">
+												<h4>SERIE</h4>
+											<select name="" id="opcionSerie">
+											<?php
+											 $query1=$dbConexion->query("select * from historialVentas where folio='$folio' group by folio");
+
+                                             foreach($query1 as $query){
+												?>
+											  <option value=""><?php echo $query['serie']; ?></option>
+											
+											 <?php
+
+											 }
+											 ?>
+												
+												
+												
+											 </select>
+											</div>	
+																
 										</div>
+										<br>
+								<label for="pulgadasMaterial"><input type="checkbox" id="pulgadasMaterial" value=".0254">Pulgadas</label>
 										<br>
 										<div class="12u$">
 											<ul class="actions" style="text-align: center">
 											  <!--<input type="button" value="Cotizar" class="principal" id="add_row"/>-->
 												<li><a href="javascript:void(0);" class="principal" id="add_row" ">
 												<input type="button" class="principal" value="Cotizar"></a></li>
-												<li><input type="button" id="imprimir" class="" value="Imprimir" ></li>
-												<li><a href="javascript:void(0);" target="_blank" onclick="mensaje();">
-												<input type="button" id="vista" class="principal" value="vista previa" onclick="location.reload();" ></a></li>
+												<li><input type="button" id="imprimir" class="" value="Guardar Cambios" ></li>
+											<!--	<li><a href="javascript:void(0);" target="_blank" onclick="mensaje();">
+												<input type="button" id="vista" class="principal" value="vista previa" ></a></li>-->
+												<!--<li><input type="button" id="generarTicket" class="" value="Ticket" ></li>-->
 											</ul>
 										</div>
 										<br>
@@ -430,7 +535,9 @@ include '../conecta.php';
 													</tr>
 												</thead>
 												<tbody id="content_table">
-													
+                           
+                          
+                         
 												</tbody>
 												<tfoot>
 													<tr>
@@ -475,15 +582,15 @@ include '../conecta.php';
 			</div>
 
 		<!-- Scripts -->
-			<script src="../assets/js/jquery.min.js"></script>
-			<script src="../assets/js/jquery.scrollex.min.js"></script>
-			<script src="../assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
 			
-			<script src="../assets/js/skel.min.js"></script>
-			<script src="../assets/js/util.js"></script>
-			<!--[if lte I../E 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="../assets/js/main.js"></script>
-			<script src="calculos.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="lib/js/invoice.js"></script>
     
 	</body>
 </html>

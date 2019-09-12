@@ -19,8 +19,8 @@ function principal() {
 function listarProductos() {
 
   var factorTramo;
-  var opcion = 'productos';
-  var accion = 'listarTodosProductos';
+  var opcion = 'productosb';
+  var accion = 'listar';
   var template = "";
   var rango = document.getElementById('rango_page').value;
 
@@ -66,7 +66,10 @@ function listarProductos() {
       <td>${element.precio}</td>
       <td><p name="total_p2[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p3[]" class="non-margin"> ${Math.round((metro / factorTramo) * 100) / 100} </p></td>
-       
+        <td> 
+        <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+        <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
+        </td>
                
       
       </tr>
@@ -94,8 +97,8 @@ function listarProductosSiguiente() {
   //document.getElementsByName('fecha_p[]').length;
 
   var factorTramo;
-  var opcion = 'productos';
-  var accion = 'listarTodosProductos';
+  var opcion = 'productosb';
+  var accion = 'listar';
   var template = "";
   var rango = (document.getElementById('rango_page').value * i) / i;
   console.log(rangoInf + "  " + rango);
@@ -140,7 +143,9 @@ function listarProductosSiguiente() {
       <td>${element.precio}</td>
       <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p[]" class="non-margin"> ${Math.round((metro / factorTramo) * 100) / 100} </p></td>
-     
+      <td><a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+      <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
+               </td>
                
       
       </tr>
@@ -172,8 +177,8 @@ function listarProductosAnterior() {
   //document.getElementsByName('fecha_p[]').length;
 
   var factorTramo;
-  var opcion = 'productos';
-  var accion = 'listarTodosProductos';
+  var opcion = 'productosb';
+  var accion = 'listar';
   var template = "";
   var rango = (document.getElementById('rango_page').value);
 
@@ -219,7 +224,9 @@ function listarProductosAnterior() {
       <td>${element.precio}</td>
       <td><p name="total_p[]" class="non-margin">    ${element.cantidad}</p></td>
       <td><p name="total_p[]" class="non-margin"> ${Math.round((metro / factorTramo) * 100) / 100} </p></td>
-             
+              <td> <a href="javascript:void(0);" onclick="editar(this);">Editar <i class="far fa-edit"></i>  </a>
+              <a href="javascript:void(0);" onclick="eliminar(this);">Borrar <i class="fas fa-trash-alt"></i>  </a>
+               </td>
                
       
       </tr>
@@ -285,7 +292,7 @@ function crearProductos() {
   var tramos = document.getElementById('tramosProducto').value;
   var metros = document.getElementById('metrosProducto').value;
   var cantidad = parseFloat(parseFloat(tramos) + (metros * factorCantidad));
-  var opcion = 'productos';
+  var opcion = 'productosb';
   var accion = 'crear';
 
 
@@ -312,7 +319,7 @@ function buscarProductos() {
 
   var nombre = document.getElementById('buscar').value.toUpperCase();
 
-  var opcion = 'productos';
+  var opcion = 'productosb';
   var accion = 'consultar';
 
   $.ajax({
@@ -383,7 +390,7 @@ function buscarProductos() {
      var rango2=document.getElementById('rango2').value;
      var precio=document.getElementById('precioUpdate').value;
      var accion='modificarPrecios';
-     var opcion='productos';
+     var opcion='productosb';
      if(!Number.isInteger(parseInt(rango1))||!Number.isInteger(parseInt(rango2))){
        alert('debe llenar los rangos a actualizar');
        return;

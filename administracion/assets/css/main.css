@@ -3894,6 +3894,24 @@ margin-left: 15%;
 	height: auto;
 	float: left;
 }
+#ventana-emergente{
+    width:50%;
+	padding-left: 50px;			
+	margin-left:25%;
+	position: fixed;
+	top: 10%;
+	height: 600px;
+	background: white;
+	border-radius: .5rem;
+	z-index: 100;
+	
+}
+@media only screen and (max-width:500px){
+	#ventana-emergente{
+		width:80%;
+		padding-left:0;	
+	margin-left:0;}
+	}
 
   
  

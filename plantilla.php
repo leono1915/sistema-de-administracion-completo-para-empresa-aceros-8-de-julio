@@ -6,9 +6,12 @@ $varsession=$_SESSION['usuario'];
 $time = time();
 
 $fecha= date("y-m-d", $time);
-
+$serie=trim($_GET['serie']);
 $nombre=$_GET['nombreCliente'];
 $descuento=$_GET['descuento'];
+$pago=$_POST['pago'];
+$hora=$time;
+$credito=$_POST['credito'];
 $datoDes;
 if($descuento!='0'){
  $datoDes="8 %";
@@ -38,6 +41,7 @@ $sqlQuery="select * from  cotizacionTemporal where eliminado='no'";
     $numero=1;
   }
 $plantilla='
+
 <body>
   <header class="clearfix">
   <div class="division">
@@ -144,8 +148,8 @@ $plantilla='
 </main>
  
 </body>
-<h3> firma o sello de aceptacion  </h3>
-';
+<h3> firma o sello de aceptacion  </h3> 
+' ;
 require_once 'libreria_pdf/vendor/autoload.php' ;
 
 
@@ -170,10 +174,10 @@ $pendiente='pendiente';
 $eliminado='no';
 $nombreArchivo= $folio.$nombre.'.pdf';
 $mpdf->Output($cadena.$nombreArchivo,'F');
-$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?,?)");
+$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 foreach($query as $que){
-$pst->bind_param('siissisddsi',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
-$facturado,$idUser);
+$pst->bind_param('siissisddsissss',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,
+$facturado,$idUser,$pago,$hora,$credito,$serie);
 $query= $pst->execute();
   
 }

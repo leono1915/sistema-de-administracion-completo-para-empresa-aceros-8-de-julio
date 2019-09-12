@@ -3,12 +3,12 @@ $(document).on('ready',funcionMain);
     function funcionMain(){
         ocultarCotizacion();
         ocultarOrden();
-        ocultarTikect();
+      //  ocultarTikect();
         ocultarEstadisticas();
         $('#mostrarCotizacion').on('click',Cotizacion);
         $('#mostrarEstadisticas').on('click',mostrarEsta);
         $('#mostrarOrdenes').on('click',ordenes);
-        $('#mostrarTickets').on('click',tickets);
+       // $('#mostrarTickets').on('click',tickets);
         $('#siguientePaginaCotizacion').on('click',listarCotizacionSiguiente);
         $('#anteriorPaginaCotizacion').on('click',listarCotizacionAnterior);
         $('#siguientePaginaOrden').on('click',listarOrdenSiguiente);
@@ -16,6 +16,7 @@ $(document).on('ready',funcionMain);
         $('#buscarC').on('click',buscarCotizacion);
         $('#buscarT').on('click',buscartickets);
         $('#buscarO').on('click',buscarOrdenes);
+        $('#actualizar').on('click',actualizarCotizacion);
        // $('#siguientePaginaTicket').on('click',listarTicketSiguiente);
        // $('#anteriorPaginaTicket').on('click',listarTicketAnterior);
      // $('#actualizarProductos').on('click',actualizarProductos);
@@ -31,6 +32,48 @@ $(document).on('ready',funcionMain);
         
 
 }
+var folio;
+function datos(objectpressed){
+    document.getElementById('ventana-emergente').style.display='block';
+    //var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no").toLowerCase();
+    var object=objectpressed.parentNode.parentNode;
+    folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
+    
+    
+}
+function actualizarCotizacion(){
+    var facX= document.getElementById('opcionFacturado').selectedIndex;
+    var facY = document.getElementById('opcionFacturado').options;
+    var pagoX=  document.getElementById('opcionPago').selectedIndex;
+    var pagoY = document.getElementById('opcionPago').options;
+    var serieX=  document.getElementById('opcionInventario').selectedIndex;
+    var serieY = document.getElementById('opcionInventario').options;
+    var creditoX=  document.getElementById('opcionCredito').selectedIndex;
+    var creditoY = document.getElementById('opcionCredito').options;
+    var serie=serieY[serieX].text.toLowerCase();
+    var facturado=facY[facX].text.toLowerCase();
+    var pago=pagoY[pagoX].text.toLowerCase();
+    var credito=creditoY[creditoX].text.toLowerCase();
+    if(credito=='crédito'||facturado=='facturado'||pago=='pago'||serie=='inventario'){
+        alert("debe seleccionar todas las opciones válidas");
+        return;
+    }
+    var respuesta='actualizarInventarioResta';
+    $.ajax({
+        url:'../actualizarInventario.php',
+        type:'POST',
+        data:{facturado,folio,respuesta,credito,pago,serie},
+        success:function(respuesta){
+            alert(respuesta);
+            location.href="estadisticas.php";
+        }
+    })
+   
+}
+function objeto(objectPressed) {
+	var a = objectPressed.parentNode.parentNode;
+	return a;
+} 
 function mostrarEsta(){
     mostrarEstadisticas();
     listarEstadisticas();
@@ -54,6 +97,13 @@ function Cotizacion(){
            
             var jason=JSON.parse(respuesta);
             jason.forEach(element => {
+                var aux=element.pagado;
+                if(element.credito=='si'){
+                    aux="credito";
+                }
+                else if(element.credito==' '||element.credito==null){
+                    aux='pendiente';
+                }
                 template+=`
                 <tr>
 				
@@ -65,8 +115,13 @@ function Cotizacion(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
+                <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
+                <a href="javascript:void(0);" onclick="iraT(this);">Cancelar  </a>
+                <a href="javascript:void(0);" onclick="crearTicket(this);">Ticket  </a>
                  </td>
                  
 				
@@ -93,6 +148,13 @@ function buscarCotizacion(){
            
             var jason=JSON.parse(respuesta);
             jason.forEach(element => {
+                var aux=element.pagado;
+                if(element.credito=='si'){
+                    aux="credito";
+                }
+                else if(element.credito==' '||element.credito==null){
+                    aux='pendiente';
+                }
                 template+=`
                 <tr>
 				
@@ -104,8 +166,13 @@ function buscarCotizacion(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
+                <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
+                <a href="javascript:void(0);" onclick="iraT(this);">Cancelar  </a>
+                <a href="javascript:void(0);" onclick="crearTicket(this);">Ticket  </a>
                  </td>
                  
 				
@@ -134,8 +201,16 @@ function listarCotizacionSiguiente(){
         data:{opcion,accion,rango,rangoInf},
         success:function (respuesta){
            
+            
             var jason=JSON.parse(respuesta);
             jason.forEach(element => {
+                var aux=element.pagado;
+                if(element.credito=='si'){
+                    aux="credito";
+                }
+                else if(element.credito==' '||element.credito==null){
+                    aux='pendiente';
+                }
                 template+=`
                 <tr>
 				
@@ -147,8 +222,13 @@ function listarCotizacionSiguiente(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
+                <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
+                <a href="javascript:void(0);" onclick="iraT(this);">Cancelar  </a>
+                <a href="javascript:void(0);" onclick="crearTicket(this);">Ticket  </a>
                  </td>
                  
 				
@@ -179,8 +259,16 @@ function listarCotizacionAnterior(){
         data:{opcion,accion,rango,rangoInf},
         success:function (respuesta){
            
+           
             var jason=JSON.parse(respuesta);
             jason.forEach(element => {
+                var aux=element.pagado;
+                if(element.credito=='si'){
+                    aux="credito";
+                }
+                else if(element.credito==' '||element.credito==null){
+                    aux='pendiente';
+                }
                 template+=`
                 <tr>
 				
@@ -192,8 +280,13 @@ function listarCotizacionAnterior(){
 				<td><p name="total_p[]" class="non-margin">   ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
                 <td><p name="facturado_p[]" class="non-margin">    ${element.facturado}</p></td>
+                <td><p name="fact_p[]" class="non-margin">    ${aux}</p></td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="ira(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                <a href="javascript:void(0);" onclick="actualizarProducto(this);">Modificar  </a>
+                <a href="javascript:void(0);" onclick="datos(this);">Autorizar  </a>
+                <a href="javascript:void(0);" onclick="iraT(this);">Cancelar  </a>
+                <a href="javascript:void(0);" onclick="crearTicket(this);">Ticket  </a>
                  </td>
                  
 				
@@ -233,6 +326,7 @@ function ordenes(){
                 <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
                 <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                  </td>
@@ -271,6 +365,7 @@ function buscarOrdenes(){
                 <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
                 <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
                 <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td class ="arch"style="display:none">${element.serie}</td>
                 <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                 <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                  </td>
@@ -312,6 +407,7 @@ function buscarOrdenes(){
                     <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
                     <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
                     <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                    <td class ="arch"style="display:none">${element.serie}</td>
                     <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
                     <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
                      </td>
@@ -351,15 +447,16 @@ function buscarOrdenes(){
                     <tr>
                     
                     <td><p name="nombreUsuario_p[]" class="non-margin">${element.nombreU}</p></td>
-                    <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
-                    <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
-                    <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
-                    <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
-                    <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
-                    <td class ="arch"style="display:none">${element.nombreArchivo}</td>
-                    <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
-                    <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
-                     </td>
+                <td><p name="nombreCliente_p[]" class="non-margin">${element.nombre}</p></td>
+                <td><p name="fecha_p[]" class="non-margin">   ${element.fecha}</p></td>
+                <td><p name="folio_p[]" class="non-margin"> ${element.folio}</p></td>
+                <td><p name="estatus_p[]" class="non-margin"> ${element.estatus}</p></td>
+                <td><p name="total_p[]" class="non-margin"> ${"$"+element.total}</p></td>
+                <td class ="arch"style="display:none">${element.nombreArchivo}</td>
+                <td class ="arch"style="display:none">${element.serie}</td>
+                <td> <a href="javascript:void(0);" onclick="iraO(this);" >Ver <i class="fa fa-file-pdf-o" aria-hidden="true"></i>  </a> 
+                <a href="javascript:void(0);" onclick="actualizarOrden(this);">Aut <i class="fa fa-check" aria-hidden="true"></i>  </a>
+                 </td>
                      
                     
                     </tr>
@@ -587,12 +684,12 @@ var aux2="";
             <TD>Facturado</TD>
             <TD>No Facturado</TD>
             <TR>
-                <Td>${element.facturado}</Td>
-                <Td>${element.no_facturado}</Td>
+                <Td>$${element.facturado}</Td>
+                <Td>$${element.no_facturado}</Td>
                 
             </TR>
                  <Td>Total</Td>
-                 <td>${element.total}</td>
+                 <td>$${element.total}</td>
             </TABLE>
             </TD> 
            
@@ -628,8 +725,10 @@ var aux2="";
         success:function (respuesta){
          var template="";
          var fecha=" ";
-            var jason=JSON.parse(respuesta);
+       console.log(respuesta);
+         var jason=JSON.parse(respuesta);
             jason.forEach(element => {
+                document.getElementById('ventaDia').innerHTML="Venta del Día "+element.dia;
                 template+=` <th>|</th>
                 <tr>
                  <TD>
@@ -637,18 +736,18 @@ var aux2="";
                  <TABLE WIDTH=100%>
                          
                  <TR>
-                 <TD>Cancelados ${element.pendiente}</TD>
-                 <TD>Autorizados ${element.autorizado}</TD>
+                 <TD>Transferencia </TD>
+                 <TD>$${element.transferencia}</TD>
                  </TR>
-                 <TD>Facturado</TD>
-                 <TD>No Facturado</TD>
+                 <TD>Efectivo</TD>
+                 <TD>Tarjeta</TD>
                  <TR>
-                     <Td>${element.facturado}</Td>
-                     <Td>${element.no_facturado}</Td>
+                     <Td>$${element.efectivo}</Td>
+                     <Td>$${element.tarjeta}</Td>
                      
                  </TR>
                       <Td>Total</Td>
-                      <td>${element.total}</td>
+                      <td>$${element.total}</td>
                  </TABLE>
                  </TD> 
                 
@@ -695,11 +794,11 @@ var aux2="";
                  <TD>Compras</TD>
                  <TR>
                      <Td>Total</Td>
-                     <Td>${element.facturado}</Td>
+                     <Td>$${element.facturado}</Td>
                      
                  </TR>
                       <Td>Total</Td>
-                      <td>${element.facturado}</td>
+                      <td>$${element.facturado}</td>
                  </TABLE>
                  </TD> 
                 

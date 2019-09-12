@@ -31,12 +31,25 @@
             break;
           case 'productos':
           switch($accion){
+            case 'listarTodosProductos': listarProductosGlobal(); break;
             case 'listar':    listarProductos();  break;
             case 'crear':     agregarProductos();    break;
             case 'consultar': buscarProductos();   break;
             case 'modificar': modificarProductos();   break;
             case 'modificarPrecios': modificarProductosRango();   break;
             case 'eliminar':  eliminarProductos();  break;
+            break; default: die('no existe opcion');  break;
+           }
+          
+          break;
+          case 'productosb':
+          switch($accion){
+            case 'listar':    listarProductosb();  break;
+            case 'crear':     agregarProductosb();    break;
+            case 'consultar': buscarProductosb();   break;
+            case 'modificar': modificarProductosb();   break;
+            case 'modificarPrecios': modificarProductosRangob();   break;
+            case 'eliminar':  eliminarProductosb();  break;
             break; default: die('no existe opcion');  break;
            }
           
@@ -119,7 +132,8 @@
          $limitInf=0;
        } 
           //aqui hago mis uniones de la base de datos
-     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU, historialVentas.* from historialVentas 
+     $sql=$dbConexion->query("select clientes.nombre,clientes.nombre_agente,usuarios.nombre as nombreU,
+      historialVentas.* from historialVentas 
      join clientes join usuarios where clientes.id=historialVentas.id_cliente and usuarios.id=historialventas.id_usuario
      group by folio limit $limitInf,$rango;");
           if(!$sql){
@@ -140,7 +154,10 @@
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
               'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
-              'facturado'=>$l['facturado']
+              'facturado'=>$l['facturado'],
+              'pagado'=>$l['pago'],
+              'credito'=>$l['credito'],
+              'serie'=>$l['serie']
             );
              
           }
@@ -176,7 +193,9 @@
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
               'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
-              'facturado'=>$l['facturado']
+              'facturado'=>$l['facturado'],
+              'pagado'=>$l['pago'],
+              'serie'=>$l['serie']
             );
              
           }
@@ -277,7 +296,8 @@
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
               'nombreArchivo'=>$l['folio'].$nombreFinal.'.pdf',
-              'facturado'=>$l['facturado']
+              'facturado'=>$l['facturado'],
+              'serie'=>$l['serie']
             );
              
           }
@@ -351,6 +371,76 @@
           $respuesta=json_encode($jason);
           echo $respuesta;
          }  
+            //                                         funcion listar productos serie B
+
+  function  listarProductosB(){
+    include '../conecta.php';
+ $rango=$_POST['rango'];
+ 
+ $limitInf=$_POST['rangoInf'];
+ if(empty($limitInf)){
+   $limitInf=0;
+ } 
+    //aqui hago mis uniones de la base de datos
+$sql=$dbConexion->query("select * from productosb limit $limitInf,$rango;");
+
+    if(!$sql){
+      die( 'error'.$rango);
+     
+    } 
+    $jason= array();
+    foreach($sql as $l){
+      $metros=explode(".",$l['cantidad']);
+      $jason[]= array(
+        'id'=>$l['id'],
+        'nombre'=>$l['nombre'],
+        'medida'=>$l['medida'],
+        'espesor'=>$l['espesor'],
+        'peso'=>$l['peso'],
+        'precio'=>$l['precio'],
+        'cantidad'=>$metros[0],
+        'metros'=>$metros[1]
+      );
+       
+    }
+    $respuesta=json_encode($jason);
+    echo $respuesta;
+   }  
+//                                              funcion listar productos global
+function  listarProductosGlobal(){
+  include '../conecta.php';
+$rango=$_POST['rango'];
+
+$limitInf=$_POST['rangoInf'];
+if(empty($limitInf)){
+ $limitInf=0;
+} 
+  //aqui hago mis uniones de la base de datos
+$sql=$dbConexion->query("select productos.*, productos.cantidad+productosb.cantidad as cantidadT from productos join productosb where productos.id =
+ productosb.id limit $limitInf,$rango;");
+
+  if(!$sql){
+    die( 'error'.$rango);
+   
+  } 
+  $jason= array();
+  foreach($sql as $l){
+    $metros=explode(".",$l['cantidadT']);
+    $jason[]= array(
+      'id'=>$l['id'],
+      'nombre'=>$l['nombre'],
+      'medida'=>$l['medida'],
+      'espesor'=>$l['espesor'],
+      'peso'=>$l['peso'],
+      'precio'=>$l['precio'],
+      'cantidad'=>$metros[0],
+      'metros'=>$metros[1]
+    );
+     
+  }
+  $respuesta=json_encode($jason);
+  echo $respuesta;
+ }  
 //                                              funcion listarHistorial
   function listarHistorial(){
           include '../conecta.php';
@@ -361,8 +451,8 @@
   FROM (SELECT MONTH(Fecha) AS Mes,
 count(if(estatus='autorizado',1,null)) as autorizado,
 count(if(estatus='pendiente',1,null)) as pendiente
- ,SUM(IF(YEAR(Fecha)=$anio&&facturado='si',Total,0)) As 'facturado'
-,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
+ ,SUM(IF(YEAR(Fecha)=$anio&&facturado='si'&&credito='no',Total,0)) As 'facturado'
+,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado'&&credito='no' ,Total,0)) As 'no_facturado'
  FROM  (select * from historialVentas group by folio) as nu group by mes) as ventas;
   ");
  
@@ -390,14 +480,17 @@ count(if(estatus='pendiente',1,null)) as pendiente
 function listarHistorialTickets(){
   include '../conecta.php';
   $anio=date('Y');
+  $time=time();
+  $dia=date("Y-m-d",$time);
+  
 $sql=$dbConexion->query("
-SELECT Mes,no_facturado,facturado,no_facturado+facturado as total,autorizado,pendiente
+SELECT Mes,transferencia,efectivo,tarjeta,transferencia+efectivo+tarjeta as total, dia
 FROM (SELECT MONTH(Fecha) AS Mes,
-count(if(estatus='autorizado',1,null)) as autorizado,
-count(if(estatus='cancelado',1,null)) as pendiente
-,SUM(IF(YEAR(Fecha)=$anio&&facturado='si',Total,0)) As 'facturado'
-,SUM(IF(YEAR(Fecha)=$anio&&facturado='no'&&estatus='autorizado' ,Total,0)) As 'no_facturado'
-FROM  (select * from tickets group by folio) as nu group by mes) as ventas;
+ SUM(IF(Fecha='$dia'&&estatus='autorizado'&&credito='no',Total,0)) As 'dia'
+,SUM(IF(YEAR(Fecha)=$anio&&pago='transferencia'&&estatus='autorizado'&&credito='no',Total,0)) As 'transferencia'
+,SUM(IF(YEAR(Fecha)=$anio&&pago='efectivo'&&estatus='autorizado'&&credito='no' ,Total,0)) As 'efectivo'
+,SUM(IF(YEAR(Fecha)=$anio&&pago='tarjeta'&&estatus='autorizado'&&credito='no' ,Total,0)) As 'tarjeta'
+FROM  (select * from historialVentas group by folio) as nu group by mes) as ventas;
 ");
 
 if(!$sql){
@@ -408,18 +501,19 @@ $jason= array();
 foreach($sql as $l){
 
 $jason[]= array(
-'autorizado'=>$l['autorizado'],
-'pendiente'=>$l['pendiente'],
-'mes'=>$l['Mes'],
-'no_facturado'=>$l['no_facturado'],
-'facturado'=>$l['facturado'],
-'total'=>$l['total']
+  'mes'=>$l['Mes'],
+'transferencia'=>$l['transferencia'],
+'efectivo'=>$l['efectivo'],
+'tarjeta'=>$l['tarjeta'],
+'total'=>$l['total'],
+'dia'=>$l['dia']
 
 );
 
 }
 $respuesta=json_encode($jason);
 echo $respuesta;
+
 } 
 function listarHistorialCompras(){
   include '../conecta.php';
@@ -509,7 +603,8 @@ echo $respuesta;
               'folio'=>$l['folio'],
               'estatus'=>$l['estatus'],
               'total'=>$l['total'],
-              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf'
+              'nombreArchivo'=>$l['folio'].$l['nombre'].'.pdf',
+              'serie'=>$l['serie']
             );
              
           }
@@ -722,7 +817,7 @@ function  buscarProductos(){
         echo 'no se pudo realizar la modificacion';
         die();
       }
-      if(!stm){
+      if(!$stm){
         echo 'no se pudo registrar';
         die();
       }
@@ -754,6 +849,131 @@ function  buscarProductos(){
         $stm->close();
         $dbConexion->close();
       }
+/*---------------------------------   AQUI INICIAN LAS FUNCIONES DEL CRUD DE PRODUCTOS SERIE B-----------------------------------------------*/
+
+    //                                         funcion agregar productos
+    function agregarProductosb(){
+      include '../conecta.php';
+      $nombre=$_POST['nombre'];
+      $medida=$_POST['medida'];
+      $espesor=$_POST['espesor'];
+      $peso=$_POST['peso'];
+      $precio=$_POST['precio'];
+      $cantidad=$_POST['cantidad'];
+      $query='insert into productosb values (null,?,?,?,?,?,?)';
+      $stm=$dbConexion->prepare($query);
+      $stm->bind_param("sssddd",$nombre,$medida,$espesor,$peso,$precio,$cantidad);
+      $stm->execute();
+      if($stm->affected_rows==0){
+        echo 'no se pudo realizar el registro';
+        die();
+      }
+      if(!stm){
+        echo 'no se pudo registrar';
+        die();
+      }
+      echo 'producto registrado exitosamente';
+      $stm->close();
+      $dbConexion->close();
+    }
+//                                         funcion buscar productos
+
+function  buscarProductosb(){
+      include '../conecta.php';
+      $nombre=$_POST['nombre'];
+      $query="select * from productosb where nombre='$nombre' ";
+      $sql=$dbConexion->query($query);
+     
+      if(!$sql||$sql->num_rows==0){
+        echo 'no se existe producto';
+        die();
+      } 
+      $jason= array();
+      foreach($sql as $l){
+        $metros=explode(".",$l['cantidad']);
+        $jason[]= array(
+          'id'=>$l['id'],
+          'nombre'=>$l['nombre'],
+          'medida'=>$l['medida'],
+          'espesor'=>$l['espesor'],
+          'peso'=>$l['peso'],
+          'precio'=>$l['precio'],
+          'cantidad'=>$metros[0],
+          'metros'=>$metros[1]
+        );
+         
+         
+      }
+      $respuesta=json_encode($jason);
+     
+      echo $respuesta;
+     } 
+//                                         funcion eliminar productos
+     function  eliminarProductosb(){
+      include '../conecta.php';
+      $id=$_POST['id'];
+      $query="delete from productosb where id='$id' ";
+      $sql=$dbConexion->query($query);
+     
+      if(!$sql){
+        echo 'no se eliminó el registro';
+        die();
+      } 
+      echo 'registro eliminado';
+     
+     } 
+//                                         funcion modificar productos
+
+  function modificarProductosb(){
+    include '../conecta.php';
+      $id=$_POST['id'];
+      $nombre=$_POST['nombre'];
+      $medida=$_POST['medida'];
+      $espesor=$_POST['espesor'];
+      $peso=$_POST['peso'];
+      $precio=$_POST['precio'];
+      $cantidad=$_POST['cantidad'];
+      $query="update productosb set nombre=?, medida=?,espesor=?,peso=?,precio=?,cantidad=? where id='$id'";
+      $stm=$dbConexion->prepare($query);
+      $stm->bind_param("sssddd",$nombre,$medida,$espesor,$peso,$precio,$cantidad);
+      $stm->execute();
+      if($stm->affected_rows==0){
+        echo 'no se pudo realizar la modificacion';
+        die();
+      }
+      if(!$stm){
+        echo 'no se pudo registrar';
+        die();
+      }
+      echo 'producto modificado exitosamente';
+      $stm->close();
+      $dbConexion->close();
+    }
+    //                                         funcion modificar precio de productos por rango de id
+
+    function modificarProductosRangob(){
+      include '../conecta.php';
+        
+        $precio=$_POST['precio'];
+        $rango1=$_POST['rango1'];
+        $rango2=$_POST['rango2'];
+        $query="update productosb set precio=? where id between '$rango1' and '$rango2'";
+        $stm=$dbConexion->prepare($query);
+        $stm->bind_param("d",$precio);
+        $stm->execute();
+        if($stm->affected_rows==0){
+          echo 'no se pudo realizar la modificacion';
+          die();
+        }
+        if(!stm){
+          echo 'no se pudo registrar';
+          die();
+        }
+        echo 'productos modificados exitosamente';
+        $stm->close();
+        $dbConexion->close();
+      }
+
 
 
 

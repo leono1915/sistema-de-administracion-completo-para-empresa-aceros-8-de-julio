@@ -1,40 +1,51 @@
 <?php
 
-include '../conecta.php';
+include 'conecta.php';
 session_start();
 $varsession=$_SESSION['usuario'];
 $time = time();
-
+$serie=trim($_GET['serie']);
 $fecha= date("y-m-d", $time);
+$facturado=$_GET['facturado'];
+$folio=trim($_GET['folio']);
+$credito=$_GET['credito'];
+$pago=$_GET['pago'];
+$estatus=$_GET['estatus'];
+//$nombre=$_GET['nombreCliente'];
+$descuento=$_GET['descuento'];
+$hora=$time;
+$datoDes;
+echo $folio;
+if($descuento!='0'){
+ $datoDes="8 %";
+}else{
+  $datoDes=" ";
+}
 $queryUsuario=$dbConexion->query("select * from usuarios where usuario='$varsession'");
 
  foreach($queryUsuario  as $user){
          $idUser=$user['id'];
  }
-$nombre=$_GET['nombreCliente'];
-if($nombre=='Nombre Proveedor'){
-  die('<h1>se necesita elegir un proveedor para generar la cotización</h1>');
-}
-$sqlQuery="select * from  ordenCompra";
+
+$sqlQuery="select cotizacionTemporal.* from cotizacionTemporal join usuarios where usuarios.usuario=
+cotizacionTemporal.usuario and eliminado='si'  and cotizacionTemporal.id in(select id_producto from
+historialVentas where folio='$folio')";
   $query = $dbConexion->query($sqlQuery);
   if($query->num_rows==0){
-    die('<h1>no hay datos para generar orden de compra asegurese de generar la tabla de productos</h1>');
+    die('<h1>no hay datos para generar cotización asegurese de generar la tabla de productos</h1>');
   }
-  $queryCliente=$dbConexion->query("select *from proveedores where nombre='$nombre'");
-  
-  $result2=$dbConexion->query('select * from  historialCompras order by numero desc limit 1');
+  $queryCliente=$dbConexion->query("select *from clientes where id in(select id_cliente from historialVentas where folio='$folio' group by folio)");
+  $result2=$dbConexion->query("select * from  historialVentas where folio='$folio'");
   foreach($result2 as $r){
-    $numero= $r['numero']+1;
-  }
-  if(empty($numero)){
-    $numero=1;
+    $numero= $r['numero'];
   }
 $plantilla='
+
 <body>
   <header class="clearfix">
   <div class="division">
     <div id="company">
-      <img src="../impresion/img/logo_opt.png">
+      <img src="impresion/img/logo_opt.png">
     </div>
    
     <div id="company">
@@ -53,17 +64,21 @@ $plantilla='
   </div>
  
   </div>
-  <h2 style="text-align:justyfy; margin-top:-30px; margin-bottom:-20px;">ORDEN DE COMPRA</h2>
+  <h2 style="text-align:justyfy; margin-top:-30px; margin-bottom:-20px;">COTIZACIÓN</h2>
   </header>
   <main>
     <div id="details" class="clearfix">
-      <div id="Proveedor">';
+      <div id="CLIENTE:">';
       foreach($queryCliente as $query_cliente){
         $idCliente=$query_cliente["id"];
+        $nombreFinal=$query_cliente["nombre"];
+        if(empty($nombreFinal)){
+          $nombreFinal=$nombreFinal.$query_cliente["nombre_agente"];
+        }
       $plantilla.='
-        <div class="to">Proveedor:</div>
-        <h2 class="name">'.$query_cliente["nombre"].'</h2>
-        <div class="address">'.$query_cliente["direccion"].'</div>
+        <div class="to">CLIENTE:</div>
+        <h2 class="name">'.$nombreFinal.'</h2>
+        <div class="address">'.$query_cliente["domicilio"].'</div>
         <div class="address">'.$query_cliente["telefono"].'</div>
         <div class="email"><a href="">'.$query_cliente["correo"].'</a></div>
       </div>';
@@ -112,13 +127,13 @@ $plantilla='
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">IVA 16%</td>
-          <td>'.$iva.'</td>
+          <td colspan="2">IVA '.$datoDes.'</td>
+          <td>'.floatval($iva-$descuento).'</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">TOTAL</td>
-          <td>'.$total.'</td>
+          <td>'.floatval($total-$descuento).'</td>
         </tr>
       </tfoot>
     </table>
@@ -132,52 +147,60 @@ $plantilla='
 </main>
  
 </body>
-<h3> firma o sello de aceptacion  </h3>
-';
-require_once '../libreria_pdf/vendor/autoload.php' ;
+<h3> firma o sello de aceptacion  </h3> 
+' ;
+require_once 'libreria_pdf/vendor/autoload.php' ;
 
 
 
   
   $mpdf = new Mpdf\Mpdf([]);
 
-$css =file_get_contents('../impresion/estilosImpresin.css');
-$mpdf->SetHTMLHeader('FOLIO 00'.$numero);
+$css =file_get_contents('impresion/estilosImpresin.css');
+$mpdf->SetHTMLHeader('FOLIO '.$folio);
 $mpdf->writeHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
-$mpdf->setTitle('ORDEN DE COMPRA ');
+$mpdf->setTitle('COTIZACIÓN');
 $mpdf->writeHTML($plantilla,\Mpdf\HTMLParserMode::HTML_BODY);
 $mpdf->setFooter('
 <footer>
 
 Precios sujetos a cambios sin previo aviso
 </footer>');
-$cadena='ordenes_compra/';
- 
-$folio='C0'.$numero;
-$pendiente='pendiente';
+$cadena='cotizaciones/';
 $eliminado='no';
-$nombreArchivo= $folio.$nombre.'.pdf';
+$nombreArchivo= $folio.$nombreFinal.'.pdf';
+unlink($cadena.$nombreArchivo);
 $mpdf->Output($cadena.$nombreArchivo,'F');
-$pst=$dbConexion->prepare("insert into historialCompras values(null,?,?,?,?,?,?,?,?,?,?,?)");
-$serie='';
+$pst1=$dbConexion->query("delete from historialVentas where folio='$folio'");
+/*$pst=$dbConexion->prepare("update historialVentas set id_producto=?, estatus=?,cantidadDescontar=?, total=?,
+facturado=?,pago=?,credito=? where folio='$folio'");
+
 foreach($query as $que){
-$pst->bind_param('siissisddis',$fecha,$idCliente,$que['id'],$folio,$pendiente,$numero,$eliminado,$que['cantidadDescontar'],$total,$idUser,$serie);
+  echo $que['id'];
+$pst->bind_param('isddsss',$que['id'],$estatus,$que['cantidadDescontar'],$total,
+$facturado,$pago,$credito);*/
+$pst=$dbConexion->prepare("insert into historialVentas values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+foreach($query as $que){
+  echo $que['id_producto'];
+$pst->bind_param('siissisddsissss',$fecha,$idCliente,$que['id'],$folio,$estatus,$numero,$eliminado,$que['cantidadDescontar'],$total,
+$facturado,$idUser,$pago,$hora,$credito,$serie);
 $query= $pst->execute();
   
 }
-$delete =$dbConexion->query("delete from ordenCompra");
-  if(!$query||!$delete){
+/*$delete =$dbConexion->query("update cotizacionTemporal set eliminado='si' where eliminado='no'");
+  
+  if(!$query||!$pst1){
     $dbConexion->error;
     echo 'error';
   }else{
-      echo 'dato insertado exitosamente';
+      echo 'acturalizado exitosamente';
       $pst->close();
       $dbConexion->close();
-  }
+  }*/
  
 
-$mpdf->Output($cadena.$nombreArchivo,'I');
-
+$mpdf->Output($nombreArchivo,'I');
+  
 
 
 ?>

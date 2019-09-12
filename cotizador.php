@@ -49,6 +49,17 @@ include 'conecta.php';
 	}
 	
 		</script>
+		<style>
+		div#menu ul li  ul{
+		 display:none;
+		 
+		
+		}
+		div#menu ul li:hover > ul {
+		  display:block;
+		
+		}
+		</style>
 	</head>
 	<body onload="closeConcepto(),closeCotizadorPlacas();">
 		<!-- Page Wrapper -->
@@ -65,14 +76,23 @@ include 'conecta.php';
 										<ul>
 											<li><a href="administracion/clientes.php">Clientes</a></li>
 											<li><a href="administracion/proveedores.php">Proveedores</a></li>
-											<li><a href="administracion/productos.php">Productos</a></li>
+											<li><a href="administracion/productos.php">Productos</a>
+											
+										    <ul>
+												<br>
+												<li><a href="administracion/productosA.php">Serie A</a></li>
+												<li><a href="administracion/productosB.php">Serie B</a></li>
+											</ul>
+										   </li>
 											<li><a href="administracion/estadisticas.php">Estadísticas</a></li>
 											<li><a href="orden_compra/orden.php">Orden de compra</a></li>
 											<li><a href="./index.php">Cerrar sesión</a></li>
 											
 										</ul>
+									
 									</div>
 								</li>
+								
 							</ul>
 						</nav>
 					</header>
@@ -418,10 +438,10 @@ include 'conecta.php';
 											  <!--<input type="button" value="Cotizar" class="principal" id="add_row"/>-->
 												<li><a href="javascript:void(0);" class="principal" id="add_row" ">
 												<input type="button" class="principal" value="Cotizar"></a></li>
-												<li><input type="button" id="imprimir" class="" value="Imprimir" ></li>
+												<li><input type="button" id="imprimir" class="" value="Generar" ></li>
 												<li><a href="javascript:void(0);" target="_blank" onclick="mensaje();">
 												<input type="button" id="vista" class="principal" value="vista previa" ></a></li>
-												<li><input type="button" id="generarTicket" class="" value="Ticket" ></li>
+												<!--<li><input type="button" id="generarTicket" class="" value="Ticket" ></li>-->
 											</ul>
 										</div>
 										<br>

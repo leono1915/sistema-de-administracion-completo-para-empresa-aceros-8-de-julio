@@ -48,6 +48,17 @@
 		$(_this).parent().parent().fadeOut("fast", function () { $(this).remove(); });	
 		}
 		</script>
+			<style>
+		div#menu ul li  ul{
+		 display:none;
+		 
+		
+		}
+		div#menu ul li:hover > ul {
+		  display:block;
+		
+		}
+		</style>
 	</head>
 	<body>
 		<!-- Page Wrapper -->
@@ -64,7 +75,14 @@
 										<ul>
 											<li><a href="../cotizador.php">Cotizador</a></li>
 											<li><a href="clientes.php">Clientes</a></li>
-											<li><a href="productos.php">Productos</a></li>
+											<li><a href="productos.php">Productos</a>
+											
+										    <ul>
+												<br>
+												<li><a href="productosA.php">Serie A</a></li>
+												<li><a href="productosB.php">Serie B</a></li>
+											</ul>
+										   </li>
 											<li><a href="estadisticas.php">Estadísticas</a></li>
 											<li><a href="../index.php">cerrar sesión</a></li>
 										</ul>

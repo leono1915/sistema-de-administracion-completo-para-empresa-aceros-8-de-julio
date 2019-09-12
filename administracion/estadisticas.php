@@ -27,7 +27,18 @@ if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
 	<link rel="stylesheet" href="assets/./css/main.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	<script> 
+	<script>
+
+	
+    function crearTicket(objectpressed){
+		var object=objectpressed.parentNode.parentNode;
+	var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
+
+	 window.open("../ticket.php"+"?folio=" +folio,"_blank");
+    }
+	  function ocultar(){
+		  document.getElementById('ventana-emergente').style.display='none';
+	  }
 	    function ira(objectpressed){
 			
 			var object=objectpressed.parentNode.parentNode;
@@ -44,39 +55,38 @@ if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
 			
 			 window.open('mostrarOrden.php' + "?nombre=" +nombre,"_blank");
 		}
-		function actualizarProducto(objectpressed){
+	function actualizarProducto(objectpressed){
         
         var object=objectpressed.parentNode.parentNode;
 		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
-		if(!confirm(`cambiará el estatus de la cotizacion a autorizado una vez haciendo esto ya no podrá
-	       cambiar el estatus y los productos cotizados serán actualizados del inventario`)){
-			
-          return;
-		}
-		var respuesta='actualizarInventarioResta';
-		var facturado=prompt("la cotización a autorizar ha sido facturada ? escriba si o no").toLowerCase();
-		
-		if(facturado!='no'&& facturado!='si'){
-			alert('respuesta no válida');
-			return;
-		}
+		var respuesta="consultarEstado";
+	//	window.open('../editarCotizacion.php' + "?folio=" +folio,"_blank");
 		$.ajax({
 			url:'../actualizarInventario.php',
 			type:'POST',
-			data:{facturado,folio,respuesta},
+			data:{folio,respuesta},
 			success:function(respuesta){
-				alert(respuesta);
-				location.href="estadisticas.php";
+				let res=JSON.parse(respuesta);
+				console.log();
+				if(res[0].pendiente=='autorizado'&&res[0].credito=='no'){
+				alert("aesta cotización ha sido autorizada y no puede modificarse si desea puede cancelarla para modificarla");
+				return;
+				}
+				window.open('../editarCotizacion.php' + "?folio=" +folio,"_blank");
 			}
 		})
+	
+	
 
-}
+	}
+
  //                              actualizar ticket
  function iraT(objectpressed){
 			
 	var object=objectpressed.parentNode.parentNode;
 		var folio=object.getElementsByTagName('td')[3].getElementsByTagName('p')[0].innerHTML;
-		if(!confirm(`cambiará el estatus del ticket a cancelado una vez haciendo esto ya no podrá
+		var serie=object.getElementsByTagName('td')[9].getElementsByTagName('p')[0].innerHTML;
+		if(!confirm(`cambiará el estatus  a cancelado una vez haciendo esto ya no podrá
 	       cambiar el estatus y los productos serán sumados al inventario`)){
 			
           return;
@@ -86,7 +96,7 @@ if($_SESSION['usuario']!='Jorge2655'&&$_SESSION['usuario']!='Jorge2493'){
 		$.ajax({
 			url:'../actualizarInventario.php',
 			type:'POST',
-			data:{folio,respuesta},
+			data:{folio,respuesta,serie},
 			success:function(respuesta){
 				alert(respuesta);
 				location.href="estadisticas.php";
@@ -126,11 +136,24 @@ function actualizarOrden(objectpressed){
 			
           return;
 		}
+		
+		var serieO=prompt("Elija serie A o B","");
+		if(serieO==null){
+
+			return;
+		}
+		var	serie="serie "+serieO.toLowerCase().trim();	
+		alert(serie);
+		if(serie!='serie a'&&serie!='serie b'){
+        alert("serie incorrecta");
+       return;
+        }
+		
 		var respuesta='actualizarInventarioSuma';
 		$.ajax({
 			url:'../actualizarInventario.php',
 			type:'POST',
-			data:{folio,respuesta},
+			data:{folio,respuesta,serie},
 			success:function(respuesta){
 				alert(respuesta);
 			   location.href="estadisticas.php";
@@ -151,9 +174,20 @@ function actualizarOrden(objectpressed){
 			document.getElementById('tablaEstadisticas').style.display = 'none';
 		}
 	</script>
+	<style>
+		div#menu ul li  ul{
+		 display:none;
+		 
+		
+		}
+		div#menu ul li:hover > ul {
+		  display:block;
+		
+		}
+		</style>
 </head>
 
-<body>
+<body onload="ocultar();">
 	<!-- Page Wrapper -->
 	<div id="page-wrapper">
 
@@ -169,7 +203,14 @@ function actualizarOrden(objectpressed){
 								<li><a href="../cotizador.php">Cotizador</a></li>
 								<li><a href="clientes.php">Clientes</a></li>
 							 <li><a href="proveedores.php">Proveedores</a></li>
-							   <li><a href="productos.php">Productos</a></li>
+							 <li><a href="productos.php">Productos</a>
+											
+										    <ul>
+												<br>
+												<li><a href="productosA.php">Serie A</a></li>
+												<li><a href="productosB.php">Serie B</a></li>
+											</ul>
+										   </li>
 							   <li><a href="editarusuarios.php">Editar mis datos</a></li>
 								<li><a href="../index.php">cerrar sesión</a></li>
 							</ul>
@@ -184,7 +225,65 @@ function actualizarOrden(objectpressed){
 				<h2>Aceros 8 de julio</h2>
 				<p>Estadísticas</p>
 				
-				
+				<div id="ventana-emergente">
+											
+												<h2 style="color:black; text-align:center">LLene los campos</h2>							
+					<div class="10u$" >		
+					<ul class="actions" style="text-align: center">
+					   <select name="" id="opcionFacturado" style=" background-color:black">
+					    <li><option value="">Facturado</option></li>
+						<li><option value="">SI</option></li>
+						<li><option value="">NO</option></li>
+						
+						
+					   </select>
+					   </ul>
+					   </div>	
+					   <br>
+					   <div class="10u$"  >	
+					   <ul class="actions" style="text-align: center">
+					   <select name="" id="opcionPago" style=" background-color:black">
+					    <li><option value="">Método de pago</option></li>
+						<li><option value="">Transferencia</option></li>
+						<li><option value="">Tarjeta</option></li>
+						<li><option value="">Efectivo</option></li>
+						
+						
+					   </select>
+					 </ul>
+				        </div>
+						<br>
+						<div class="10u$" >		
+						<ul class="actions" style="text-align: center">
+					   <select name="" id="opcionInventario" style=" background-color:black">
+					    <li><option value="">Inventario</option></li>
+						<li><option value="">Serie A</option></li>
+						<li><option value="">Serie B</option></li>
+						
+					   </select>
+					   </ul>
+					   </div>
+					   <div class="10u$" >		
+					   <ul class="actions" style="text-align: center">
+				      <select name="" id="opcionCredito" style=" background-color:black">
+				       <li><option value="">Crédito</option></li>
+				        <li><option value="">SI</option></li>
+						<li><option value="">NO</option></li>
+				       </select>
+			            </ul>
+				</div>	
+					   <br>
+					   <div class="10u$">
+									<ul class="actions" style="text-align: center">
+										<li><input type="button" id="actualizar" class="principal" value="guardar"></li>
+										<li><input type="button" onclick="ocultar();" class="principal" value="cancelar"></li>
+										
+									</ul>
+								</div>
+					   
+					 
+					   
+					   </div>
 					
 			</header>
 			<section class="wrapper style5">
@@ -195,21 +294,18 @@ function actualizarOrden(objectpressed){
 						<form method="post" action="conecta.php">
 							<div class="row uniform">
 
-								<div class="3u 12u$(xsmall)">
+								<div class="4u 12u$(xsmall)">
 										
 									<input type="button" name="nombre" class="principal" id="mostrarCotizacion" value="Cotizaciones"  />
 
 								</div>
 
-								<div class="3u 12u$(xsmall)">
+								<div class="5u 12u$(xsmall)">
 									<input type="button" name="nombre" class="principal" id="mostrarOrdenes" value="Órdenes de compra"  />
 
 								</div>
-								<div class="3u 12u$(xsmall)" style="margin-left: 60px">
-									<input type="button" name="nombre" class="principal" id="mostrarTickets" value="tickets"  />
-
-								</div>
-								<div class="3u 12u$(xsmall)" id="btnEstadis">
+								
+								<div class="3u 12u$(xsmall)">
 									<input type="button" name="nombre" class="principal" id="mostrarEstadisticas" value="Estadisticas"  />
 
 								</div>
@@ -284,7 +380,8 @@ function actualizarOrden(objectpressed){
 											<th>ESTATUS</th>
 											<th>TOTAL</th>
 											<th>FACTURADO</th>
-											<td colspan="2">Acciones</td>
+											<th>MÉTODO DE PAGO</th>
+											<td colspan="4">Acciones</td>
 
 
 										</tr>
@@ -440,7 +537,7 @@ function actualizarOrden(objectpressed){
 
 								-->
 								
-							<div class="table-wrapper" id="tablaTickets">
+						<!--	<div class="table-wrapper" id="tablaTickets">
 									<h2 style="text-align: center">Historial Tickets</h2>
 									<div class="row uniform">
 										<div class="2u 12u$(xsmall)">
@@ -510,7 +607,7 @@ function actualizarOrden(objectpressed){
 															<td id="total_total">0.00</td>
 															<td></td>
 														</tr>
-													</tfoot>-->
+													</tfoot>
 									</table>
 									<div class="12u$" id="contenedorPaginacionTickets">
 										<div class="row uniform" id="contenedor-padrePagina">
@@ -535,17 +632,18 @@ function actualizarOrden(objectpressed){
 											<li><input type="button" value="Ocultar" class="principal" id="add"
 													onclick="ocultarTikect();"></li>
 											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
-												-->
+												
 										</ul>
 									</div>
 								</div>
-								            
+								       -->     
 									
 								<div class="table-wrapper" id="tablaEstadisticas">
 										<h2 style="text-align: center">Estadisticas</h2>
 										<h4 style="text-align: center"> <script> var date=new Date(); 
 										document.write("año "+date.getFullYear());
 										</script> </h4>
+										<h3 id="ventaDia"> Venta del día </h3>
 										<br>
 										<TABLE id="tabla1">
 											
@@ -568,7 +666,7 @@ function actualizarOrden(objectpressed){
 
 													<TR ALIGN="center">
 												
-													<TD>Tickets</TD>
+													<TD>Desglose</TD>
 													
 													
 													</TR>

@@ -27,13 +27,13 @@
 		function editar(_this) {
 		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].getElementsByTagName('p')[0].innerHTML;
 	
-		window.open('editarproducto.php' + "?id=" +id,"_blank");
+		window.open('editarproductob.php' + "?id=" +id,"_blank");
 
 		
 		}
 		function eliminar(_this) {
 		var id=_this.parentNode.parentNode.getElementsByTagName('td')[0].getElementsByTagName('p')[0].innerHTML;
-		var opcion='productos';
+		var opcion='productosb';
 		var accion='eliminar';
 		if(!confirm('está seguro de eliminar este registro de producto '+id)){
 			return;
@@ -57,7 +57,7 @@
 
 				<!-- Header -->
 					<header id="header">
-						<h1><a href="">Productos</a></h1>
+						<h1><a href="">Productos Serie B</a></h1>
 						<nav id="nav">
 							<ul>
 								<li class="special">
@@ -79,15 +79,64 @@
 					<article id="main">
 						<header style="padding-top: 50px; padding-bottom: 50px;" >
 							<h2>Aceros 8 de julio</h2>
-							<p>Productos Totales</p>
+							<p>Productos</p>
 						</header>
 						<section class="wrapper style5">
 							<div class="inner">
 								<section>
-									
+									<h4 style="text-align: center;">Ingrese Producto</h4>
 
 									<form method="post" action="conecta.php">
+										<div class="row uniform">
+
+											<div class="6u 12u$(xsmall)">
+											
 										
+                                                    <input type="text" name="nombre" id="nombreProducto" value="" placeholder="Nombre" />
+										 
+												
+											</div>
+
+											
+
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="medidaProducto" value="" placeholder="Medida" />
+
+											</div>
+                                            <div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="espesorProducto" value="" placeholder="Espesor" />
+
+											</div>
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="pesoProducto" value="" placeholder="Peso"  onkeyup="format(this)" onchange="format(this)" />
+
+											</div>
+
+											<div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="nombre" id="precioProducto" value="" placeholder="Precio"  onkeyup="format(this)" onchange="format(this)" />
+
+										
+
+											</div>
+                                            <div class="3u 12u$(xsmall)">
+                                                    <input type="text" name="cantidad" id="tramosProducto" value="" placeholder="Tramos" onkeyup="format(this)" onchange="format(this)"/>
+                                                    
+                                                </div>
+											<div class="3u 12u$(xsmall)">
+												<input type="text" name="cantidad" id="metrosProducto" value="" placeholder="Metros" onkeyup="format(this)" onchange="format(this)"/>
+												
+											</div>								
+										</div>
+										<br>
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="button" value="Agregar" class="principal" id="add_row"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										</div>
+										<br>
+										<br>
 
 										<div class="table-wrapper">
 												<h2 style="text-align: center">Listado De Productos</h2>
@@ -108,7 +157,7 @@
 											
 											
 										</div>
-											<!--<div class="0u 12u$(xsmall)" >
+											<div class="0u 12u$(xsmall)" >
 													
 													<input id="buscarProducto" type="button" value="Buscar" ">
 												
@@ -125,7 +174,7 @@
 														
 											
 											
-										</div>-->
+										</div>
 										</div>
 										<br><br>
 											<table id="tabla_factura">
@@ -140,7 +189,7 @@
                                                         <th>PRECIO</th>
                                                         <th>TRAMOS</th>
                                                         <th>METROS</th>
-                                                       
+                                                        <td colspan="3">Acciones</td>
                                                        
                                                       
 													</tr>
@@ -165,8 +214,34 @@
 											
 											</div>
 										</div>
-									<!---->	
 										
+										<div class="12u$">
+											<ul class="actions" style="text-align: center">
+												<li><input type="button" value="actualizar" class="principal" id="update-precio"/></li>
+											<!--<li><input type="button" class="chek" value="Imprimir" ></li>
+											-->	
+											</ul>
+										<div class="row uniform">
+										<!--	<div class="3u 12u$(xsmall)">
+										<input type="text" name="nombre" id="nombreUpdate" value="" placeholder="nombre" />
+
+										</div> -->
+										
+										<div class="4u 12u$(xsmall)">
+												
+												<input type="text" name="nombre" id="rango1" value="" placeholder="rango 1"  onkeyup="format(this)" onchange="format(this)" />
+
+										</div>
+										<div class="4u 12u$(xsmall)">
+												<input type="text" name="nombre" id="rango2" value="" placeholder="rango 2"  onkeyup="format(this)" onchange="format(this)"  />
+
+										</div>
+										<div class="4u 12u$(xsmall)">
+											<input type="text" name="nombre" id="precioUpdate" value="0" placeholder="precio"  onkeyup="format(this)" onchange="format(this)" />
+
+									</div>
+										</div>
+										</div>
 									</form>
 								</section>
 								<br> 
@@ -194,7 +269,7 @@
 			<script src="../assets/js/util.js"></script>
 			<!--[if lte I../]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="../assets/js/main.js"></script>
-			<script src="js/productos.js"></script>
+			<script src="js/productosB.js"></script>
 
 	</body>
 </html>
